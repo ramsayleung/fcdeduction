@@ -1,5 +1,10 @@
 * fcdeduction
-a typical deduction system
+  a typical deduction system
+** 背景
+*** 应用命名
+    应用命名为, =fc= 指代对应的租户, =deduction= 指扣费系统.
+*** 需求背景
+*** 业务价值
 ** 系统分析
 ** 测试分析
 ** 发布计划
