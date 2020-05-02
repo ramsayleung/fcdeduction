@@ -1,0 +1,5 @@
+* fcdeduction
+a typical deduction system
+** 系统分析
+** 测试分析
+** 发布计划
