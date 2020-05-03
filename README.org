@@ -101,14 +101,16 @@
       2. 关闭扣费服务的时候, 要确保多次关闭的效果与单次关闭效果一致, 即N=NP.
       3. 查询扣费列表不涉及幂等规则, 因为查询天然幂等.
 **** 技术栈
-     开发语言: C++
-     RPC框架: grpc
-     序列化框架: protobuf
-     持续集成服务: Github Action, 为什么选择Github Action而不是Travis, 可见之前讨论 [[https://github.com/ramsayleung/rspotify/pull/73][Use github actions instead of travis]]
-     数据库: Postgresql
+     + 开发语言: C++
+     + RPC框架: grpc
+     + 序列化框架: protobuf
+     + 持续集成服务: Github Action, 为什么选择Github Action而不是Travis, 可见之前讨论 [[https://github.com/ramsayleung/rspotify/pull/73][Use github actions instead of travis]]
+     + 数据库: Postgresql
 *** 功能设计
 **** 单设备登录
      用户通过账密正常登录; 如果存在多端同时登录, 只允许最近一次登录态存在(本次demo中, 主要流程是扣费, 不存在注册的流程, 因此客户都是通过db插入进行初始化的.)
+***** 接口功能
+      用户通过外标和登录凭证进行登录, 并且同一时刻, 只允许一个终端保持登录态.
 ***** 流程图
       正常登录流程:
 
@@ -117,8 +119,6 @@
       单设备登录:
       
       [[file:images/%E5%8D%95%E8%AE%BE%E5%A4%87%E7%99%BB%E5%BD%95.jpg]]
-***** 接口功能
-      用户通过外标和登录凭证进行登录, 并且同一时刻, 只允许一个终端保持登录态.
 ***** 接口定义
       接口签名(proto 定义):
       #+BEGIN_SRC java
@@ -170,10 +170,10 @@
 
 **** 开通扣费服务
      开通扣费服务与关闭扣费服务的接口设计考虑到将来的扩展, 如果出现新的类似扣费的服务类型, 如补贴服务(有点太美好的感觉), 只需要新增对应的产品码及合约类型, 即全复用开通服务与关闭服务接口
-***** 流程图
-      [[file:images/%E5%BC%80%E9%80%9A%E6%89%A3%E8%B4%B9%E6%9C%8D%E5%8A%A1.jpg]]
 ***** 接口功能
       为指定用户开通指定扣费服务
+***** 流程图
+      [[file:images/%E5%BC%80%E9%80%9A%E6%89%A3%E8%B4%B9%E6%9C%8D%E5%8A%A1.jpg]]
 ***** 接口定义
       接口签名(proto 定义):
       #+BEGIN_SRC java
@@ -219,10 +219,10 @@
       | code    | String   | 状态码       | Y    |      |
       | message | String   | 返回结果描述 | N    |      |
 **** 关闭扣费服务
-***** 流程图
-      [[file:images/%E5%85%B3%E9%97%AD%E6%89%A3%E8%B4%B9%E6%9C%8D%E5%8A%A1.jpg]]
 ***** 接口功能
       为指定用户关闭指定的扣费服务
+***** 流程图
+      [[file:images/%E5%85%B3%E9%97%AD%E6%89%A3%E8%B4%B9%E6%9C%8D%E5%8A%A1.jpg]]
 ***** 接口定义
       接口签名(proto 定义):
       #+BEGIN_SRC java
@@ -268,10 +268,10 @@
       | code    | String   | 状态码       | Y    |      |
       | message | String   | 返回结果描述 | N    |      |
 **** 查询扣费服务列表
-***** 流程图
-      [[file:images/%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%88%97%E8%A1%A8.jpg]]
 ***** 接口功能
       查询指定用户已开通的所有扣费服务(是否需要分页)
+***** 流程图
+      [[file:images/%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%88%97%E8%A1%A8.jpg]]
 ***** 接口定义
       
       接口签名(proto 定义):
