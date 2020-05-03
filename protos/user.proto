@@ -1,0 +1,27 @@
+syntax = "proto3";
+package user;
+service User {
+  // 用户登录
+  rpc Login(UserLoginRequest) returns (UserLoginResponse) {}
+}
+message UserLoginRequest {
+  // 用户登录外标, 如电话号码, 邮箱地址等, 目前只支持邮箱
+  string loginKey = 1;
+  // 登录凭证, 如密码, 指纹, 人脸标识等, 目前只支付密码.
+  string loginValue = 2;
+}
+
+message UserLoginResponse {
+  // 处理状态, 成功, 失败, 处理中
+  string status = 1;
+  // 对应的状态码
+  string code = 2;
+  // 对应的消息或者描述
+  string desc = 3;
+  // 登录态token
+  string token = 4;
+  // 二次刷新token凭证, 保留字段
+  string refreshToken = 5;
+  // 登录态过期时间, 用来配合refreshToken作应用保活, 保留字段.
+  string expireTime = 6;
+}

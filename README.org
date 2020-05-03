@@ -1,5 +1,5 @@
 * fcdeduction
-  a typical deduction system(一个典型的扣费系统设计与实现)
+  a atypical deduction system(一个非典型的扣费系统设计与实现)
 ** 背景
 *** 应用命名
     应用命名为 =fcdeduction=, 按照惯例, =fc= 指代对应的租户(=fc= 为 financial cloud, 意为金融云), =deduction= 指扣费系统.
@@ -25,7 +25,8 @@
     | 开通扣费服务     | Ramsay   |       1D |       1D |
     | 关闭扣费服务     | Ramsay   |       1D |       1D |
     | 查看扣费服务列表 | Ramsay   |       1D |       1D |
-
+*** 待确认问题
+    1. 查询扣费服务列表是否需要分页.
 ** 系统分析
 *** 总体设计
 **** 上下游系统依赖关系图:
@@ -116,31 +117,206 @@
       单设备登录:
       
       [[file:images/%E5%8D%95%E8%AE%BE%E5%A4%87%E7%99%BB%E5%BD%95.jpg]]
+***** 接口功能
+      用户通过外标和登录凭证进行登录, 并且同一时刻, 只允许一个终端保持登录态.
 ***** 接口定义
-      接口签名:
-      
+      接口签名(proto 定义):
+      #+BEGIN_SRC java
+	syntax = "proto3";
+	package user;
+	service User {
+	    // 用户登录
+	    rpc Login(UserLoginRequest) returns (UserLoginResponse) {}
+	}
+	message UserLoginRequest {
+	    // 用户登录外标, 如电话号码, 邮箱地址等, 目前只支持邮箱
+	    string loginKey = 1;
+	    // 登录凭证, 如密码, 指纹, 人脸标识等, 目前只支付密码.
+	    string loginValue = 2;
+	}
+
+	message UserLoginResponse {
+	    // 处理状态, 成功, 失败, 处理中
+	    string status = 1;
+	    // 对应的状态码
+	    string code = 2;
+	    // 对应的消息或者描述
+	    string desc = 3;
+	    // 登录态token
+	    string token = 4;
+	    // 二次刷新token凭证, 保留字段
+	    string refreshToken = 5;
+	    // 登录态过期时间, 用来配合refreshToken作应用保活, 保留字段.
+	    string expireTime = 6;
+	}
+
+      #+END_SRC
       入参:
 
-      | 参数名 | 参数类型 | 参数含义 | 必选 | 备注 |
-      |        |          |          |      |      |
+      | 参数名     | 参数类型 | 参数含义     | 必选 | 备注           |
+      | loginKey   | String   | 用户登录外标 | Y    | 目前只支持邮箱 |
+      | loginValue | String   | 登录凭证     | Y    | 目前只支付密码 |
 
       返回结果:
 
-      | 参数名 | 参数类型 | 参数含义 | 必选 | 备注 |
-      |        |          |          |      |      |
+      | 参数名       | 参数类型 | 参数含义          | 必选 | 备注                                     |
+      | status       | String   | 处理状态          | Y    |                                          |
+      | code         | String   | 状态码            | Y    |                                          |
+      | message      | String   | 返回结果描述      | N    |                                          |
+      | token        | String   | 登录态token       | Y    |                                          |
+      | refreshToekn | String   | 二次刷新token凭证 | N    | 保留字段                                 |
+      | expireTime   | String   | 登录态过期时间    | N    | 用来配合refreshToken作应用保活, 保留字段 |
+      |              |          |                   |      |                                          |
 
 **** 开通扣费服务
+     开通扣费服务与关闭扣费服务的接口设计考虑到将来的扩展, 如果出现新的类似扣费的服务类型, 如补贴服务(有点太美好的感觉), 只需要新增对应的产品码及合约类型, 即全复用开通服务与关闭服务接口
 ***** 流程图
       [[file:images/%E5%BC%80%E9%80%9A%E6%89%A3%E8%B4%B9%E6%9C%8D%E5%8A%A1.jpg]]
+***** 接口功能
+      为指定用户开通指定扣费服务
 ***** 接口定义
+      接口签名(proto 定义):
+      #+BEGIN_SRC java
+
+	syntax = "proto3";
+	package deduction;
+	service Company {
+	    // 开通扣费服务
+	    rpc CreateDeductionService(DeduceRequest) returns (DeduceResponse) {}
+	}
+	message DeduceRequest {
+	    // 用户登录态token
+	    string token = 1;
+	    // 合约类型
+	    string arrangementType = 2;
+	    // 产品码
+	    string productCode = 3;
+	    // 用户Id
+	    string userId = 4;
+	}
+
+	message DeduceResponse {
+	    // 处理状态, 成功, 失败, 处理中
+	    string status = 1;
+	    // 对应的状态码
+	    string code = 2;
+	    // 对应的消息或者描述
+	    string desc = 3;
+	}
+      #+END_SRC
+      入参:
+
+      | 参数名          | 参数类型 | 参数含义    | 必选 | 备注              |
+      | toekn           | String   | 登录态toekn | Y    |                   |
+      | arrangementType | String   | 合约类型    | Y    | 如扣费: Deduction |
+      | productCode     | String   | 产品码      | Y    |                   |
+      | userId          | String   | 用户Id      | Y    |                   |
+
+      返回结果:
+
+      | 参数名  | 参数类型 | 参数含义     | 必选 | 备注 |
+      | status  | String   | 处理状态     | Y    |      |
+      | code    | String   | 状态码       | Y    |      |
+      | message | String   | 返回结果描述 | N    |      |
 **** 关闭扣费服务
 ***** 流程图
       [[file:images/%E5%85%B3%E9%97%AD%E6%89%A3%E8%B4%B9%E6%9C%8D%E5%8A%A1.jpg]]
+***** 接口功能
+      为指定用户关闭指定的扣费服务
 ***** 接口定义
+      接口签名(proto 定义):
+      #+BEGIN_SRC java
+	syntax = "proto3";
+	package deduction;
+	service Company {
+	    // 关闭扣费信息
+	    rpc CloseDeductionService(DeduceRequest) returns (DeduceResponse) {}
+	}
+	message DeduceRequest {
+	    // 用户登录态token
+	    string token = 1;
+	    // 合约类型
+	    string arrangementType = 2;
+	    // 产品码
+	    string productCode = 3;
+	    // 用户Id
+	    string userId = 4;
+	}
+
+	message DeduceResponse {
+	    // 处理状态, 成功, 失败, 处理中
+	    string status = 1;
+	    // 对应的状态码
+	    string code = 2;
+	    // 对应的消息或者描述
+	    string desc = 3;
+	}
+
+      #+END_SRC
+      入参:
+
+      | 参数名          | 参数类型 | 参数含义    | 必选 | 备注              |
+      | toekn           | String   | 登录态toekn | Y    |                   |
+      | arrangementType | String   | 合约类型    | Y    | 如扣费: Deduction |
+      | productCode     | String   | 产品码      | Y    |                   |
+      | userId          | String   | 用户Id      | Y    |                   |
+
+      返回结果:
+
+      | 参数名  | 参数类型 | 参数含义     | 必选 | 备注 |
+      | status  | String   | 处理状态     | Y    |      |
+      | code    | String   | 状态码       | Y    |      |
+      | message | String   | 返回结果描述 | N    |      |
 **** 查询扣费服务列表
 ***** 流程图
       [[file:images/%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%88%97%E8%A1%A8.jpg]]
+***** 接口功能
+      查询指定用户已开通的所有扣费服务(是否需要分页)
 ***** 接口定义
+      
+      接口签名(proto 定义):
+      #+BEGIN_SRC java
+	syntax = "proto3";
+	package deduction;
+	service Company {
+	    // 查询扣费服务列表
+	    rpc QueryDeductionListByUserIdAndArType(DeductionListQueryRequest)returns (DeductionListQueryResponse){}
+	}
+
+	// 是否需要分页?
+	message DeductionListQueryRequest {
+	    // 用户登录态token
+	    string token = 1;
+	    // 合约类型
+	    string arrangementType = 2;
+	    // 用户Id
+	    string userId = 3;
+	}
+
+	message DeductionListQueryResponse{
+	    // 处理状态, 成功, 失败, 处理中
+	    string status = 1;
+	    // 对应的状态码
+	    string code = 2;
+	    // 对应的消息或者描述
+	    string desc = 3;
+
+	}
+      #+END_SRC
+      入参:
+
+      | 参数名          | 参数类型 | 参数含义    | 必选 | 备注              |
+      | toekn           | String   | 登录态toekn | Y    |                   |
+      | arrangementType | String   | 合约类型    | Y    | 如扣费: Deduction |
+      | userId          | String   | 用户Id      | Y    |                   |
+
+      返回结果:
+
+      | 参数名  | 参数类型 | 参数含义     | 必选 | 备注 |
+      | status  | String   | 处理状态     | Y    |      |
+      | code    | String   | 状态码       | Y    |      |
+      | message | String   | 返回结果描述 | N    |      |
+
 ** 测试分析
 ** 发布计划
 *** 发布时间
@@ -154,7 +330,7 @@
 **** DML变更
      新增了四张表, de_prod, de_ar, de_user, de_user_ar_rel.
 **** DDL变更
-     初始化对应的客户数据, 产品数据, 以及合约数据.
+     初始化对应的客户数据, 产品数据, 以及合约数据. 变更sql如下(待增加)
      #+BEGIN_SRC sql
 
      #+END_SRC
@@ -201,7 +377,7 @@
     本次切流灰度计划:
     1. 预发布环境, 内部员工灰度, 灰度所有的集团员工, 预计灰度3天, 一切正常则生产发布.
     2. 1%流量灰度, 已有机器为100台, 灰度时, 打开单台机器灰度开关, 因为流量较小, 为了灰度彻底, 需要增长灰度时间, 预计灰度时间1周.
-    3. 5%流量灰度, 新打开5台机器灰度开关, 保证机器分布在不同的机器, 确保不会因机器差异出现问题, 预计灰度时间为3-4天
+    3. 5%流量灰度, 新打开5台机器灰度开关, 保证机器分布在不同的机房, 确保不会因机房差异出现问题, 预计灰度时间为3-4天
     4. 10%流量灰度, 新打开单机房灰度开关(约10台), 此时流量较大, 灰度时间减少为2天
     5. 30%流量灰度, 打开30%机器的灰度开关, 灰度时间缩减为1天, 此步骤无问题后, 全量开启
     6. 全量开启, 打开所有机器的灰度开关.

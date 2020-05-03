@@ -1,0 +1,49 @@
+syntax = "proto3";
+package deduction;
+service Company {
+  // 开通扣费服务
+  rpc CreateDeductionService(DeduceRequest) returns (DeduceResponse) {}
+  // 关闭扣费信息
+  rpc CloseDeductionService(DeduceRequest) returns (DeduceResponse) {}
+  // 查询扣费服务列表
+  rpc QueryDeductionListByUserIdAndArType(DeductionListQueryRequest)returns (DeductionListQueryResponse){}
+}
+message DeduceRequest {
+  // 用户登录态token
+  string token = 1;
+  // 合约类型
+  string arrangementType = 2;
+  // 产品码
+  string productCode = 3;
+  // 用户Id
+  string userId = 4;
+}
+
+message DeduceResponse {
+  // 处理状态, 成功, 失败, 处理中
+  string status = 1;
+  // 对应的状态码
+  string code = 2;
+  // 对应的消息或者描述
+  string desc = 3;
+}
+
+// 是否需要分页?
+message DeductionListQueryRequest {
+  // 用户登录态token
+  string token = 1;
+  // 合约类型
+  string arrangementType = 2;
+  // 用户Id
+  string userId = 3;
+}
+
+message DeductionListQueryResponse{
+  // 处理状态, 成功, 失败, 处理中
+  string status = 1;
+  // 对应的状态码
+  string code = 2;
+  // 对应的消息或者描述
+  string desc = 3;
+
+}
