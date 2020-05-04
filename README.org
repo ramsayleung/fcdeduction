@@ -56,6 +56,12 @@
     1. 查询扣费服务列表是否需要分页.
 ** 系统分析
 *** 总体设计
+    将对应的扣费服务设计为相应的产品, 有对应的产品属性, 定义一个新的扣费服务即在产品中心申请一个新的产品; 用户定义在用户中心, 每个用户可以关联多个不重复的扣费服务; 用户与产品之间通过合约进行关联, 不同的合约定义不同的业务能力与属性; 如在本次需求中, 新增一个扣费合约, 然后用户通过扣费合约关联对应的产品, 形成对应的扣费服务. 
+
+    这样设计的好处是将产品与绑定关系解耦出来; 新增一个业务玩法, 理想情况下只是新增相应的配置; 如当前需求下, 合约中心, 产品中心, 用户中心都是已存在的底层业务域, 新增扣费服务, 只是新增对应的产品, 合约码, 以及对应的合约属性.(但实际合约中心, 产品中心并不存在, 因此本次需要使用对应的单表来模拟对应中台的能力.), 比如接下来要新增个免费服务, 功能与扣费服务类似, 只是不扣费, 那只需要在合约中心增加新的合约及产品中心增加对应的产品码.
+    
+    另外, 单设备登录的需求不应该和扣费中心同时出现, 因为扣费与登录是两个不同业务域负责的模块, 不是同一纬度的功能, 他们的需求也应该区分好的; 不过既然产品经理给了这样的需求, argue不下, 也只能按期完成了.
+
 **** 上下游系统依赖关系图:
 
      [[file:images/%E4%B8%8A%E4%B8%8B%E9%81%8A%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E5%9B%BE.jpg]]
@@ -155,9 +161,9 @@
 	syntax = "proto3";
 	package user;
 	enum StatusEnum{
-	  SUCCESS = 0;
-	  FAILED = 1;
-	  UNKKNOWN = 2;
+	    SUCCESS = 0;
+	    FAILED = 1;
+	    UNKKNOWN = 2;
 	}
 
 	service User {
@@ -223,9 +229,9 @@
 	syntax = "proto3";
 	package deduction;
 	enum StatusEnum{
-	  SUCCESS = 0;
-	  FAILED = 1;
-	  UNKKNOWN = 2;
+	    SUCCESS = 0;
+	    FAILED = 1;
+	    UNKKNOWN = 2;
 	}
 
 	service Company {
@@ -286,9 +292,9 @@
 	syntax = "proto3";
 	package deduction;
 	enum StatusEnum{
-	  SUCCESS = 0;
-	  FAILED = 1;
-	  UNKKNOWN = 2;
+	    SUCCESS = 0;
+	    FAILED = 1;
+	    UNKKNOWN = 2;
 	}
 
 	service Company {
@@ -353,9 +359,9 @@
 	syntax = "proto3";
 	package deduction;
 	enum StatusEnum{
-	  SUCCESS = 0;
-	  FAILED = 1;
-	  UNKKNOWN = 2;
+	    SUCCESS = 0;
+	    FAILED = 1;
+	    UNKKNOWN = 2;
 	}
 
 	service Company {
