@@ -1,5 +1,12 @@
 syntax = "proto3";
 package deduction;
+
+enum StatusEnum{
+  SUCCESS = 0;
+  FAILED = 1;
+  UNKKNOWN = 2;
+}
+
 service Company {
   // 开通扣费服务
   rpc CreateDeductionService(DeduceRequest) returns (DeduceResponse) {}
@@ -8,6 +15,7 @@ service Company {
   // 查询扣费服务列表
   rpc QueryDeductionListByUserIdAndArType(DeductionListQueryRequest)returns (DeductionListQueryResponse){}
 }
+
 message DeduceRequest {
   // 用户登录态token
   string token = 1;
@@ -38,6 +46,16 @@ message DeductionListQueryRequest {
   string userId = 3;
 }
 
+// 简化版产品信息, 用于列表展示
+message SimpliedProductInfo{
+  // 产品码
+  string productCode = 1;
+  // 产品名
+  string productName = 2;
+  // 产品所属主体
+  string proudctOrgName = 3;
+}
+
 message DeductionListQueryResponse{
   // 处理状态, 成功, 失败, 处理中
   string status = 1;
@@ -45,5 +63,7 @@ message DeductionListQueryResponse{
   string code = 2;
   // 对应的消息或者描述
   string desc = 3;
-
+  // 简化版产品信息
+  repeated SimpliedProductInfo simpliedProductInfo = 4;
 }
+

@@ -47,25 +47,27 @@
 **** 物理模型
      de_prod(产品表, prod指product)
      主键: tnt_inst_id + pd_code
-     | 字段名       | 是否为空 | 类型          | 说明     |
-     | tnt_inst_id  | N        | varchar(8)    | 租户Id   |
-     | pd_code      | N        | varchar(32)   | 产品码   |
-     | pd_name      | N        | varchar(255)  | 产品名称 |
-     | pd_desc      | N        | varchar(2048) | 产品描述 |
-     | gmt_create   | N        | datetime(12)  | 创建时间 |
-     | gmt_modified | N        | datetime(12)  | 修改时间 |
-     | memo         | Y        | varchar(255)  | 备注     |
+     | 字段名       | 是否为空 | 类型          | 说明         |
+     | tnt_inst_id  | N        | varchar(8)    | 租户Id       |
+     | pd_code      | N        | varchar(32)   | 产品码       |
+     | pd_name      | N        | varchar(255)  | 产品名称     |
+     | pd_desc      | N        | varchar(2048) | 产品描述     |
+     | pd_org_name  | N        | varchar(2048) | 产品所属主体 |
+     | gmt_create   | N        | datetime(12)  | 创建时间     |
+     | gmt_modified | N        | datetime(12)  | 修改时间     |
+     | memo         | Y        | varchar(255)  | 备注         |
      
      de_ar(合约表, ar指arrangement)
      主键: tnt_inst_id + ar_number
-     | 字段名       | 是否为空 | 类型         | 说明                                                 |
-     | tnt_inst_id  | N        | varchar(8)   | 租户Id                                               |
-     | ar_number    | N        | varchar(32)  | 合约号                                               |
-     | ar_name      | N        | varchar(255) | 合约名称                                             |
-     | ar_version   | N        | varchar(32)  | 合约版本                                             |
-     | gmt_create   | N        | datetime(12) | 创建时间                                             |
-     | gmt_modified | N        | datetime(12) | 修改时间                                             |
-     | memo         | Y        | varchar(255) | 备注                                                 |
+     | 字段名       | 是否为空 | 类型          | 说明                                                                                 |
+     | tnt_inst_id  | N        | varchar(8)    | 租户Id                                                                               |
+     | ar_number    | N        | varchar(32)   | 合约号                                                                               |
+     | ar_name      | N        | varchar(255)  | 合约名称                                                                             |
+     | ar_version   | N        | varchar(32)   | 合约版本                                                                             |
+     | properties   | Y        | varchar(2048) | 合约属性, 用来可以为该合约自定义属性, 例如扣费合约有对应的扣费方式以及开通账户等属性 |
+     | gmt_create   | N        | datetime(12)  | 创建时间                                                                             |
+     | gmt_modified | N        | datetime(12)  | 修改时间                                                                             |
+     | memo         | Y        | varchar(255)  | 备注                                                                                 |
      
      de_user(用户表)
      主键: tnt_inst_id + user_id
@@ -79,17 +81,18 @@
 
      de_user_ar_rel(用户合约关系表):
      主键: tnt_inst_id + rel, 唯一键: user_id + pd_code + ar_no. 在关联表加入 =pd_name= 和 =ar_name= 冗余信息是为了减少联表查询, 即展示列表可只展示产品名, 查询具体产品信息时才关联查询产品表.
-     | 字段名       | 是否为空 | 类型         | 说明     |
-     | tnt_inst_id  | N        | varchar(8)   | 租户Id   |
-     | rel_id       | N        | varchar(32)  | 关系Id   |
-     | user_id      | N        | varchar(32)  | 用户Id   |
-     | pd_code      | N        | varchar(32)  | 产品码   |
-     | pd_name      | N        | varchar(255) | 产品名   |
-     | ar_name      | N        | varchar(255) | 合约名   |
-     | ar_no        | N        | varchar(32)  | 合约码   |
-     | gmt_create   | N        | datetime(12) | 创建时间 |
-     | gmt_modified | N        | datetime(12) | 修改时间 |
-     | memo         | Y        | varchar(255) | 备注     |
+     | 字段名          | 是否为空 | 类型          | 说明               |
+     | tnt_inst_id     | N        | varchar(8)    | 租户Id             |
+     | rel_id          | N        | varchar(32)   | 关系Id             |
+     | user_id         | N        | varchar(32)   | 用户Id             |
+     | pd_code         | N        | varchar(32)   | 产品码             |
+     | pd_name         | N        | varchar(255)  | 产品名             |
+     | ar_name         | N        | varchar(255)  | 合约名             |
+     | ar_no           | N        | varchar(32)   | 合约码             |
+     | property_values | Y        | varchar(2048) | 对应合约属性及其值 |
+     | gmt_create      | N        | datetime(12)  | 创建时间           |
+     | gmt_modified    | N        | datetime(12)  | 修改时间           |
+     | memo            | Y        | varchar(255)  | 备注               |
 **** 关键技术
 ***** 保持登录
       针对我们无线设备而言，很多APP我们的感知就是只有首次登陆需要密码, 以后就可以自动登录, 这就是一种保持登录的技术, 因为用户的感知是直接就进入到了登录态, 所以叫做保持登录, 其实并不是保持了一个一直不失效的登录态. 实现原理是在用户第一次登陆的时候, =将refresh_token=, =expire_time= 和 =sessionId= 一起返回客户端, =refresh_token= 可以理解成是第二次请求服务端刷新 =sessionId= 的凭证，然后客户端在 =sessionId= 快要过期的时候，通过 =refresh_token= 重新获取新的 =sessionId= 和 =refresh_token=, 并且循环这个过程，这样就可以在用户无感知的情况下保持用户登录.
@@ -124,6 +127,12 @@
       #+BEGIN_SRC java
 	syntax = "proto3";
 	package user;
+	enum StatusEnum{
+	  SUCCESS = 0;
+	  FAILED = 1;
+	  UNKKNOWN = 2;
+	}
+
 	service User {
 	    // 用户登录
 	    rpc Login(UserLoginRequest) returns (UserLoginResponse) {}
@@ -167,6 +176,12 @@
       | refreshToekn | String   | 二次刷新token凭证 | N    | 保留字段                                 |
       | expireTime   | String   | 登录态过期时间    | N    | 用来配合refreshToken作应用保活, 保留字段 |
       |              |          |                   |      |                                          |
+      错误码:
+      | 状态    | 状态码 | 描述             |
+      | SUCCESS |     00 |                  |
+      | FAILED  |     01 | 用户不存在       |
+      | FAILED  |     02 | 用户账号密码错误 |
+      | FAILED  |     03 | 用户未登录       |
 
 **** 开通扣费服务
      开通扣费服务与关闭扣费服务的接口设计考虑到将来的扩展, 如果出现新的类似扣费的服务类型, 如补贴服务(有点太美好的感觉), 只需要新增对应的产品码及合约类型, 即全复用开通服务与关闭服务接口
@@ -180,6 +195,12 @@
 
 	syntax = "proto3";
 	package deduction;
+	enum StatusEnum{
+	  SUCCESS = 0;
+	  FAILED = 1;
+	  UNKKNOWN = 2;
+	}
+
 	service Company {
 	    // 开通扣费服务
 	    rpc CreateDeductionService(DeduceRequest) returns (DeduceResponse) {}
@@ -218,6 +239,15 @@
       | status  | String   | 处理状态     | Y    |      |
       | code    | String   | 状态码       | Y    |      |
       | message | String   | 返回结果描述 | N    |      |
+      
+      错误码:
+      | 状态    | 状态码 | 描述             |
+      | SUCCESS |     00 |                  |
+      | FAILED  |     03 | 用户未登录       |
+      | FAILED  |     14 | 产品不存在       |
+      | FAILED  |     15 | 合约不存在       |
+      | FAILED  |     16 | 重复开通扣费服务 |
+
 **** 关闭扣费服务
 ***** 接口功能
       为指定用户关闭指定的扣费服务
@@ -228,6 +258,12 @@
       #+BEGIN_SRC java
 	syntax = "proto3";
 	package deduction;
+	enum StatusEnum{
+	  SUCCESS = 0;
+	  FAILED = 1;
+	  UNKKNOWN = 2;
+	}
+
 	service Company {
 	    // 关闭扣费信息
 	    rpc CloseDeductionService(DeduceRequest) returns (DeduceResponse) {}
@@ -267,9 +303,20 @@
       | status  | String   | 处理状态     | Y    |      |
       | code    | String   | 状态码       | Y    |      |
       | message | String   | 返回结果描述 | N    |      |
+      
+      错误码:
+      | 状态    | 状态码 | 描述                   |
+      | SUCCESS |     00 |                        |
+      | FAILED  |     03 | 用户未登录             |
+      | FAILED  |     14 | 产品不存在             |
+      | FAILED  |     15 | 合约不存在             |
+      | FAILED  |     17 | 用户未开通指定扣费服务 |
+
 **** 查询扣费服务列表
 ***** 接口功能
       查询指定用户已开通的所有扣费服务(是否需要分页)
+***** UI图
+      [[file:images/UI_%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%88%97%E8%A1%A8.jpg]]
 ***** 流程图
       [[file:images/%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%88%97%E8%A1%A8.jpg]]
 ***** 接口定义
@@ -278,6 +325,12 @@
       #+BEGIN_SRC java
 	syntax = "proto3";
 	package deduction;
+	enum StatusEnum{
+	  SUCCESS = 0;
+	  FAILED = 1;
+	  UNKKNOWN = 2;
+	}
+
 	service Company {
 	    // 查询扣费服务列表
 	    rpc QueryDeductionListByUserIdAndArType(DeductionListQueryRequest)returns (DeductionListQueryResponse){}
@@ -293,6 +346,16 @@
 	    string userId = 3;
 	}
 
+	// 简化版产品信息, 用于列表展示
+	message SimpliedProductInfo{
+	    // 产品码
+	    string productCode = 1;
+	    // 产品名
+	    string productName = 2;
+	    // 产品所属主体
+	    string proudctOrgName = 3;
+	}
+
 	message DeductionListQueryResponse{
 	    // 处理状态, 成功, 失败, 处理中
 	    string status = 1;
@@ -300,8 +363,10 @@
 	    string code = 2;
 	    // 对应的消息或者描述
 	    string desc = 3;
-
+	    // 简化版产品信息
+	    repeated SimpliedProductInfo simpliedProductInfo = 4;
 	}
+
       #+END_SRC
       入参:
 
@@ -312,12 +377,58 @@
 
       返回结果:
 
-      | 参数名  | 参数类型 | 参数含义     | 必选 | 备注 |
-      | status  | String   | 处理状态     | Y    |      |
-      | code    | String   | 状态码       | Y    |      |
-      | message | String   | 返回结果描述 | N    |      |
+      | 参数名              | 参数类型            | 参数含义       | 必选 | 备注 |
+      | status              | String              | 处理状态       | Y    |      |
+      | code                | String              | 状态码         | Y    |      |
+      | message             | String              | 返回结果描述   | N    |      |
+      | simpliedProductInfo | List<SimpliedProductInfo> | 简化版产品信息 | N    |      |
+      
+      错误码:
+      | 状态    | 状态码 | 描述       |
+      | SUCCESS |     00 |            |
+      | FAILED  |     03 | 用户未登录 |
+      | FAILED  |     15 | 合约不存在 |
+
+*** 详细设计
+**** 产品信息
+     本次使用到的产品信息:
+
+     | 产品名                   |   产品码 | 所属主体           | 详情                                                                                                       |
+     | 摩拜单车微信免密支付     | 00000001 | 摩拜单车           | 该服务将用于无余额时支付单车车费, 以及除单车外费用结算时的优先支付方式, 用户无需输入密码, 每日最多扣款20次 |
+     | 上海公共交通微信免密支付 | 00000002 | 上海公共交通乘车码 | 刷码后自动通过微信支付扣取实际费用                                                                         |
+**** 合约信息
+     本次使用到的合约信息:
+     | 合约名   |   合约号 | 合约版本 | 属性              |
+     | 扣费合约 | 00000001 | 20200504 | 开通账号,扣款方式 |
 
 ** 测试分析
+*** 测试用例
+    | 场景             | 详细                         | 预期&校验点                                                                    |
+    | 单设备登录       | 用户不存在登录               | 返回异常, 响应code为01, 描述为用户不存在, 服务端打印对应错误日志               |
+    |                  | 用户存在, 登录密码错误       | 返回异常, 响应code为02, 描述为用户账号密码错误, 服务端打印对应错误日志         |
+    |                  | 用户存在, 登录密钥正确       | 登录成功, 响应code为00, 返回结果包含token                                      |
+    |                  | 两个用户登录同一个账户       | 两者皆登录成功, 返回结果皆包含token, 但先登录的用户token失效, 无法进行后续操作 |
+    |                  | 两个用户登录同两个账户       | 两者皆登录成功, 返回结果皆包含token, 相互功能无影响                            |
+    | 开通扣费服务     | 用户未登录                   | 操作失败, 响应code为03, 描述为用户未登录. 服务端打印对应错误日志               |
+    |                  | 产品不存在                   | 操作失败, 响应code为14, 描述为产品不存在. 服务端打印对应错误日志               |
+    |                  | 合约不存在                   | 操作失败, 响应code为15, 描述为合约不存在. 服务端打印对应错误日志               |
+    |                  | 重复开通同一个产品的扣费服务 | 操作失败, 响应code为16, 描述为服务重复开通, 服务端打印对应错误日志             |
+    |                  | 开通产品的扣费服务           | 操作成功, 响应为00.                                                            |
+    | 开通扣费服务     | 用户未登录                   | 操作失败, 响应code为03, 描述为用户未登录. 服务端打印对应错误日志               |
+    |                  | 产品不存在                   | 操作失败, 响应code为14, 描述为产品不存在. 服务端打印对应错误日志               |
+    |                  | 合约不存在                   | 操作失败, 响应code为15, 描述为合约不存在. 服务端打印对应错误日志               |
+    |                  | 关闭不存在的扣费服务         | 操作失败, 响应为17, 描述为该用户未开通指定扣费产品. 服务端打印对应错误日志     |
+    |                  | 关闭产品的扣费服务           | 操作成功, 响应为00                                                             |
+    | 查询扣费服务列表 | 用户未登录                   | 操作失败, 响应code为03, 描述为用户未登录. 服务端打印对应错误日志               |
+    |                  | 合约不存在                   | 操作失败, 响应code为15, 描述为合约不存在. 服务端打印对应错误日志               |
+    |                  | 查询扣费服务列表             | 操作成功, 响应为00, 返回结果包含正常的扣费服务列表.                            |
+
+*** 联调用例
+    1. 使用指定账号密码进行登录, 获取token.
+    2. 使用token, 上送合约类型, 产品码, 用户Id, 开通扣费服务.
+    3. 使用token, 查询扣费服务列表, 理应展示刚才新增的扣费服务.
+    4. 使用token, 上送合约类型, 产品码, 用户Id, 关闭扣费服务
+    5. 使用token, 查询扣费服务列表, 理应展示空的扣费服务列表.
 ** 发布计划
 *** 发布时间
     2020-05-16-2020-05-26
