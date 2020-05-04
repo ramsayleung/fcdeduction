@@ -160,6 +160,8 @@
       单设备登录:
       
       [[file:images/%E5%8D%95%E8%AE%BE%E5%A4%87%E7%99%BB%E5%BD%95.jpg]]
+      
+      其中的单设备登录可通过两个key-value键值对实现; 第一个map, 在登录成功之后生成一个唯一token(如UUID), 然后存储token与用户的映射, key为token, value为序列化后的用户信息. 第二个map存储userId与token的映射, 当有第二个设备使用同一个账户登录时, 即存在userId与原有token的映射, 将其更新为userId与新token的映射, 原token没有关联上任何的用户, 那么就将原来登录的设备踢除. 为了可持久化, 这两个map可以使用相应的缓存中间件实现, 如 =redis=.
 ***** 接口定义
       接口签名(proto 定义):
       #+BEGIN_SRC java
