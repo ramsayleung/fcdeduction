@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../src/redis_manager.hpp"
+#include "src/manager/redis_manager.hpp"
 #include <iostream>
 
 TEST(RedisManagerGet, ReturnHello){

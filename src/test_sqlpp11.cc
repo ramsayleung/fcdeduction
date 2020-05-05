@@ -1,4 +1,4 @@
-#include "src/user.h"
+#include "src/dao/user.h"
 #include <sqlpp11/sqlpp11.h>
 #include <sqlpp11/mysql/mysql.h>
 #include <iostream>

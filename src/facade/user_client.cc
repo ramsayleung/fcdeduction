@@ -8,7 +8,7 @@
 #include <memory>
 #include <string>
 
-#include "src/user.grpc.pb.h"
+#include "src/proto/user.grpc.pb.h"
 
 using user::UserFacade;
 using user::UserLoginRequest;

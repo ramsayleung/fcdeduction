@@ -9,7 +9,7 @@
 #include <iostream>
 #include <unordered_map>
 
-#include "src/user.grpc.pb.h"
+#include "src/proto/user.grpc.pb.h"
 
 using user::UserFacade;
 using user::UserLoginRequest;

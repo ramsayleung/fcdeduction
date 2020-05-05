@@ -61,7 +61,7 @@ load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
 # in a mode compatible with the native proto_library and cc_proto_library rules.
 proto_library(
     name = "helloworld_proto",
-    srcs = glob(["**/*.proto"]),
+    srcs = glob(["proto/*.proto"]),
 )
 
 cc_proto_library(
@@ -78,7 +78,7 @@ cc_grpc_library(
 
 cc_binary(
     name = "user_client",
-    srcs = ["user_client.cc"],
+    srcs = ["facade/user_client.cc"],
     defines = ["BAZEL_BUILD"],
     deps = [
         ":helloworld_cc_grpc",
@@ -89,7 +89,7 @@ cc_binary(
 
 cc_binary(
     name = "greeter_client",
-    srcs = ["greeter_client.cc"],
+    srcs = ["facade/greeter_client.cc"],
     defines = ["BAZEL_BUILD"],
     deps = [
         ":helloworld_cc_grpc",
@@ -101,8 +101,15 @@ cc_binary(
 cc_library(
     name = "serverLib",
     # ,"greeter_server.cc","deduction_server.cc"
-    srcs = ["user_server.cc","greeter_server.cc","Greeting.cc","redis_manager.cpp"],
-    hdrs = ["user_server.hpp","greeter_server.hpp","Greeting.h","redis_manager.hpp","user.h"],
+    srcs = ["facade/user_server.cc",
+            "facade/greeter_server.cc",
+            "manager/Greeting.cc",
+            "manager/redis_manager.cpp"],
+    hdrs = ["facade/user_server.hpp",
+            "facade/greeter_server.hpp",
+            "manager/Greeting.h",
+            "manager/redis_manager.hpp",
+            "dao/user.h"],
     visibility = ["//visibility:public"],
     # defines = ["BAZEL_BUILD"],
     deps = [

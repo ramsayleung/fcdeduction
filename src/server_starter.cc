@@ -1,5 +1,5 @@
-#include "user_server.hpp"
-#include "greeter_server.hpp"
+#include "facade/user_server.hpp"
+#include "facade/greeter_server.hpp"
 
 void startServer() {
     std::string addr = "0.0.0.0:50051";
