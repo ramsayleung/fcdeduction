@@ -9,7 +9,7 @@ int main()
 auto config = std::make_shared<mysql::connection_config>();
  config->host="127.0.0.1";
  config->user = getenv("mysql_user");
- config->database = "fcdeduction";
+ config->database = getenv("mysql_database");
  config->password = getenv("mysql_password");
  config->debug = true;
  try{

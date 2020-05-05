@@ -27,6 +27,22 @@ jobs:
       run: |
         "${GITHUB_WORKSPACE}/bin/bazel" build //...
 
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.1.0
+      with:
+        redis-version: 5
+
+    # - name: Shutdown Ubuntu MySQL (SUDO)
+    #   run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+
+    # - name: Start mariaDB
+    #   uses: getong/mariadb-action@v1.1
+    #   with:
+    #       mariadb version: '10.4.12' # Optional, default value is "latest". The version of the MariaDB
+    #       mysql database: ${{secrets.DatabaseName}} # Optional, default value is "test". The specified database which will be create
+    #       mysql user: 'root' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+    #       mysql password: ${{ secrets.DatabasePassword }} # Required if "mysql user" exists. The password for the "mysql user"
+
     - name: Test
       run: |
         "${GITHUB_WORKSPACE}/bin/bazel" test //...
