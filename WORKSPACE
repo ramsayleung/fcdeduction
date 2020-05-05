@@ -1,10 +1,41 @@
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "new_git_repository")
 
 git_repository(
     name = "googletest",
     remote = "https://github.com/google/googletest",
     tag = "release-1.8.1",
 )
+
+new_git_repository(
+    name = "hinnant_date",
+    build_file = "//:third-party/date/BUILD.bzl",
+    commit = "48433b9892ac5741f8d4d8753beb76e49c57f7c8",
+    remote = "https://github.com/HowardHinnant/date.git",
+)
+
+new_git_repository(
+    name = "sqlpp11",
+    build_file = "//:third-party/sqlpp11/BUILD.bzl",
+    commit = "c021c49b0b1eeafc09718c7d3facb3b713eb47e4",
+    remote = "https://github.com/rbock/sqlpp11.git",
+)
+
+new_git_repository(
+    name = "sqlpp11mysql",
+    build_file = "//:third-party/sqlpp11mysql/BUILD.bzl",
+    commit = "243096a1d2619d409a4be8d869ff9d3d3f8e6ccb",
+    remote = "https://github.com/rbock/sqlpp11-connector-mysql.git",
+)
+
+
+new_git_repository(
+    name = "mariadb_connector",
+    build_file = "//:third-party/mariadb_connector/BUILD.bzl",
+    commit = "184a16d2f1d0bb24bea6bcf23e1604093fef8f93",
+    remote = "https://github.com/MariaDB/mariadb-connector-c.git",
+)
+
 
 ##### Protobuf Rules for Bazel
 ##### See https://github.com/bazelbuild/rules_proto
@@ -38,6 +69,8 @@ grpc_deps()
 load("@com_github_grpc_grpc//bazel:grpc_extra_deps.bzl", "grpc_extra_deps")
 grpc_extra_deps()
 
+
+
 # Group the sources of the library so that CMake rule have access to it
 all_content = """filegroup(name = "all", srcs = glob(["**"]), visibility = ["//visibility:public"])"""
 
@@ -50,40 +83,9 @@ http_archive(
 
 load("@rules_foreign_cc//:workspace_definitions.bzl", "rules_foreign_cc_dependencies")
 
-# Call this function from the WORKSPACE file to initialize rules_foreign_cc
-#  dependencies and let neccesary code generation happen
-#  (Code generation is needed to support different variants of the C++ Starlark API.).
-#
-#  Args:
-#    native_tools_toolchains: pass the toolchains for toolchain types
-#      '@rules_foreign_cc//tools/build_defs:cmake_toolchain' and
-#      '@rules_foreign_cc//tools/build_defs:ninja_toolchain' with the needed platform constraints.
-#      If you do not pass anything, registered default toolchains will be selected (see below).
-#  
-#    register_default_tools: if True, the cmake and ninja toolchains, calling corresponding
-#      preinstalled binaries by name (cmake, ninja) will be registered after
-#      'native_tools_toolchains' without any platform constraints.
-#      The default is True.
-# OpenBLAS source code repository
-http_archive(
-   name = "openblas",
-   build_file_content = all_content,
-   strip_prefix = "OpenBLAS-0.3.2",
-   urls = ["https://github.com/xianyi/OpenBLAS/archive/v0.3.2.tar.gz"],
-)
-
-# Eigen source code repository
-http_archive(
-   name = "eigen",
-   build_file_content = all_content,
-   strip_prefix = "eigen-git-mirror-3.3.5",
-   urls = ["https://github.com/eigenteam/eigen-git-mirror/archive/3.3.5.tar.gz"],
-)
-
-# # Hiredis
-
 rules_foreign_cc_dependencies(register_default_tools = True)
 
+# Hiredis
 http_archive(
    name = "hiredis",
    build_file_content = all_content,
@@ -92,7 +94,7 @@ http_archive(
 )
 
 
-# https://github.com/HowardHinnant/date/archive/v2.4.1.tar.gz
+# # https://github.com/HowardHinnant/date/archive/v2.4.1.tar.gz
 # http_archive(
 #     name = "date",
 #     build_file_content = all_content,
