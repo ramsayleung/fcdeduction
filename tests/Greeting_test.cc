@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "src/Greeting.h"
+#include "../src/Greeting.h"
 
 TEST(GreetingShould, ReturnHelloWorld){
     Greeting *greet = new Greeting();
