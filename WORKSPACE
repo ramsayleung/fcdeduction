@@ -10,24 +10,31 @@ git_repository(
 new_git_repository(
     name = "hinnant_date",
     build_file = "//:third-party/date/BUILD.bzl",
-    commit = "48433b9892ac5741f8d4d8753beb76e49c57f7c8",
+    tag = "v2.4.1",
     remote = "https://github.com/HowardHinnant/date.git",
 )
 
 new_git_repository(
     name = "sqlpp11",
     build_file = "//:third-party/sqlpp11/BUILD.bzl",
-    commit = "c021c49b0b1eeafc09718c7d3facb3b713eb47e4",
     remote = "https://github.com/rbock/sqlpp11.git",
+    tag = "0.58"
 )
+
+
+# new_git_repository(
+#     name = "sqlpp11postgresql",
+#     build_file = "//:third-party/sqlpp11postgresql/BUILD.bzl",
+#     remote = "https://github.com/matthijs/sqlpp11-connector-postgresql.git",
+#     tag = "v0.54"
+# )
 
 new_git_repository(
     name = "sqlpp11mysql",
     build_file = "//:third-party/sqlpp11mysql/BUILD.bzl",
-    commit = "243096a1d2619d409a4be8d869ff9d3d3f8e6ccb",
     remote = "https://github.com/rbock/sqlpp11-connector-mysql.git",
+    tag = "0.29"
 )
-
 
 new_git_repository(
     name = "mariadb_connector",
@@ -35,7 +42,6 @@ new_git_repository(
     commit = "184a16d2f1d0bb24bea6bcf23e1604093fef8f93",
     remote = "https://github.com/MariaDB/mariadb-connector-c.git",
 )
-
 
 ##### Protobuf Rules for Bazel
 ##### See https://github.com/bazelbuild/rules_proto
@@ -76,9 +82,9 @@ all_content = """filegroup(name = "all", srcs = glob(["**"]), visibility = ["//v
 
 # Rule repository
 http_archive(
-   name = "rules_foreign_cc",
-   strip_prefix = "rules_foreign_cc-master",
-   url = "https://github.com/bazelbuild/rules_foreign_cc/archive/master.zip",
+    name = "rules_foreign_cc",
+    strip_prefix = "rules_foreign_cc-master",
+    url = "https://github.com/bazelbuild/rules_foreign_cc/archive/master.zip",
 )
 
 load("@rules_foreign_cc//:workspace_definitions.bzl", "rules_foreign_cc_dependencies")
@@ -87,10 +93,10 @@ rules_foreign_cc_dependencies(register_default_tools = True)
 
 # Hiredis
 http_archive(
-   name = "hiredis",
-   build_file_content = all_content,
-   strip_prefix = "hiredis-0.14.1",
-   urls = ["https://github.com/redis/hiredis/archive/v0.14.1.tar.gz"],
+    name = "hiredis",
+    build_file_content = all_content,
+    strip_prefix = "hiredis-0.14.1",
+    urls = ["https://github.com/redis/hiredis/archive/v0.14.1.tar.gz"],
 )
 
 

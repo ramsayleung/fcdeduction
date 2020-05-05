@@ -1,5 +1,5 @@
 cc_library(
-    name = "sqlpp11mysql",
+    name = "sqlpp11postgresql",
     srcs = glob([
         "src/**/*.cpp",
         "src/**/*.h",
@@ -8,7 +8,6 @@ cc_library(
     strip_include_prefix = "include",
     visibility = ["//visibility:public"],
     deps = [
-        "@mariadb_connector//:connector",
         "@sqlpp11",
     ],
 )
