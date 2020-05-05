@@ -8,7 +8,7 @@
 #include <memory>
 #include <string>
 
-#include "user.grpc.pb.h"
+#include "src/user.grpc.pb.h"
 
 using user::UserFacade;
 using user::UserLoginRequest;
@@ -38,7 +38,7 @@ class UserClient {
     std::unique_ptr<UserFacade::Stub> stub_;
 };
 int main(int argc, char const *argv[]) {
-    auto channel = grpc::CreateChannel("localhost:5000", grpc::InsecureChannelCredentials());
+    auto channel = grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials());
     UserClient client(channel);
     client.login("ramsay", "888888");
     client.login("ramsay", "123456");

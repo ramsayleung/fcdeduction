@@ -1,4 +1,4 @@
-#include "deduction.grpc.pb.h"
+#include "src/deduction.grpc.pb.h"
 #include <iostream>
 #include <grpc/grpc.h>
 #include <grpc++/server.h>
