@@ -9,12 +9,12 @@
 
 #include "user.grpc.pb.h"
 
-using user::User;
+using user::UserFacade;
 using user::UserLoginRequest;
 using user::UserLoginResponse;
 class UserDAO {
 };
-class UserImpl final : public User::Service {
+class UserFacadeImpl final : public UserFacade::Service {
    public:
     grpc::Status Login(grpc::ServerContext *context, const UserLoginRequest *request, UserLoginResponse *response) override {
         auto loginKey = request->loginkey();
@@ -52,7 +52,7 @@ class UserImpl final : public User::Service {
 };
 int main(int argc, char const *argv[]) {
     std::string addr = "0.0.0.0:5000";
-    UserImpl service;
+    UserFacadeImpl service;
     grpc::ServerBuilder builder;
     builder.AddListeningPort(addr, grpc::InsecureServerCredentials());
     builder.RegisterService(&service);

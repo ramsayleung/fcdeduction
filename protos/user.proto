@@ -1,6 +1,6 @@
 syntax = "proto3";
 package user;
-service User {
+service UserFacade {
   // 用户登录
   rpc Login(UserLoginRequest) returns (UserLoginResponse) {}
 }

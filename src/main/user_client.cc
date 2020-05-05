@@ -10,14 +10,14 @@
 
 #include "user.grpc.pb.h"
 
-using user::User;
+using user::UserFacade;
 using user::UserLoginRequest;
 using user::UserLoginResponse;
 
 class UserClient {
    public:
     UserClient(std::shared_ptr<grpc::Channel> channel)
-        : stub_(User::NewStub(channel)) {}
+        : stub_(UserFacade::NewStub(channel)) {}
     void login(const std::string &loginValue, const std::string &loginKey) {
         UserLoginRequest request;
         request.set_loginkey(loginKey);
@@ -35,7 +35,7 @@ class UserClient {
     }
 
    private:
-    std::unique_ptr<User::Stub> stub_;
+    std::unique_ptr<UserFacade::Stub> stub_;
 };
 int main(int argc, char const *argv[]) {
     auto channel = grpc::CreateChannel("localhost:5000", grpc::InsecureChannelCredentials());

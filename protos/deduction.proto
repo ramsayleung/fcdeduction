@@ -7,7 +7,7 @@ enum StatusEnum{
   UNKKNOWN = 2;
 }
 
-service Company {
+service DeductionFacade {
   // 开通扣费服务
   rpc CreateDeductionService(DeduceRequest) returns (DeduceResponse) {}
   // 关闭扣费信息
