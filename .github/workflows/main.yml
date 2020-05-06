@@ -44,7 +44,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y mysql-client
-        mysql ---user=root -e "SHOW DATABASES"
+        mysql --user=root -e "SHOW DATABASES"
     
     - name: Create tabele 
       run: |
