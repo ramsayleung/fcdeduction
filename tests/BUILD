@@ -13,10 +13,6 @@ cc_test(
 cc_test(
     name = "db_test",
     srcs = ["db_test.cc"],
-    linkopts = [
-        "-ldl",
-        "-lm",
-    ],
     deps = [
         "//src:serverLib",
         "@googletest//:gtest_main",

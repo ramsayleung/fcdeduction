@@ -114,6 +114,10 @@ cc_library(
         "manager/database_manager.hpp",
         "manager/redis_manager.hpp",
     ],
+    linkopts = [
+        "-ldl",
+        "-lm",
+    ],
     visibility = ["//visibility:public"],
     # defines = ["BAZEL_BUILD"],
     deps = [
