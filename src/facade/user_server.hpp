@@ -15,15 +15,18 @@ using user::UserFacade;
 using user::UserLoginRequest;
 using user::UserLoginResponse;
 
-class UserDAO {
-};
+class UserDAO {};
 
-class UserFacadeImpl final: public UserFacade::Service{
-   public:
-    grpc::Status Login(grpc::ServerContext *context, const UserLoginRequest *request, UserLoginResponse *response)  override;
-     private:
-    std::unordered_map<std::string, std::string> userLoginKeyValue_ = {{"ramsay", "123456"}};
-    std::unordered_map<std::string, UserDAO> tokenCache_;
+class UserFacadeImpl final : public UserFacade::Service {
+ public:
+  grpc::Status Login(grpc::ServerContext *context,
+                     const UserLoginRequest *request,
+                     UserLoginResponse *response) override;
+
+ private:
+  std::unordered_map<std::string, std::string> userLoginKeyValue_ = {
+      {"ramsay", "123456"}};
+  std::unordered_map<std::string, UserDAO> tokenCache_;
 };
 
 #endif

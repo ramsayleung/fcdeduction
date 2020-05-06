@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-
 # load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
 load("@rules_foreign_cc//tools/build_defs:make.bzl", "make")
 
@@ -52,7 +51,6 @@ load("@rules_foreign_cc//tools/build_defs:cmake.bzl", "cmake_external")
 #    deps = [":openblas"],
 # )
 
-
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_proto_library")
 load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
@@ -101,15 +99,21 @@ cc_binary(
 cc_library(
     name = "serverLib",
     # ,"greeter_server.cc","deduction_server.cc"
-    srcs = ["facade/user_server.cc",
-            "facade/greeter_server.cc",
-            "manager/Greeting.cc",
-            "manager/redis_manager.cpp"],
-    hdrs = ["facade/user_server.hpp",
-            "facade/greeter_server.hpp",
-            "manager/Greeting.h",
-            "manager/redis_manager.hpp",
-            "dao/user.h"],
+    srcs = [
+        "facade/greeter_server.cc",
+        "facade/user_server.cc",
+        "manager/Greeting.cc",
+        "manager/database_manager.cc",
+        "manager/redis_manager.cpp",
+    ],
+    hdrs = [
+        "dao/user.h",
+        "facade/greeter_server.hpp",
+        "facade/user_server.hpp",
+        "manager/Greeting.h",
+        "manager/database_manager.hpp",
+        "manager/redis_manager.hpp",
+    ],
     visibility = ["//visibility:public"],
     # defines = ["BAZEL_BUILD"],
     deps = [
@@ -117,27 +121,16 @@ cc_library(
         ":helloworld_cc_grpc",
         # http_archive made this label available for binding
         "@com_github_grpc_grpc//:grpc++",
-    ],
-)
-
-cc_binary(
-    name="server_starter",
-    srcs = ["server_starter.cc"],
-    deps = [
-        ":serverLib",
-    ],
-
-)
-
-cc_binary(
-    name="test_sqlpp11",
-    srcs = ["test_sqlpp11.cc"],
-    linkopts = ['-ldl', '-lm'],
-    deps = [
-        ":serverLib",
         "@mariadb_connector//:connector",
         "@sqlpp11",
         "@sqlpp11mysql",
     ],
 )
 
+cc_binary(
+    name = "server_starter",
+    srcs = ["server_starter.cc"],
+    deps = [
+        ":serverLib",
+    ],
+)

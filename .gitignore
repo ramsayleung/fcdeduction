@@ -5,3 +5,5 @@
 /bazel-fcdeduction
 /bazel-out
 /bazel-testlogs
+.idea/
+*.pb.*
