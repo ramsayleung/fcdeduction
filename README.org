@@ -25,7 +25,8 @@
     - [[#可监控][可监控]]
     - [[#可灰度][可灰度]]
     - [[#可回滚][可回滚]]
-  - [[#库依赖][库依赖]]
+  - [[#三方库依赖][三方库依赖]]
+  - [[#成果][成果]]
   - [[#参考资料][参考资料]]
 
 ** 背景
@@ -544,7 +545,12 @@
     2. 而后按照灰度计划进行灰度.
 *** 可回滚
     本次为新应用上线, 不涉及回滚依赖顺序; 回滚依赖顺序即本系统为其他系统C的下游依赖, 在发布时先发布, 而后系统C再发布. 如果此时本系统出现异常, 需要回滚, 无法单独回滚, 因为系统C还依赖着咱们, 如果我们单独回滚, 会导致系统C也无法正常提供服务, 因此需要系统C先回滚, 而后本系统再回滚.
-** 库依赖
-   cpp_redis: https://github.com/cpp-redis/cpp_redis/wiki/Mac-&-Linux-Install
+** 三方库依赖
+   + protobuf(序列化框架&服务定义框架): https://github.com/protocolbuffers/protobuf/
+   + grpc(rpc框架): https://github.com/grpc/grpc
+   + hiredis(reids 数据管理): https://github.com/redis/hiredis
+   + sqlpp11(mysql 数据访问): https://github.com/rbock/sqlpp11
+   + sqlpp11-connector-mysql(数据连接器): https://github.com/rbock/sqlpp11-connector-mysql
+** 成果     
 ** 参考资料
    [[file:PRD-%E6%89%A3%E8%B4%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.md][PRD-扣费管理中心]]
