@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mariadb:
-        image: mariadb:latest
+        image: mysql:5.7
         ports:
           - 3306
         env:
           MYSQL_USER: ${{secrets.mysql_user}}
           MYSQL_PASSWORD: ${{secrets.mysql_password }}
           MYSQL_DATABASE: ${{secrets.mysql_database }}
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
     - uses: actions/checkout@v1
 
