@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "gtest/gtest.h"
-#include "src/dao/user.h"
+#include "src/dal/user.h"
 #include "src/manager/database_manager.hpp"
 
 namespace mysql = sqlpp::mysql;

@@ -1,7 +1,17 @@
 cc_test(
     name = "tests",
     srcs = [
-        "Greeting_test.cc",
+        "greeting_test.cc",
+    ],
+    deps = [
+        "//src:serverLib",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "redis_test",
+    srcs = [
         "redis_manager_test.cc",
     ],
     deps = [
