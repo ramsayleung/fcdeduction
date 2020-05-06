@@ -10,7 +10,6 @@
 #include <sqlpp11/update.h>
 
 #include <sqlpp11/mysql/connection.h>
-#include <sqlpp11/sqlite3/connection.h>
 namespace fcdeduction {
 namespace db {}
 } // namespace fcdeduction

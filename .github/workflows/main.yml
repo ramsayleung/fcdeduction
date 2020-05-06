@@ -25,24 +25,25 @@ jobs:
 
     - name: Build
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" build //...
+        "${GITHUB_WORKSPACE}/bin/bazel" build $(${GITHUB_WORKSPACE}/bin/bazel query //...) --copt -DGRPC_BAZEL_BUILD
 
     - name: Start Redis
       uses: supercharge/redis-github-action@1.1.0
       with:
         redis-version: 5
 
-    # - name: Shutdown Ubuntu MySQL (SUDO)
-    #   run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+    - name: Shutdown Ubuntu MySQL (SUDO)
+      run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
 
-    # - name: Start mariaDB
-    #   uses: getong/mariadb-action@v1.1
-    #   with:
-    #       mariadb version: '10.4.12' # Optional, default value is "latest". The version of the MariaDB
-    #       mysql database: ${{secrets.DatabaseName}} # Optional, default value is "test". The specified database which will be create
-    #       mysql user: 'root' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-    #       mysql password: ${{ secrets.DatabasePassword }} # Required if "mysql user" exists. The password for the "mysql user"
+    - name: Start mariaDB
+      uses: getong/mariadb-action@v1.1
+      with:
+          mysql version: '8.0' # Optional, default value is "latest". The version of the MariaDB
+          mysql database: ${{secrets.mysql_database }} # Optional, default value is "test". The specified database which will be create
+          mysql user: ${{secrets.mysql_user}} # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+          mysql password: ${{secrets.mysql_password }} # Required if "mysql user" exists. The password for the "mysql user"
 
     - name: Test
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" test //...
+        mysql -u ${{secrets.mysql_user}} database -p ${{secrets.mysql_password}} < ./conf/create_table.sql
+        "${GITHUB_WORKSPACE}/bin/bazel" test $("${GITHUB_WORKSPACE}/bin/bazel" query //...) --copt -DGRPC_BAZEL_BUILD --test_env=mysql_user=${{secrets.mysql_user}}  --test_env=mysql_database=${{secrets.mysql_database }} --test_env=mysql_password=${{secrets.mysql_password}}
