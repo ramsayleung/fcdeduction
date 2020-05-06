@@ -33,7 +33,7 @@ jobs:
 
     - name: Build
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" build $(${GITHUB_WORKSPACE}/bin/bazel query //...) --copt -DGRPC_BAZEL_BUILD
+        "${GITHUB_WORKSPACE}/bin/bazel" build $(${GITHUB_WORKSPACE}/bin/bazel query //...)
 
     - name: Start Redis
       uses: supercharge/redis-github-action@1.1.0
@@ -42,14 +42,14 @@ jobs:
     
     - name: Verify MySQL connection from container 
       run: |
-        apt-get update
-        apt-get install -y mysql-client
-        mysql ---user=${{secrets.mysql_user}} --password=${{secrets.mysql_password}}  -e "SHOW DATABASES"
+        sudo apt-get update
+        sudo apt-get install -y mysql-client
+        mysql ---user=root -e "SHOW DATABASES"
     
     - name: Create tabele 
       run: |
-        mysql --user=${{secrets.mysql_user}} --database=${{secrets.mysql_database }} --password=${{secrets.mysql_password}} < ./conf/create_table.sql
+        mysql --user=root --database=fcdeduction < ./conf/create_table.sql
 
     - name: Test
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" test $("${GITHUB_WORKSPACE}/bin/bazel" query //...) --copt -DGRPC_BAZEL_BUILD --test_env=mysql_user=${{secrets.mysql_user}}  --test_env=mysql_database=${{secrets.mysql_database }} --test_env=mysql_password=${{secrets.mysql_password}}
+        "${GITHUB_WORKSPACE}/bin/bazel" test $("${GITHUB_WORKSPACE}/bin/bazel" query //...) --test_env=mysql_user=root  --test_env=mysql_database=fcdeduction
