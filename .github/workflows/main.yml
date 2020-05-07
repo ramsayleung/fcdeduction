@@ -32,7 +32,7 @@ jobs:
 
     - name: Build
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" build --cxxopt='-std=c++17' $(${GITHUB_WORKSPACE}/bin/bazel query //...)
+        "${GITHUB_WORKSPACE}/bin/bazel" build //...
 
     - name: Start Redis
       uses: supercharge/redis-github-action@1.1.0
@@ -51,4 +51,4 @@ jobs:
 
     - name: Test
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" test $("${GITHUB_WORKSPACE}/bin/bazel" query //...) --test_env=mysql_user=root --test_env=mysql_password=password --test_env=mysql_database=fcdeduction
+        "${GITHUB_WORKSPACE}/bin/bazel" test //... --test_env=mysql_user=root --test_env=mysql_password=password --test_env=mysql_database=fcdeduction
