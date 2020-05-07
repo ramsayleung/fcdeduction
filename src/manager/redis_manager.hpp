@@ -16,7 +16,7 @@ class RedisManager {
     RedisManager(const RedisManager& rhs): pcontext(new redisContext(*rhs.pcontext)){}
 
     // ~RedisManager() { redisFree(context); }
-    // 获取指定key的对应的value, 如果为空, 返回nullptr
+    // 获取指定key的对应的value, 如果为空, 返回std::nullopt
     std::optional<std::string> get(const std::string &key);
 
     // 设置key-value.
