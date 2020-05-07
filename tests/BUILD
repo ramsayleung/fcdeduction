@@ -37,3 +37,12 @@ cc_test(
         "@googletest//:gtest_main",
     ],
 )
+
+cc_binary(
+    name = "token_manager_test",
+    srcs = ["token_manager_test.cc"],
+    deps = [
+        "//src:serverLib",
+        "@googletest//:gtest_main",
+    ],
+)

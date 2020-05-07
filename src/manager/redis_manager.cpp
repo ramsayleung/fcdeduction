@@ -1,7 +1,7 @@
 #include "redis_manager.hpp"
 std::optional<std::string> fcdeduction::manager::RedisManager::get(const std::string &key) {
     redisReply *reply;
-    reply = (redisReply *)redisCommand(context, "GET %s", key.c_str());
+    reply = (redisReply *)redisCommand(pcontext.get(), "GET %s", key.c_str());
     std::optional<std::string> value;
     if (reply->str != NULL) {
         value = reply->str;
@@ -12,13 +12,13 @@ std::optional<std::string> fcdeduction::manager::RedisManager::get(const std::st
 void fcdeduction::manager::RedisManager::set(const std::string &key,
                                              const std::string &value) {
     redisReply *reply;
-    reply = (redisReply *)redisCommand(context, "SET %s %s", key.c_str(),
+    reply = (redisReply *)redisCommand(pcontext.get(), "SET %s %s", key.c_str(),
                                        value.c_str());
     freeReplyObject(reply);
 }
 
 void fcdeduction::manager::RedisManager::del(const std::string &key) {
     redisReply *reply;
-    reply = (redisReply *)redisCommand(context, "DEL %s", key.c_str());
+    reply = (redisReply *)redisCommand(pcontext.get(), "DEL %s", key.c_str());
     freeReplyObject(reply);
 }

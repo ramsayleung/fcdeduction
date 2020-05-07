@@ -6,12 +6,19 @@
 #include <string>
 namespace fcdeduction {
 namespace manager {
+static void destroy(redisContext *context){
+    redisFree(context);
+  }
 class RedisManager {
    public:
-    explicit RedisManager(const std::string &hostname, const int port) {
-        context = redisConnect(hostname.c_str(), port);
+    explicit RedisManager(const std::string &hostname, const int port){
+        redisContext *context = redisConnect(hostname.c_str(), port);
+        pcontext = std::unique_ptr<redisContext>(context);
     }
-    ~RedisManager() { redisFree(context); }
+
+    RedisManager(const RedisManager& rhs): pcontext(new redisContext(*rhs.pcontext)){}
+
+    // ~RedisManager() { redisFree(context); }
     // 获取指定key的对应的value, 如果为空, 返回nullptr
     std::optional<std::string> get(const std::string &key);
 
@@ -22,7 +29,7 @@ class RedisManager {
     void del(const std::string &key);
 
    private:
-    redisContext *context;
+    std::unique_ptr<redisContext> pcontext;
 };
 
 }  // namespace manager

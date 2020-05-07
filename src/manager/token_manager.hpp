@@ -8,7 +8,7 @@ class TokenManager {
   TokenManager(const RedisManager& _redisManager)
       : redisManager(_redisManager) {}
   void addUserToken(const std::string& tokenId, const std::string& userId);
-  bool checkUserToken(const std::string& tokenId, const std::string& userId);
+  bool checkUserToken(const std::string& tokenId);
 
  private:
   RedisManager redisManager;
