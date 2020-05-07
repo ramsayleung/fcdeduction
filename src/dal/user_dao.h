@@ -10,7 +10,7 @@ namespace dao {
 class UserDao {
  public:
   bool userExist(sqlpp::mysql::connection &connection,
-                 const std::string &userId, const std::string &tntInstId);
+                 const std::string &tntInstId, const std::string &userId);
 };
 }  // namespace dao
 }  // namespace fcdeduction

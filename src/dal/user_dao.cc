@@ -3,8 +3,8 @@
 #include "user.h"
 model::DeUser deuser = {};
 bool fcdeduction::dao::UserDao::userExist(sqlpp::mysql::connection &connection,
-                                          const std::string &userId,
-                                          const std::string &tntInstId) {
+                                          const std::string &tntInstId,
+                                          const std::string &userId) {
   return connection(
              sqlpp::select(exists(select(deuser.userId)
                                       .from(deuser)

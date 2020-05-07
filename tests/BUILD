@@ -38,9 +38,18 @@ cc_test(
     ],
 )
 
-cc_binary(
+cc_test(
     name = "token_manager_test",
     srcs = ["token_manager_test.cc"],
+    deps = [
+        "//src:serverLib",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "product_dao_test",
+    srcs = ["product_dao_test.cc"],
     deps = [
         "//src:serverLib",
         "@googletest//:gtest_main",

@@ -51,7 +51,7 @@ TEST(DAOTEST, USEREXISTTEST) {
   testSelectUserByCondition(*connection, userId, tntInstId);
   // 确保用户存在
   fcdeduction::dao::UserDao userDao;
-  EXPECT_TRUE(userDao.userExist(*connection, userId, tntInstId));
+  EXPECT_TRUE(userDao.userExist(*connection, tntInstId, userId));
   // 然后再删掉, 保证下次插入成功
   testDeleteUser(*connection, userId, tntInstId);
 }

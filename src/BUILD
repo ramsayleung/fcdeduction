@@ -101,6 +101,7 @@ cc_library(
     # ,"greeter_server.cc","deduction_server.cc"
     srcs = [
         "dal/user_dao.cc",
+        "dal/product_dao.cc",
         "facade/greeter_facade.cc",
         "facade/user_facade.cc",
         "manager/Greeting.cc",
@@ -116,6 +117,7 @@ cc_library(
         "dal/user_ar_rel.h",
         "dal/user_ar_rel_do.h",
         "dal/user_dao.h",
+        "dal/product_dao.h",
         "dal/user_do.h",
         "facade/greeter_facade.hpp",
         "facade/user_facade.hpp",

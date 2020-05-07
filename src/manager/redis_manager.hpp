@@ -6,9 +6,6 @@
 #include <string>
 namespace fcdeduction {
 namespace manager {
-static void destroy(redisContext *context){
-    redisFree(context);
-  }
 class RedisManager {
    public:
     explicit RedisManager(const std::string &hostname, const int port){
@@ -29,6 +26,7 @@ class RedisManager {
     void del(const std::string &key);
 
    private:
+    // TODO redisContext是否有对应的析构函数, 是否应该给unique_ptr增加一个deleter.
     std::unique_ptr<redisContext> pcontext;
 };
 
