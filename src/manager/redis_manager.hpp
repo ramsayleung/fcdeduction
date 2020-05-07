@@ -1,7 +1,7 @@
 #ifndef REDIS_MANAGER_HPP
 #define REDIS_MANAGER_HPP
 #include <hiredis/hiredis.h>
-
+#include <memory>
 #include <optional>
 #include <string>
 namespace fcdeduction {
