@@ -33,9 +33,7 @@ jobs:
     
     - name: Setup Runner Database
       run: |
-        mysql -uroot -h127.0.0.1 -proot -e 'SHOW DATABASES;'
-    - name: Create tabele 
-      run: |
+        sudo systemctl start mysql
         mysql -uroot -h127.0.0.1 -proot < ./conf/create_table.sql
 
     - name: Test
