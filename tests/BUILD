@@ -55,3 +55,11 @@ cc_test(
         "@googletest//:gtest_main",
     ],
 )
+cc_test(
+    name = "arrangement_dao_test",
+    srcs = ["arrangement_dao_test.cc"],
+    deps = [
+        "//src:serverLib",
+        "@googletest//:gtest_main",
+    ],
+)

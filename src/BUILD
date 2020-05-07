@@ -100,8 +100,9 @@ cc_library(
     name = "serverLib",
     # ,"greeter_server.cc","deduction_server.cc"
     srcs = [
-        "dal/user_dao.cc",
+        "dal/arrangement_dao.cc",
         "dal/product_dao.cc",
+        "dal/user_dao.cc",
         "facade/greeter_facade.cc",
         "facade/user_facade.cc",
         "manager/Greeting.cc",
@@ -111,14 +112,12 @@ cc_library(
     ],
     hdrs = [
         "dal/arrangement.h",
+        "dal/arrangement_dao.h",
         "dal/product.h",
-        "dal/product_do.h",
+        "dal/product_dao.h",
         "dal/user.h",
         "dal/user_ar_rel.h",
-        "dal/user_ar_rel_do.h",
         "dal/user_dao.h",
-        "dal/product_dao.h",
-        "dal/user_do.h",
         "facade/greeter_facade.hpp",
         "facade/user_facade.hpp",
         "manager/Greeting.h",
