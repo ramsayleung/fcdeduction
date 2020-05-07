@@ -89,6 +89,8 @@
         "ios": "cpp",
         "locale": "cpp",
         "queue": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "*.inc": "cpp",
+        "*.ipp": "cpp"
     }
 }
