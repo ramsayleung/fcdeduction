@@ -16,22 +16,22 @@
  *
  */
 
-#include "greeter_server.hpp"
+#include "greeter_facade.hpp"
 
 // Logic and data behind the server's behavior.
-grpc::Status GreeterServiceImpl::SayHello(ServerContext* context, const HelloRequest* request,
-                  HelloReply* reply) {
-    std::string prefix("Hello ");
-    reply->set_message(prefix + request->name());
-    return Status::OK;
-  }
+grpc::Status fcdeduction::facade::GreeterServiceImpl::SayHello(
+    ServerContext* context, const HelloRequest* request, HelloReply* reply) {
+  std::string prefix("Hello ");
+  reply->set_message(prefix + request->name());
+  return Status::OK;
+}
 
-grpc::Status GreeterServiceImpl::SayHelloAgain(ServerContext* context, const HelloRequest* request,
-                       HelloReply* reply) {
-    std::string prefix("Hello again ");
-    reply->set_message(prefix + request->name());
-    return Status::OK;
-  }
+grpc::Status fcdeduction::facade::GreeterServiceImpl::SayHelloAgain(
+    ServerContext* context, const HelloRequest* request, HelloReply* reply) {
+  std::string prefix("Hello again ");
+  reply->set_message(prefix + request->name());
+  return Status::OK;
+}
 
 // void RunServer() {
 //   std::string address = "0.0.0.0";
@@ -41,7 +41,8 @@ grpc::Status GreeterServiceImpl::SayHelloAgain(ServerContext* context, const Hel
 
 //   ServerBuilder builder;
 //   // Listen on the given address without any authentication mechanism.
-//   builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+//   builder.AddListeningPort(server_address,
+//   grpc::InsecureServerCredentials());
 //   // Register "service" as the instance through which we'll communicate with
 //   // clients. In this case it corresponds to an *synchronous* service.
 //   builder.RegisterService(&service);

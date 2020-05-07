@@ -14,7 +14,8 @@
 using user::UserFacade;
 using user::UserLoginRequest;
 using user::UserLoginResponse;
-
+namespace fcdeduction {
+namespace facade {
 class UserDAO {};
 
 class UserFacadeImpl final : public UserFacade::Service {
@@ -28,5 +29,7 @@ class UserFacadeImpl final : public UserFacade::Service {
       {"ramsay", "123456"}};
   std::unordered_map<std::string, UserDAO> tokenCache_;
 };
+}  // namespace facade
+};  // namespace fcdeduction
 
 #endif

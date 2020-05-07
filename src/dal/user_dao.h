@@ -3,12 +3,14 @@
 #include <sqlpp11/mysql/mysql.h>
 #include <sqlpp11/sqlpp11.h>
 
+#include <memory>
 #include <string>
 namespace fcdeduction {
 namespace dao {
 class UserDao {
-   public:
-    bool userExist(const std::string &userId, const std::string tntInstId);
+ public:
+  bool userExist(sqlpp::mysql::connection &connection,
+                 const std::string &userId, const std::string &tntInstId);
 };
 }  // namespace dao
 }  // namespace fcdeduction

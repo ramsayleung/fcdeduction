@@ -10,7 +10,9 @@
             "includePath": [
                 "${workspaceFolder}",
                 "/usr/include",
-                "/usr/local/include"
+                "/usr/local/include",
+                "/usr/local/Cellar/sqlpp11/0.54/include",
+                "/Users/samray/code/cpp/sqlpp11-connector-mysql/include"
             ]
         }
     ],

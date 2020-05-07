@@ -1,11 +1,11 @@
 #ifndef GREETER_SERVER_HPP
 #define GREETER_SERVER_HPP
 
+#include <grpcpp/grpcpp.h>
+
 #include <iostream>
 #include <memory>
 #include <string>
-
-#include <grpcpp/grpcpp.h>
 
 #ifdef BAZEL_BUILD
 #include "src/proto/helloworld.grpc.pb.h"
@@ -17,17 +17,21 @@ using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
-using helloworld::HelloRequest;
-using helloworld::HelloReply;
 using helloworld::Greeter;
+using helloworld::HelloReply;
+using helloworld::HelloRequest;
+namespace fcdeduction {
+namespace facade {
 class GreeterServiceImpl final : public Greeter::Service {
-public:
+ public:
   Status SayHello(ServerContext* context, const HelloRequest* request,
                   HelloReply* reply) override;
 
   Status SayHelloAgain(ServerContext* context, const HelloRequest* request,
-			HelloReply* reply) override;
+                       HelloReply* reply) override;
 };
 
+}  // namespace facade
+}  // namespace fcdeduction
 
 #endif

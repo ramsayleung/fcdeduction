@@ -1,10 +1,10 @@
-#include "facade/user_server.hpp"
-#include "facade/greeter_server.hpp"
+#include "facade/user_facade.hpp"
+#include "facade/greeter_facade.hpp"
 
 void startServer() {
     std::string addr = "0.0.0.0:50051";
-    UserFacadeImpl userFacadeservice;
-    GreeterServiceImpl greeterFacadeService;
+    fcdeduction::facade::UserFacadeImpl userFacadeservice;
+    fcdeduction::facade::GreeterServiceImpl greeterFacadeService;
     grpc::ServerBuilder builder;
     builder.AddListeningPort(addr, grpc::InsecureServerCredentials());
     builder.RegisterService(&userFacadeservice);

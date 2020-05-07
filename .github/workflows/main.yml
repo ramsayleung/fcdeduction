@@ -12,8 +12,7 @@ jobs:
         ports:
           - 3306
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: fcdeduction
+          MYSQL_ROOT_PASSWORD: password
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
     - uses: actions/checkout@v1
@@ -44,12 +43,12 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y mysql-client
-        mysql --user=root -e "SHOW DATABASES"
+        mysql -h 127.0.0.1 -uroot -ppassword -e "SHOW DATABASES"
     
     - name: Create tabele 
       run: |
-        mysql --user=root --database=fcdeduction < ./conf/create_table.sql
+        mysql --user=root --password=password < ./conf/create_table.sql
 
     - name: Test
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" test $("${GITHUB_WORKSPACE}/bin/bazel" query //...) --test_env=mysql_user=root  --test_env=mysql_database=fcdeduction
+        "${GITHUB_WORKSPACE}/bin/bazel" test $("${GITHUB_WORKSPACE}/bin/bazel" query //...) --test_env=mysql_user=root --test_env=mysql_password=password --test_env=mysql_database=fcdeduction

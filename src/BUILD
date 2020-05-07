@@ -100,13 +100,15 @@ cc_library(
     name = "serverLib",
     # ,"greeter_server.cc","deduction_server.cc"
     srcs = [
-        "facade/greeter_server.cc",
-        "facade/user_server.cc",
+        "dal/user_dao.cc",
+        "facade/greeter_facade.cc",
+        "facade/user_facade.cc",
         "manager/Greeting.cc",
         "manager/database_manager.cc",
         "manager/redis_manager.cpp",
     ],
     hdrs = [
+        "dal/user_dao.h",
         "dal/user.h",
         "dal/arrangement.h",
         "dal/product_do.h",
@@ -114,8 +116,8 @@ cc_library(
         "dal/user_ar_rel_do.h",
         "dal/user_ar_rel.h",
         "dal/user_do.h",
-        "facade/greeter_server.hpp",
-        "facade/user_server.hpp",
+        "facade/greeter_facade.hpp",
+        "facade/user_facade.hpp",
         "manager/Greeting.h",
         "manager/database_manager.hpp",
         "manager/redis_manager.hpp",
