@@ -8,20 +8,16 @@ void generateUUIDV4Test() {
   const std::string uuid = cryptoManager.generateUUIDV4();
   std::cout << "uuid: " << uuid << '\n';
 }
-void aesEncryptDecryptTest() {
+void sha256Test() {
   using namespace fcdeduction::manager;
   CryptoManager cryptoManager;
-  unsigned char *key = (unsigned char *)getenv("aes_key");
-  unsigned char *iv = (unsigned char *)getenv("aes_salt");
-  const secure_string ptext = "The quick brown fox jumps over the lazy dog";
-  secure_string ctext, rtext;
-  cryptoManager.aes_encrypt(key, iv, ptext, ctext);
-  cryptoManager.aes_decrypt(key, iv, ctext, rtext);
-  std::cout << "encrypted key: " << ctext << '\n';
-  std::cout << "original key: " << rtext << '\n';
-  EXPECT_EQ(rtext, ptext);
+  const std::string ptext = "The quick brown fox jumps over the lazy dog";
+  std::string salt = getenv("salt");
+  std::string hashed = cryptoManager.sha256(ptext, salt);
+  std::cout << "hashed key: " << hashed << '\n';
+  std::cout << "original key: " << ptext << '\n';
 }
 int main() {
   generateUUIDV4Test();
-  aesEncryptDecryptTest();
+  sha256Test();
 }
