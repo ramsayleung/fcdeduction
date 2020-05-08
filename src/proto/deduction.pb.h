@@ -578,6 +578,8 @@ class DeductionListQueryRequest :
     kTokenFieldNumber = 1,
     kArrangementTypeFieldNumber = 2,
     kUserIdFieldNumber = 3,
+    kPageIndexFieldNumber = 4,
+    kPageSizeFieldNumber = 5,
   };
   // string token = 1;
   void clear_token();
@@ -627,6 +629,38 @@ class DeductionListQueryRequest :
   std::string* _internal_mutable_userid();
   public:
 
+  // string pageIndex = 4;
+  void clear_pageindex();
+  const std::string& pageindex() const;
+  void set_pageindex(const std::string& value);
+  void set_pageindex(std::string&& value);
+  void set_pageindex(const char* value);
+  void set_pageindex(const char* value, size_t size);
+  std::string* mutable_pageindex();
+  std::string* release_pageindex();
+  void set_allocated_pageindex(std::string* pageindex);
+  private:
+  const std::string& _internal_pageindex() const;
+  void _internal_set_pageindex(const std::string& value);
+  std::string* _internal_mutable_pageindex();
+  public:
+
+  // string pageSize = 5;
+  void clear_pagesize();
+  const std::string& pagesize() const;
+  void set_pagesize(const std::string& value);
+  void set_pagesize(std::string&& value);
+  void set_pagesize(const char* value);
+  void set_pagesize(const char* value, size_t size);
+  std::string* mutable_pagesize();
+  std::string* release_pagesize();
+  void set_allocated_pagesize(std::string* pagesize);
+  private:
+  const std::string& _internal_pagesize() const;
+  void _internal_set_pagesize(const std::string& value);
+  std::string* _internal_mutable_pagesize();
+  public:
+
   // @@protoc_insertion_point(class_scope:deduction.DeductionListQueryRequest)
  private:
   class _Internal;
@@ -635,6 +669,8 @@ class DeductionListQueryRequest :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr arrangementtype_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr userid_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr pageindex_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr pagesize_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_deduction_2eproto;
 };
@@ -1617,6 +1653,126 @@ inline void DeductionListQueryRequest::set_allocated_userid(std::string* userid)
   }
   userid_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), userid);
   // @@protoc_insertion_point(field_set_allocated:deduction.DeductionListQueryRequest.userId)
+}
+
+// string pageIndex = 4;
+inline void DeductionListQueryRequest::clear_pageindex() {
+  pageindex_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& DeductionListQueryRequest::pageindex() const {
+  // @@protoc_insertion_point(field_get:deduction.DeductionListQueryRequest.pageIndex)
+  return _internal_pageindex();
+}
+inline void DeductionListQueryRequest::set_pageindex(const std::string& value) {
+  _internal_set_pageindex(value);
+  // @@protoc_insertion_point(field_set:deduction.DeductionListQueryRequest.pageIndex)
+}
+inline std::string* DeductionListQueryRequest::mutable_pageindex() {
+  // @@protoc_insertion_point(field_mutable:deduction.DeductionListQueryRequest.pageIndex)
+  return _internal_mutable_pageindex();
+}
+inline const std::string& DeductionListQueryRequest::_internal_pageindex() const {
+  return pageindex_.GetNoArena();
+}
+inline void DeductionListQueryRequest::_internal_set_pageindex(const std::string& value) {
+  
+  pageindex_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void DeductionListQueryRequest::set_pageindex(std::string&& value) {
+  
+  pageindex_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:deduction.DeductionListQueryRequest.pageIndex)
+}
+inline void DeductionListQueryRequest::set_pageindex(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  pageindex_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:deduction.DeductionListQueryRequest.pageIndex)
+}
+inline void DeductionListQueryRequest::set_pageindex(const char* value, size_t size) {
+  
+  pageindex_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:deduction.DeductionListQueryRequest.pageIndex)
+}
+inline std::string* DeductionListQueryRequest::_internal_mutable_pageindex() {
+  
+  return pageindex_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* DeductionListQueryRequest::release_pageindex() {
+  // @@protoc_insertion_point(field_release:deduction.DeductionListQueryRequest.pageIndex)
+  
+  return pageindex_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void DeductionListQueryRequest::set_allocated_pageindex(std::string* pageindex) {
+  if (pageindex != nullptr) {
+    
+  } else {
+    
+  }
+  pageindex_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), pageindex);
+  // @@protoc_insertion_point(field_set_allocated:deduction.DeductionListQueryRequest.pageIndex)
+}
+
+// string pageSize = 5;
+inline void DeductionListQueryRequest::clear_pagesize() {
+  pagesize_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& DeductionListQueryRequest::pagesize() const {
+  // @@protoc_insertion_point(field_get:deduction.DeductionListQueryRequest.pageSize)
+  return _internal_pagesize();
+}
+inline void DeductionListQueryRequest::set_pagesize(const std::string& value) {
+  _internal_set_pagesize(value);
+  // @@protoc_insertion_point(field_set:deduction.DeductionListQueryRequest.pageSize)
+}
+inline std::string* DeductionListQueryRequest::mutable_pagesize() {
+  // @@protoc_insertion_point(field_mutable:deduction.DeductionListQueryRequest.pageSize)
+  return _internal_mutable_pagesize();
+}
+inline const std::string& DeductionListQueryRequest::_internal_pagesize() const {
+  return pagesize_.GetNoArena();
+}
+inline void DeductionListQueryRequest::_internal_set_pagesize(const std::string& value) {
+  
+  pagesize_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void DeductionListQueryRequest::set_pagesize(std::string&& value) {
+  
+  pagesize_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:deduction.DeductionListQueryRequest.pageSize)
+}
+inline void DeductionListQueryRequest::set_pagesize(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  pagesize_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:deduction.DeductionListQueryRequest.pageSize)
+}
+inline void DeductionListQueryRequest::set_pagesize(const char* value, size_t size) {
+  
+  pagesize_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:deduction.DeductionListQueryRequest.pageSize)
+}
+inline std::string* DeductionListQueryRequest::_internal_mutable_pagesize() {
+  
+  return pagesize_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* DeductionListQueryRequest::release_pagesize() {
+  // @@protoc_insertion_point(field_release:deduction.DeductionListQueryRequest.pageSize)
+  
+  return pagesize_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void DeductionListQueryRequest::set_allocated_pagesize(std::string* pagesize) {
+  if (pagesize != nullptr) {
+    
+  } else {
+    
+  }
+  pagesize_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), pagesize);
+  // @@protoc_insertion_point(field_set_allocated:deduction.DeductionListQueryRequest.pageSize)
 }
 
 // -------------------------------------------------------------------

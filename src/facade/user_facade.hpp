@@ -10,13 +10,13 @@
 #include <unordered_map>
 
 #include "src/proto/user.grpc.pb.h"
-
+#include "src/util/response_enum.h"
 using user::UserFacade;
 using user::UserLoginRequest;
 using user::UserLoginResponse;
 namespace fcdeduction {
 namespace facade {
-class UserDAO {};
+void setResponse(UserLoginResponse *response, const fcdeduction::util::ResponseEnum& respEnum);
 
 class UserFacadeImpl final : public UserFacade::Service {
  public:
@@ -25,9 +25,6 @@ class UserFacadeImpl final : public UserFacade::Service {
                      UserLoginResponse *response) override;
 
  private:
-  std::unordered_map<std::string, std::string> userLoginKeyValue_ = {
-      {"ramsay", "123456"}};
-  std::unordered_map<std::string, UserDAO> tokenCache_;
 };
 }  // namespace facade
 };  // namespace fcdeduction

@@ -1,34 +1,31 @@
 #include "user_facade.hpp"
 
+#include "src/manager/token_manager.hpp"
+void fcdeduction::facade::setResponse(UserLoginResponse *response,const fcdeduction::util::ResponseEnum& respEnum) {
+  // response->set_status();
+  // response->set_code();
+  // response->set_desc();
+}
 grpc::Status fcdeduction::facade::UserFacadeImpl::Login(
     grpc::ServerContext *context, const UserLoginRequest *request,
     UserLoginResponse *response) {
   auto loginKey = request->loginkey();
   auto loginValue = request->loginvalue();
-  for (auto &entry : userLoginKeyValue_) {
-    std::cout << "key: " << entry.first << " value: " << entry.second
-              << std::endl;
-  }
-  if (userLoginKeyValue_.find(loginKey) != userLoginKeyValue_.end()) {
-    auto currentValue = userLoginKeyValue_[loginKey];
-    if (currentValue == loginValue) {
+  // 判断用户是否存在
+  if (true) {
+    // 判断账号密码是否正确
+    if (true) {
       // 生成一个唯一Id
       const std::string token = "uuid";
-      UserDAO userDao;
-      tokenCache_[token] = userDao;
-      response->set_status("SUCCESS");
-      response->set_code("00");
-      response->set_desc("");
+      // fcdeduction::util::ResponseEnum success =
+      //     fcdeduction::util::ResponseEnum::SUCCESS;
+      // setResponse(response, SUCCESS());
       response->set_token(token);
     } else {
-      response->set_status("FAILED");
-      response->set_code("INCORRECT_LOGIN_VALUE");
-      response->set_desc("账户/密码输入不正确");
+      // setResponse(response, INCORRECT_LOGIN_VALUE());
     }
   } else {
-    response->set_status("FAILED");
-    response->set_code("USER_NOT_EXIST");
-    response->set_desc("用户不存在");
+    // setResponse(response, USER_NOT_EXIST());
   }
   return grpc::Status::OK;
 }

@@ -44,6 +44,10 @@ message DeductionListQueryRequest {
   string arrangementType = 2;
   // 用户Id
   string userId = 3;
+  // 分页; 页码index
+  string pageIndex = 4;
+  // 分页; 页数
+  string pageSize = 5;
 }
 
 // 简化版产品信息, 用于列表展示

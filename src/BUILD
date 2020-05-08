@@ -109,6 +109,7 @@ cc_library(
         "manager/database_manager.cc",
         "manager/redis_manager.cpp",
         "manager/token_manager.cc",
+        "util/response_enum.cc",
     ],
     hdrs = [
         "dal/arrangement.h",
@@ -124,6 +125,8 @@ cc_library(
         "manager/database_manager.hpp",
         "manager/redis_manager.hpp",
         "manager/token_manager.hpp",
+        "util/rel_status_enum.h",
+        "util/response_enum.h",
     ],
     linkopts = [
         "-ldl",
