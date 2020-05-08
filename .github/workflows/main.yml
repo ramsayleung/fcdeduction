@@ -38,4 +38,4 @@ jobs:
 
     - name: Test
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" test //... --test_env=mysql_user=root --test_env=mysql_password=root --test_env=mysql_database=fcdeduction
+        "${GITHUB_WORKSPACE}/bin/bazel" test //... --test_env=mysql_user=root --test_env=mysql_password=root --test_env=mysql_database=fcdeduction --test_env=aes_key=123456 --test_env=aes_salt=111111

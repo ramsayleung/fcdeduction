@@ -99,6 +99,13 @@ http_archive(
     urls = ["https://github.com/redis/hiredis/archive/v0.14.1.tar.gz"],
 )
 
+# openssl
+http_archive(
+    name = "openssl",
+    build_file_content = all_content,
+    strip_prefix = "openssl-OpenSSL_1_1_1d",
+    urls = ["https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz"]
+)
 
 # # https://github.com/HowardHinnant/date/archive/v2.4.1.tar.gz
 # http_archive(

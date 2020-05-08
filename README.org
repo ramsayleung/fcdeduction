@@ -68,6 +68,8 @@
     
     最后, 单设备登录的需求不应该和扣费中心同时出现, 因为扣费与登录是两个不同业务域负责的模块, 不是同一纬度的功能, 他们的需求也应该区分好的; 不过既然产品经理给了这样的需求, argue不下, 也只能按期完成了.
 
+    用户登录使用识别表进行鉴别, 将登录方式与登录值抽象成识别key, 与识别value; 识别key可以是邮箱, 可以是人脸识别key, 安保问题; 识别value可以是登录密码, 人脸识别value, 安保问题答案等; 也就是识别用户的方式不仅限于账密, 也可以支持扩展其他方式, 用户也可以有多种登录识别方式, 而不是简单将账密放入到用户表.
+
 **** 上下游系统依赖关系图:
 
      [[file:images/%E4%B8%8A%E4%B8%8B%E9%81%8A%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E5%9B%BE.jpg]]
@@ -133,6 +135,19 @@
      | gmt_create      | N        | datetime(12)  | 创建时间                               |
      | gmt_modified    | N        | datetime(12)  | 修改时间                               |
      | memo            | Y        | varchar(255)  | 备注                                   |
+
+     de_ident(identification, 通行证关系) 主键：tnt_inst_id, ident_id, 索引 tnt_inst_id, user_id.
+
+     | 字段名       | 是否为空 | 类型          | 说明                           |
+     | tnt_inst_id  | N        | varchar(10)   | 租户ID                         |
+     | ident_id     | N        | varchar(32)   | 识别ID                         |
+     | user_id      | N        | varchar(32)   | 用户ID                         |
+     | ident_key    | N        | varchar(20)   | 识别key(如账户, 安保问题)      |
+     | ident_type   | N        | varchar(20)   | 识别类型(密码, 安保问题, 人脸) |
+     | ident_value  | N        | varchar(4096) | 密码密文                       |
+     | gmt_create   | N        | datetime(6)   | 创建日期                       |
+     | gmt_modified | N        | datetime(6)   | 修改日期                       |
+
 **** 关键技术
 ***** 保持登录
       针对我们无线设备而言，很多APP我们的感知就是只有首次登陆需要密码, 以后就可以自动登录, 这就是一种保持登录的技术, 因为用户的感知是直接就进入到了登录态, 所以叫做保持登录, 其实并不是保持了一个一直不失效的登录态. 实现原理是在用户第一次登陆的时候, =将refresh_token=, =expire_time= 和 =sessionId= 一起返回客户端, =refresh_token= 可以理解成是第二次请求服务端刷新 =sessionId= 的凭证，然后客户端在 =sessionId= 快要过期的时候，通过 =refresh_token= 重新获取新的 =sessionId= 和 =refresh_token=, 并且循环这个过程，这样就可以在用户无感知的情况下保持用户登录.

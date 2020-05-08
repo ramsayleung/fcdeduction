@@ -2,6 +2,15 @@ package(default_visibility = ["//visibility:public"])
 
 # load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
 load("@rules_foreign_cc//tools/build_defs:make.bzl", "make")
+load("@rules_foreign_cc//tools/build_defs:cmake.bzl", "cmake_external")
+load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_proto_library")
+load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+
+# See https://github.com/bazelbuild/rules_foreign_cc
+load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
+load("@rules_foreign_cc//tools/build_defs:cmake.bzl", "cmake_external")
 
 make(
     name = "hiredis",
@@ -18,42 +27,52 @@ make(
     static_libraries = ["libhiredis.a"],
 )
 
-load("@rules_foreign_cc//tools/build_defs:cmake.bzl", "cmake_external")
+config_setting(
+    name = "darwin_build",
+    values = {"cpu": "darwin"},
+)
 
-# cmake_external(
-#     name = "openblas",
-#     # Values to be passed as -Dkey=value on the CMake command line;
-#     # here are serving to provide some CMake script configuration options
-#    cache_entries = {
-#        "NOFORTRAN": "on",
-#        "BUILD_WITHOUT_LAPACK": "no",
-#    },
-#     lib_source = "@openblas//:all",
-
-#    # We are selecting the resulting static library to be passed in C/C++ provider
-#     # as the result of the build;
-#     # However, the cmake_external dependants could use other artefacts provided by the build,
-#     # according to their CMake script
-#    static_libraries = ["libopenblas.a"],
-# )
-
-# cmake_external(
-#     name = "eigen",
-#     # These options help CMake to find prebuilt OpenBLAS, which will be copied into
-#     # $EXT_BUILD_DEPS/openblas by the cmake_external script
-#    cache_entries = {
-#        "BLA_VENDOR": "OpenBLAS",
-#        "BLAS_LIBRARIES": "$EXT_BUILD_DEPS/openblas/lib/libopenblas.a",
-#    },
-#     headers_only = True,
-#     lib_source = "@eigen//:all",
-#     # Dependency on other cmake_external rule; can also depend on cc_import, cc_library rules
-#    deps = [":openblas"],
-# )
-
-load("@rules_proto//proto:defs.bzl", "proto_library")
-load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_proto_library")
-load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+# See https://wiki.openssl.org/index.php/Compilation_and_Installation
+# See https://github.com/bazelbuild/rules_foreign_cc/issues/338
+configure_make(
+    name = "openssl",
+    configure_command = "config",
+    configure_env_vars =
+        select({
+            ":darwin_build": {
+                "OSX_DEPLOYMENT_TARGET": "10.14",
+                "AR": "",
+            },
+            "//conditions:default": {},
+        }),
+    configure_options =
+        select({
+            ":darwin_build": [
+                "shared",
+                "ARFLAGS=r",
+                "enable-ec_nistp_64_gcc_128",
+                "no-ssl2",
+                "no-ssl3",
+                "no-comp",
+            ],
+            "//conditions:default": [
+            ],
+        }),
+    #defines = ["NDEBUG"], Don't know how to use -D; NDEBUG seems to be the default anyway
+    lib_source = "@openssl//:all",
+    shared_libraries =
+        select({
+            ":darwin_build": [
+                "libssl.dylib",
+                "libcrypto.dylib",
+            ],
+            "//conditions:default": [
+                "libssl.so",
+                "libcrypto.so",
+            ],
+        }),
+    visibility = ["//visibility:public"],
+)
 
 # The following three rules demonstrate the usage of the cc_grpc_library rule in
 # in a mode compatible with the native proto_library and cc_proto_library rules.
@@ -101,11 +120,13 @@ cc_library(
     # ,"greeter_server.cc","deduction_server.cc"
     srcs = [
         "dal/arrangement_dao.cc",
+        "dal/identification_dao.cc",
         "dal/product_dao.cc",
         "dal/user_dao.cc",
         "facade/greeter_facade.cc",
         "facade/user_facade.cc",
         "manager/Greeting.cc",
+        "manager/crypto_manager.cc",
         "manager/database_manager.cc",
         "manager/redis_manager.cpp",
         "manager/token_manager.cc",
@@ -114,6 +135,8 @@ cc_library(
     hdrs = [
         "dal/arrangement.h",
         "dal/arrangement_dao.h",
+        "dal/identification.h",
+        "dal/identification_dao.h",
         "dal/product.h",
         "dal/product_dao.h",
         "dal/user.h",
@@ -122,9 +145,11 @@ cc_library(
         "facade/greeter_facade.hpp",
         "facade/user_facade.hpp",
         "manager/Greeting.h",
+        "manager/crypto_manager.h",
         "manager/database_manager.hpp",
         "manager/redis_manager.hpp",
         "manager/token_manager.hpp",
+        "util/ident_type_enum.h",
         "util/rel_status_enum.h",
         "util/response_enum.h",
     ],
@@ -142,6 +167,7 @@ cc_library(
         "@mariadb_connector//:connector",
         "@sqlpp11",
         "@sqlpp11mysql",
+        ":openssl",
     ],
 )
 
