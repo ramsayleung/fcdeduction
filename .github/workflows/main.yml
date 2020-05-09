@@ -9,22 +9,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Mount bazel cache
-      uses: actions/cache@v1
-      with:
-        path: "/home/runner/.cache/bazel"
-        key: bazel
-
-    - name: Install bazelisk
-      run: |
-        curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.1.0/bazelisk-linux-amd64"
-        mkdir -p "${GITHUB_WORKSPACE}/bin/"
-        mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
-        chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
-
     - name: Build
-      run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" build //...
+      uses: ngalaiko/bazel-action/2.0.0@master
+      with:
+        args: build //...
 
     - name: Start Redis
       uses: supercharge/redis-github-action@1.1.0
@@ -37,5 +25,6 @@ jobs:
         mysql -uroot -h127.0.0.1 -proot < ./conf/create_table.sql
 
     - name: Test
-      run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" test //... --test_env=mysql_user=root --test_env=mysql_password=root --test_env=mysql_database=fcdeduction --test_env=salt=123456
+      uses: ngalaiko/bazel-action/2.0.0@master
+      with:
+        args: test //... --test_env=mysql_user=root --test_env=mysql_password=root --test_env=mysql_database=fcdeduction --test_env=salt=123456
