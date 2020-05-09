@@ -1,13 +1,16 @@
 #include "user_dao.h"
+
+#include <iostream>
 model::DeUser deuser = {};
 bool fcdeduction::dao::UserDao::userExist(sqlpp::mysql::connection &connection,
                                           const std::string &tntInstId,
                                           const std::string &userId) {
   return selectByUserId(connection, tntInstId, userId).has_value();
 }
-std::optional<fcdeduction::dataobject::User> selectByUserId(
-    sqlpp::mysql::connection &connection, const std::string &tntInstId,
-    const std::string &userId) {
+std::optional<fcdeduction::dataobject::User>
+fcdeduction::dao::UserDao::selectByUserId(sqlpp::mysql::connection &connection,
+                                          const std::string &tntInstId,
+                                          const std::string &userId) {
   for (auto const &row :
        connection(sqlpp::select(all_of(deuser))
                       .from(deuser)
