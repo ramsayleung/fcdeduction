@@ -136,6 +136,7 @@ cc_library(
         "dal/arrangement.h",
         "dal/arrangement_dao.h",
         "dal/arrangement_do.h",
+        "dal/base_dao.h",
         "dal/identification.h",
         "dal/identification_dao.h",
         "dal/product.h",

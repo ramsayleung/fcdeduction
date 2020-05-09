@@ -1,7 +1,10 @@
 #include "user_facade.hpp"
 
+#include "src/dal/user_dao.h"
 #include "src/manager/token_manager.hpp"
-void fcdeduction::facade::setResponse(UserLoginResponse *response,const fcdeduction::util::ResponseEnum& respEnum) {
+void fcdeduction::facade::setResponse(
+    UserLoginResponse *response,
+    const fcdeduction::util::ResponseEnum &respEnum) {
   // response->set_status();
   // response->set_code();
   // response->set_desc();
@@ -11,6 +14,7 @@ grpc::Status fcdeduction::facade::UserFacadeImpl::Login(
     UserLoginResponse *response) {
   auto loginKey = request->loginkey();
   auto loginValue = request->loginvalue();
+  fcdeduction::dao::UserDao userDao;
   // 判断用户是否存在
   if (true) {
     // 判断账号密码是否正确

@@ -7,10 +7,6 @@
 #include <memory>
 #include <string>
 namespace fcdeduction {
-template <typename T, typename... Args>
-std::unique_ptr<T> make_unique(Args &&... args) {
-  return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
-}
 namespace manager {
 class DatabaseManager {
  public:
@@ -24,7 +20,7 @@ class DatabaseManager {
     config->password = password;
     config->user = user;
     this->connection =
-        fcdeduction::make_unique<sqlpp::mysql::connection>(std::move(config));
+        std::make_unique<sqlpp::mysql::connection>(std::move(config));
   }
   // 获取数据库连接.
   std::unique_ptr<sqlpp::mysql::connection> getConnection();
