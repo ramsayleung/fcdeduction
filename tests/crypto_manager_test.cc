@@ -14,10 +14,8 @@ void sha256Test() {
   const std::string ptext = "The quick brown fox jumps over the lazy dog";
   std::string salt = getenv("salt");
   std::string hashed = cryptoManager.sha256(ptext, salt);
-  std::cout << "hashed key: " << hashed << '\n';
-  std::cout << "original key: " << ptext << '\n';
+  std::cout << "hashed key: " << hashed << std::endl;
+  std::cout << "original key: " << ptext << std::endl;
 }
-int main() {
-  generateUUIDV4Test();
-  sha256Test();
-}
+TEST(CRYPTO_TEST, UUIDV4_TEST) { generateUUIDV4Test(); }
+TEST(CRYPTO_TEST, SHA256_TEST) { sha256Test(); }

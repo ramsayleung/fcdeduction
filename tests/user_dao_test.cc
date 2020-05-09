@@ -1,8 +1,9 @@
+#include "src/dal/user_dao.h"
+
 #include <iostream>
 
 #include "gtest/gtest.h"
 #include "src/dal/user.h"
-#include "src/dal/user_dao.h"
 #include "src/manager/database_manager.hpp"
 model::DeUser deuser = {};
 namespace mysql = sqlpp::mysql;
