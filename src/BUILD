@@ -139,6 +139,7 @@ cc_library(
         "dal/base_dao.h",
         "dal/identification.h",
         "dal/identification_dao.h",
+        "dal/identification_do.h",
         "dal/product.h",
         "dal/product_dao.h",
         "dal/product_do.h",

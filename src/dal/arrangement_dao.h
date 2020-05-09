@@ -1,24 +1,25 @@
 #ifndef DAL_ARRANGEMENT_DAO_H
 #define DAL_ARRANGEMENT_DAO_H
-#include <sqlpp11/mysql/mysql.h>
-#include <sqlpp11/sqlpp11.h>
-
 #include <optional>
 #include <string>
 
 #include "arrangement.h"
 #include "arrangement_do.h"
+#include "base_dao.h"
 namespace fcdeduction {
 namespace dao {
-class ArrangementDao {
+class ArrangementDao : public fcdeduction::dao::BaseDao {
  public:
- // 通过合约号判断合约是否存在.
-  bool arExist(sqlpp::mysql::connection &connection,
-               const std::string &tntInstId, const std::string &arNo);
- // 通过合约号查询合约信息, 为空则返回 std::nullopt.
+  using BaseDao::BaseDao;
+  // 通过合约号判断合约是否存在.
+  bool arExist(const std::string &tntInstId, const std::string &arNo);
+  // 通过合约号查询合约信息, 为空则返回 std::nullopt.
   std::optional<fcdeduction::dataobject::Arrangement> selectByArNo(
-      sqlpp::mysql::connection &connection, const std::string &tntInstId,
-      const std::string &arNo);
+      const std::string &tntInstId, const std::string &arNo);
+  // 插入合约
+  void insertAr(fcdeduction::dataobject::Arrangement &ar);
+  // 通过主键合约号删除指定合约
+  void deleteAr(const std::string &tntInstId, const std::string &arNo);
 };
 }  // namespace dao
 }  // namespace fcdeduction

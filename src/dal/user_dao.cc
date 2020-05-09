@@ -2,15 +2,16 @@
 
 #include <iostream>
 model::DeUser deuser = {};
-bool fcdeduction::dao::UserDao::userExist(sqlpp::mysql::connection &connection,
-                                          const std::string &tntInstId,
+bool fcdeduction::dao::UserDao::userExist(const std::string &tntInstId,
                                           const std::string &userId) {
-  return selectByUserId(connection, tntInstId, userId).has_value();
+  sqlpp::mysql::connection &connection = *pconnection;
+
+  return selectByUserId(tntInstId, userId).has_value();
 }
 std::optional<fcdeduction::dataobject::User>
-fcdeduction::dao::UserDao::selectByUserId(sqlpp::mysql::connection &connection,
-                                          const std::string &tntInstId,
+fcdeduction::dao::UserDao::selectByUserId(const std::string &tntInstId,
                                           const std::string &userId) {
+  sqlpp::mysql::connection &connection = *pconnection;
   for (auto const &row :
        connection(sqlpp::select(all_of(deuser))
                       .from(deuser)
@@ -24,4 +25,20 @@ fcdeduction::dao::UserDao::selectByUserId(sqlpp::mysql::connection &connection,
     return std::optional<fcdeduction::dataobject::User>{user};
   }
   return std::nullopt;
+}
+void fcdeduction::dao::UserDao::insertUser(
+    fcdeduction::dataobject::User &user) {
+  sqlpp::mysql::connection &connection = *pconnection;
+  connection(sqlpp::insert_into(deuser).set(
+      deuser.userId = user.userId, deuser.tntInstId = user.tntInstId,
+      deuser.userName = user.userName, deuser.userType = user.userType,
+      deuser.gmtCreate = user.gmtCreate,
+      deuser.gmtModified = user.gmtModified));
+}
+
+void fcdeduction::dao::UserDao::deleteUser(const std::string &tntInstId,
+                                           const std::string &userId) {
+  sqlpp::mysql::connection &connection = *pconnection;
+  connection(sqlpp::remove_from(deuser).where(deuser.userId == userId and
+                                              deuser.tntInstId == tntInstId));
 }
