@@ -9,16 +9,14 @@
 #include "src/util/constant.h"
 #include "src/util/ident_type_enum.h"
 
-void fcdeduction::facade::setResponse(
-    UserLoginResponse *response,
-    const fcdeduction::util::ResponseEnum &respEnum) {
+void setResponse(UserLoginResponse *response,
+                 const fcdeduction::util::ResponseEnum &respEnum) {
   response->set_status(respEnum.getStatus());
   response->set_code(respEnum.getCode());
   response->set_desc(respEnum.getDesc());
 }
-void fcdeduction::facade::setResponse(
-    LoginSessionValidateResponse *response,
-    const fcdeduction::util::ResponseEnum &respEnum) {
+void setResponse(LoginSessionValidateResponse *response,
+                 const fcdeduction::util::ResponseEnum &respEnum) {
   response->set_status(respEnum.getStatus());
   response->set_code(respEnum.getCode());
   response->set_desc(respEnum.getDesc());
