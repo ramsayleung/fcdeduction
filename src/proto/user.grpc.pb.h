@@ -44,6 +44,14 @@ class UserFacade final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::user::UserLoginResponse>> PrepareAsyncLogin(::grpc::ClientContext* context, const ::user::UserLoginRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::user::UserLoginResponse>>(PrepareAsyncLoginRaw(context, request, cq));
     }
+    // 登录态校验
+    virtual ::grpc::Status validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::user::LoginSessionValidateResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::user::LoginSessionValidateResponse>> AsyncvalidateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::user::LoginSessionValidateResponse>>(AsyncvalidateLoginSessionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::user::LoginSessionValidateResponse>> PrepareAsyncvalidateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::user::LoginSessionValidateResponse>>(PrepareAsyncvalidateLoginSessionRaw(context, request, cq));
+    }
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
@@ -60,6 +68,19 @@ class UserFacade final {
       #else
       virtual void Login(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::UserLoginResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      // 登录态校验
+      virtual void validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void validateLoginSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::LoginSessionValidateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void validateLoginSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::LoginSessionValidateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void validateLoginSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::LoginSessionValidateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
     };
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     typedef class experimental_async_interface async_interface;
@@ -71,6 +92,8 @@ class UserFacade final {
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::user::UserLoginResponse>* AsyncLoginRaw(::grpc::ClientContext* context, const ::user::UserLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::user::UserLoginResponse>* PrepareAsyncLoginRaw(::grpc::ClientContext* context, const ::user::UserLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::user::LoginSessionValidateResponse>* AsyncvalidateLoginSessionRaw(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::user::LoginSessionValidateResponse>* PrepareAsyncvalidateLoginSessionRaw(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -81,6 +104,13 @@ class UserFacade final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::user::UserLoginResponse>> PrepareAsyncLogin(::grpc::ClientContext* context, const ::user::UserLoginRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::user::UserLoginResponse>>(PrepareAsyncLoginRaw(context, request, cq));
+    }
+    ::grpc::Status validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::user::LoginSessionValidateResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::user::LoginSessionValidateResponse>> AsyncvalidateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::user::LoginSessionValidateResponse>>(AsyncvalidateLoginSessionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::user::LoginSessionValidateResponse>> PrepareAsyncvalidateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::user::LoginSessionValidateResponse>>(PrepareAsyncvalidateLoginSessionRaw(context, request, cq));
     }
     class experimental_async final :
       public StubInterface::experimental_async_interface {
@@ -97,6 +127,18 @@ class UserFacade final {
       #else
       void Login(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::UserLoginResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
+      void validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response, std::function<void(::grpc::Status)>) override;
+      void validateLoginSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::LoginSessionValidateResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void validateLoginSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::LoginSessionValidateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void validateLoginSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::LoginSessionValidateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
      private:
       friend class Stub;
       explicit experimental_async(Stub* stub): stub_(stub) { }
@@ -110,7 +152,10 @@ class UserFacade final {
     class experimental_async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::user::UserLoginResponse>* AsyncLoginRaw(::grpc::ClientContext* context, const ::user::UserLoginRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::user::UserLoginResponse>* PrepareAsyncLoginRaw(::grpc::ClientContext* context, const ::user::UserLoginRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::user::LoginSessionValidateResponse>* AsyncvalidateLoginSessionRaw(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::user::LoginSessionValidateResponse>* PrepareAsyncvalidateLoginSessionRaw(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_Login_;
+    const ::grpc::internal::RpcMethod rpcmethod_validateLoginSession_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -120,6 +165,8 @@ class UserFacade final {
     virtual ~Service();
     // 用户登录
     virtual ::grpc::Status Login(::grpc::ServerContext* context, const ::user::UserLoginRequest* request, ::user::UserLoginResponse* response);
+    // 登录态校验
+    virtual ::grpc::Status validateLoginSession(::grpc::ServerContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_Login : public BaseClass {
@@ -141,7 +188,27 @@ class UserFacade final {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_Login<Service > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_validateLoginSession : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_validateLoginSession() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_validateLoginSession() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status validateLoginSession(::grpc::ServerContext* /*context*/, const ::user::LoginSessionValidateRequest* /*request*/, ::user::LoginSessionValidateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestvalidateLoginSession(::grpc::ServerContext* context, ::user::LoginSessionValidateRequest* request, ::grpc::ServerAsyncResponseWriter< ::user::LoginSessionValidateResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_Login<WithAsyncMethod_validateLoginSession<Service > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_Login : public BaseClass {
    private:
@@ -189,11 +256,58 @@ class UserFacade final {
     #endif
       { return nullptr; }
   };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_validateLoginSession : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_validateLoginSession() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(1,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::user::LoginSessionValidateRequest, ::user::LoginSessionValidateResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response) { return this->validateLoginSession(context, request, response); }));}
+    void SetMessageAllocatorFor_validateLoginSession(
+        ::grpc::experimental::MessageAllocator< ::user::LoginSessionValidateRequest, ::user::LoginSessionValidateResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(1);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::user::LoginSessionValidateRequest, ::user::LoginSessionValidateResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_validateLoginSession() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status validateLoginSession(::grpc::ServerContext* /*context*/, const ::user::LoginSessionValidateRequest* /*request*/, ::user::LoginSessionValidateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* validateLoginSession(
+      ::grpc::CallbackServerContext* /*context*/, const ::user::LoginSessionValidateRequest* /*request*/, ::user::LoginSessionValidateResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* validateLoginSession(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::user::LoginSessionValidateRequest* /*request*/, ::user::LoginSessionValidateResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_Login<Service > CallbackService;
+  typedef ExperimentalWithCallbackMethod_Login<ExperimentalWithCallbackMethod_validateLoginSession<Service > > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_Login<Service > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_Login<ExperimentalWithCallbackMethod_validateLoginSession<Service > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_Login : public BaseClass {
    private:
@@ -207,6 +321,23 @@ class UserFacade final {
     }
     // disable synchronous version of this method
     ::grpc::Status Login(::grpc::ServerContext* /*context*/, const ::user::UserLoginRequest* /*request*/, ::user::UserLoginResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_validateLoginSession : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_validateLoginSession() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_validateLoginSession() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status validateLoginSession(::grpc::ServerContext* /*context*/, const ::user::LoginSessionValidateRequest* /*request*/, ::user::LoginSessionValidateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -229,6 +360,26 @@ class UserFacade final {
     }
     void RequestLogin(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_validateLoginSession : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_validateLoginSession() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_validateLoginSession() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status validateLoginSession(::grpc::ServerContext* /*context*/, const ::user::LoginSessionValidateRequest* /*request*/, ::user::LoginSessionValidateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestvalidateLoginSession(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -270,6 +421,44 @@ class UserFacade final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_validateLoginSession : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_validateLoginSession() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(1,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->validateLoginSession(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_validateLoginSession() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status validateLoginSession(::grpc::ServerContext* /*context*/, const ::user::LoginSessionValidateRequest* /*request*/, ::user::LoginSessionValidateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* validateLoginSession(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* validateLoginSession(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_Login : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -289,9 +478,29 @@ class UserFacade final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedLogin(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::user::UserLoginRequest,::user::UserLoginResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_Login<Service > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_validateLoginSession : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_validateLoginSession() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler< ::user::LoginSessionValidateRequest, ::user::LoginSessionValidateResponse>(std::bind(&WithStreamedUnaryMethod_validateLoginSession<BaseClass>::StreamedvalidateLoginSession, this, std::placeholders::_1, std::placeholders::_2)));
+    }
+    ~WithStreamedUnaryMethod_validateLoginSession() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status validateLoginSession(::grpc::ServerContext* /*context*/, const ::user::LoginSessionValidateRequest* /*request*/, ::user::LoginSessionValidateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedvalidateLoginSession(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::user::LoginSessionValidateRequest,::user::LoginSessionValidateResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_Login<WithStreamedUnaryMethod_validateLoginSession<Service > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_Login<Service > StreamedService;
+  typedef WithStreamedUnaryMethod_Login<WithStreamedUnaryMethod_validateLoginSession<Service > > StreamedService;
 };
 
 }  // namespace user

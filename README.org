@@ -44,6 +44,7 @@
     
     | 功能点           | 对应开发 | 开发时间 | 自测时间 |
     | 单设备登录       | Ramsay   |       2D |       1D |
+    | 登录鉴权         | Ramsay   |       2D |       1D |
     | 开通扣费服务     | Ramsay   |       2D |       1D |
     | 关闭扣费服务     | Ramsay   |       2D |       1D |
     | 查看扣费服务列表 | Ramsay   |       2D |       1D |
@@ -239,7 +240,56 @@
       | FAILED  |     01 | 用户不存在       |
       | FAILED  |     02 | 用户账号密码错误 |
       | FAILED  |     03 | 用户未登录       |
+**** 登录鉴权
+     通过tokenId鉴定用户是否登录, 通常作为业务请求的前置校验.
+***** 接口功能
+      登录态校验
+***** 接口定义
+      接口签名(proto 定义):
+      #+BEGIN_SRC java
+	syntax = "proto3";
+	package user;
+	enum StatusEnum{
+	    SUCCESS = 0;
+	    FAILED = 1;
+	    UNKKNOWN = 2;
+	}
 
+	service User {
+	    // 登录态校验
+	    rpc validateLoginSeesion(LoginSessionValidateRequest) returns (LoginSessionValidateResponse) {}
+	}
+	message LoginSessionValidateRequest {
+	    // 登录凭证
+	    string token = 1;
+	}
+
+	message LoginSessionValidateResponse {
+	    // 处理状态, 成功, 失败, 处理中
+	    string status = 1;
+	    // 对应的状态码
+	    string code = 2;
+	    // 对应的消息或者描述
+	    string desc = 3;
+	}
+
+      #+END_SRC
+      入参:
+
+      | 参数名 | 参数类型 | 参数含义  | 必选 | 备注 |
+      | token  | String   | 登录token | Y    |      |
+
+      返回结果:
+
+      | 参数名       | 参数类型 | 参数含义          | 必选 | 备注                                     |
+      | status       | String   | 处理状态          | Y    |                                          |
+      | code         | String   | 状态码            | Y    |                                          |
+      | message      | String   | 返回结果描述      | N    |                                          |
+      |              |          |                   |      |                                          |
+      错误码:
+      | 状态    | 状态码 | 描述       |
+      | SUCCESS |     00 |            |
+      | FAILED  |     03 | 用户未登录 |
 **** 开通扣费服务
      开通扣费服务与关闭扣费服务的接口设计考虑到将来的扩展, 如果出现新的类似扣费的服务类型, 如补贴服务(有点太美好的感觉), 只需要新增对应的产品码及合约类型, 即全复用开通服务与关闭服务接口
 ***** 接口功能

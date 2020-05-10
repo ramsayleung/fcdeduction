@@ -7,6 +7,10 @@ namespace util {
 inline const std::string TNT_INST_ID = "FINC0001";
 // 测试租户Id
 inline const std::string TEST_TNT_INST_ID = "TEST0001";
+// 数据中心Id, 理应每个数据中心一个Id, 但预设只有一个数据中心
+inline const int DATA_CENTER_ID = 256;
+// 机器Id, 预设只有一台机器.
+inline const int MACHINE_ID = 45;
 }  // namespace util
 }  // namespace fcdeduction
 #endif

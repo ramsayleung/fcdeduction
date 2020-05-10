@@ -23,6 +23,7 @@ namespace user {
 
 static const char* UserFacade_method_names[] = {
   "/user.UserFacade/Login",
+  "/user.UserFacade/validateLoginSession",
 };
 
 std::unique_ptr< UserFacade::Stub> UserFacade::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -33,6 +34,7 @@ std::unique_ptr< UserFacade::Stub> UserFacade::NewStub(const std::shared_ptr< ::
 
 UserFacade::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
   : channel_(channel), rpcmethod_Login_(UserFacade_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_validateLoginSession_(UserFacade_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status UserFacade::Stub::Login(::grpc::ClientContext* context, const ::user::UserLoginRequest& request, ::user::UserLoginResponse* response) {
@@ -63,18 +65,58 @@ void UserFacade::Stub::experimental_async::Login(::grpc::ClientContext* context,
   return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::user::UserLoginResponse>::Create(channel_.get(), cq, rpcmethod_Login_, context, request, false);
 }
 
+::grpc::Status UserFacade::Stub::validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::user::LoginSessionValidateResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_validateLoginSession_, context, request, response);
+}
+
+void UserFacade::Stub::experimental_async::validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_validateLoginSession_, context, request, response, std::move(f));
+}
+
+void UserFacade::Stub::experimental_async::validateLoginSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::LoginSessionValidateResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_validateLoginSession_, context, request, response, std::move(f));
+}
+
+void UserFacade::Stub::experimental_async::validateLoginSession(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_validateLoginSession_, context, request, response, reactor);
+}
+
+void UserFacade::Stub::experimental_async::validateLoginSession(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::user::LoginSessionValidateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_validateLoginSession_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::user::LoginSessionValidateResponse>* UserFacade::Stub::AsyncvalidateLoginSessionRaw(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::user::LoginSessionValidateResponse>::Create(channel_.get(), cq, rpcmethod_validateLoginSession_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::user::LoginSessionValidateResponse>* UserFacade::Stub::PrepareAsyncvalidateLoginSessionRaw(::grpc::ClientContext* context, const ::user::LoginSessionValidateRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::user::LoginSessionValidateResponse>::Create(channel_.get(), cq, rpcmethod_validateLoginSession_, context, request, false);
+}
+
 UserFacade::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       UserFacade_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< UserFacade::Service, ::user::UserLoginRequest, ::user::UserLoginResponse>(
           std::mem_fn(&UserFacade::Service::Login), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      UserFacade_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< UserFacade::Service, ::user::LoginSessionValidateRequest, ::user::LoginSessionValidateResponse>(
+          std::mem_fn(&UserFacade::Service::validateLoginSession), this)));
 }
 
 UserFacade::Service::~Service() {
 }
 
 ::grpc::Status UserFacade::Service::Login(::grpc::ServerContext* context, const ::user::UserLoginRequest* request, ::user::UserLoginResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status UserFacade::Service::validateLoginSession(::grpc::ServerContext* context, const ::user::LoginSessionValidateRequest* request, ::user::LoginSessionValidateResponse* response) {
   (void) context;
   (void) request;
   (void) response;

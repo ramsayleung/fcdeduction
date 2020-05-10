@@ -47,7 +47,7 @@ struct TableStruct_user_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -55,6 +55,12 @@ struct TableStruct_user_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_2eproto;
 namespace user {
+class LoginSessionValidateRequest;
+class LoginSessionValidateRequestDefaultTypeInternal;
+extern LoginSessionValidateRequestDefaultTypeInternal _LoginSessionValidateRequest_default_instance_;
+class LoginSessionValidateResponse;
+class LoginSessionValidateResponseDefaultTypeInternal;
+extern LoginSessionValidateResponseDefaultTypeInternal _LoginSessionValidateResponse_default_instance_;
 class UserLoginRequest;
 class UserLoginRequestDefaultTypeInternal;
 extern UserLoginRequestDefaultTypeInternal _UserLoginRequest_default_instance_;
@@ -63,6 +69,8 @@ class UserLoginResponseDefaultTypeInternal;
 extern UserLoginResponseDefaultTypeInternal _UserLoginResponse_default_instance_;
 }  // namespace user
 PROTOBUF_NAMESPACE_OPEN
+template<> ::user::LoginSessionValidateRequest* Arena::CreateMaybeMessage<::user::LoginSessionValidateRequest>(Arena*);
+template<> ::user::LoginSessionValidateResponse* Arena::CreateMaybeMessage<::user::LoginSessionValidateResponse>(Arena*);
 template<> ::user::UserLoginRequest* Arena::CreateMaybeMessage<::user::UserLoginRequest>(Arena*);
 template<> ::user::UserLoginResponse* Arena::CreateMaybeMessage<::user::UserLoginResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -443,6 +451,312 @@ class UserLoginResponse :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr refreshtoken_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr expiretime_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_user_2eproto;
+};
+// -------------------------------------------------------------------
+
+class LoginSessionValidateRequest :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:user.LoginSessionValidateRequest) */ {
+ public:
+  LoginSessionValidateRequest();
+  virtual ~LoginSessionValidateRequest();
+
+  LoginSessionValidateRequest(const LoginSessionValidateRequest& from);
+  LoginSessionValidateRequest(LoginSessionValidateRequest&& from) noexcept
+    : LoginSessionValidateRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline LoginSessionValidateRequest& operator=(const LoginSessionValidateRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LoginSessionValidateRequest& operator=(LoginSessionValidateRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const LoginSessionValidateRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LoginSessionValidateRequest* internal_default_instance() {
+    return reinterpret_cast<const LoginSessionValidateRequest*>(
+               &_LoginSessionValidateRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(LoginSessionValidateRequest& a, LoginSessionValidateRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LoginSessionValidateRequest* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LoginSessionValidateRequest* New() const final {
+    return CreateMaybeMessage<LoginSessionValidateRequest>(nullptr);
+  }
+
+  LoginSessionValidateRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<LoginSessionValidateRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const LoginSessionValidateRequest& from);
+  void MergeFrom(const LoginSessionValidateRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LoginSessionValidateRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "user.LoginSessionValidateRequest";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_user_2eproto);
+    return ::descriptor_table_user_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTokenFieldNumber = 1,
+  };
+  // string token = 1;
+  void clear_token();
+  const std::string& token() const;
+  void set_token(const std::string& value);
+  void set_token(std::string&& value);
+  void set_token(const char* value);
+  void set_token(const char* value, size_t size);
+  std::string* mutable_token();
+  std::string* release_token();
+  void set_allocated_token(std::string* token);
+  private:
+  const std::string& _internal_token() const;
+  void _internal_set_token(const std::string& value);
+  std::string* _internal_mutable_token();
+  public:
+
+  // @@protoc_insertion_point(class_scope:user.LoginSessionValidateRequest)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_user_2eproto;
+};
+// -------------------------------------------------------------------
+
+class LoginSessionValidateResponse :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:user.LoginSessionValidateResponse) */ {
+ public:
+  LoginSessionValidateResponse();
+  virtual ~LoginSessionValidateResponse();
+
+  LoginSessionValidateResponse(const LoginSessionValidateResponse& from);
+  LoginSessionValidateResponse(LoginSessionValidateResponse&& from) noexcept
+    : LoginSessionValidateResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline LoginSessionValidateResponse& operator=(const LoginSessionValidateResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LoginSessionValidateResponse& operator=(LoginSessionValidateResponse&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const LoginSessionValidateResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LoginSessionValidateResponse* internal_default_instance() {
+    return reinterpret_cast<const LoginSessionValidateResponse*>(
+               &_LoginSessionValidateResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(LoginSessionValidateResponse& a, LoginSessionValidateResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LoginSessionValidateResponse* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LoginSessionValidateResponse* New() const final {
+    return CreateMaybeMessage<LoginSessionValidateResponse>(nullptr);
+  }
+
+  LoginSessionValidateResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<LoginSessionValidateResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const LoginSessionValidateResponse& from);
+  void MergeFrom(const LoginSessionValidateResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LoginSessionValidateResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "user.LoginSessionValidateResponse";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_user_2eproto);
+    return ::descriptor_table_user_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kStatusFieldNumber = 1,
+    kCodeFieldNumber = 2,
+    kDescFieldNumber = 3,
+  };
+  // string status = 1;
+  void clear_status();
+  const std::string& status() const;
+  void set_status(const std::string& value);
+  void set_status(std::string&& value);
+  void set_status(const char* value);
+  void set_status(const char* value, size_t size);
+  std::string* mutable_status();
+  std::string* release_status();
+  void set_allocated_status(std::string* status);
+  private:
+  const std::string& _internal_status() const;
+  void _internal_set_status(const std::string& value);
+  std::string* _internal_mutable_status();
+  public:
+
+  // string code = 2;
+  void clear_code();
+  const std::string& code() const;
+  void set_code(const std::string& value);
+  void set_code(std::string&& value);
+  void set_code(const char* value);
+  void set_code(const char* value, size_t size);
+  std::string* mutable_code();
+  std::string* release_code();
+  void set_allocated_code(std::string* code);
+  private:
+  const std::string& _internal_code() const;
+  void _internal_set_code(const std::string& value);
+  std::string* _internal_mutable_code();
+  public:
+
+  // string desc = 3;
+  void clear_desc();
+  const std::string& desc() const;
+  void set_desc(const std::string& value);
+  void set_desc(std::string&& value);
+  void set_desc(const char* value);
+  void set_desc(const char* value, size_t size);
+  std::string* mutable_desc();
+  std::string* release_desc();
+  void set_allocated_desc(std::string* desc);
+  private:
+  const std::string& _internal_desc() const;
+  void _internal_set_desc(const std::string& value);
+  std::string* _internal_mutable_desc();
+  public:
+
+  // @@protoc_insertion_point(class_scope:user.LoginSessionValidateResponse)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr status_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr code_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr desc_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_user_2eproto;
 };
@@ -941,9 +1255,261 @@ inline void UserLoginResponse::set_allocated_expiretime(std::string* expiretime)
   // @@protoc_insertion_point(field_set_allocated:user.UserLoginResponse.expireTime)
 }
 
+// -------------------------------------------------------------------
+
+// LoginSessionValidateRequest
+
+// string token = 1;
+inline void LoginSessionValidateRequest::clear_token() {
+  token_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& LoginSessionValidateRequest::token() const {
+  // @@protoc_insertion_point(field_get:user.LoginSessionValidateRequest.token)
+  return _internal_token();
+}
+inline void LoginSessionValidateRequest::set_token(const std::string& value) {
+  _internal_set_token(value);
+  // @@protoc_insertion_point(field_set:user.LoginSessionValidateRequest.token)
+}
+inline std::string* LoginSessionValidateRequest::mutable_token() {
+  // @@protoc_insertion_point(field_mutable:user.LoginSessionValidateRequest.token)
+  return _internal_mutable_token();
+}
+inline const std::string& LoginSessionValidateRequest::_internal_token() const {
+  return token_.GetNoArena();
+}
+inline void LoginSessionValidateRequest::_internal_set_token(const std::string& value) {
+  
+  token_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void LoginSessionValidateRequest::set_token(std::string&& value) {
+  
+  token_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:user.LoginSessionValidateRequest.token)
+}
+inline void LoginSessionValidateRequest::set_token(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  token_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:user.LoginSessionValidateRequest.token)
+}
+inline void LoginSessionValidateRequest::set_token(const char* value, size_t size) {
+  
+  token_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:user.LoginSessionValidateRequest.token)
+}
+inline std::string* LoginSessionValidateRequest::_internal_mutable_token() {
+  
+  return token_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* LoginSessionValidateRequest::release_token() {
+  // @@protoc_insertion_point(field_release:user.LoginSessionValidateRequest.token)
+  
+  return token_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void LoginSessionValidateRequest::set_allocated_token(std::string* token) {
+  if (token != nullptr) {
+    
+  } else {
+    
+  }
+  token_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), token);
+  // @@protoc_insertion_point(field_set_allocated:user.LoginSessionValidateRequest.token)
+}
+
+// -------------------------------------------------------------------
+
+// LoginSessionValidateResponse
+
+// string status = 1;
+inline void LoginSessionValidateResponse::clear_status() {
+  status_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& LoginSessionValidateResponse::status() const {
+  // @@protoc_insertion_point(field_get:user.LoginSessionValidateResponse.status)
+  return _internal_status();
+}
+inline void LoginSessionValidateResponse::set_status(const std::string& value) {
+  _internal_set_status(value);
+  // @@protoc_insertion_point(field_set:user.LoginSessionValidateResponse.status)
+}
+inline std::string* LoginSessionValidateResponse::mutable_status() {
+  // @@protoc_insertion_point(field_mutable:user.LoginSessionValidateResponse.status)
+  return _internal_mutable_status();
+}
+inline const std::string& LoginSessionValidateResponse::_internal_status() const {
+  return status_.GetNoArena();
+}
+inline void LoginSessionValidateResponse::_internal_set_status(const std::string& value) {
+  
+  status_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void LoginSessionValidateResponse::set_status(std::string&& value) {
+  
+  status_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:user.LoginSessionValidateResponse.status)
+}
+inline void LoginSessionValidateResponse::set_status(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  status_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:user.LoginSessionValidateResponse.status)
+}
+inline void LoginSessionValidateResponse::set_status(const char* value, size_t size) {
+  
+  status_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:user.LoginSessionValidateResponse.status)
+}
+inline std::string* LoginSessionValidateResponse::_internal_mutable_status() {
+  
+  return status_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* LoginSessionValidateResponse::release_status() {
+  // @@protoc_insertion_point(field_release:user.LoginSessionValidateResponse.status)
+  
+  return status_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void LoginSessionValidateResponse::set_allocated_status(std::string* status) {
+  if (status != nullptr) {
+    
+  } else {
+    
+  }
+  status_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), status);
+  // @@protoc_insertion_point(field_set_allocated:user.LoginSessionValidateResponse.status)
+}
+
+// string code = 2;
+inline void LoginSessionValidateResponse::clear_code() {
+  code_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& LoginSessionValidateResponse::code() const {
+  // @@protoc_insertion_point(field_get:user.LoginSessionValidateResponse.code)
+  return _internal_code();
+}
+inline void LoginSessionValidateResponse::set_code(const std::string& value) {
+  _internal_set_code(value);
+  // @@protoc_insertion_point(field_set:user.LoginSessionValidateResponse.code)
+}
+inline std::string* LoginSessionValidateResponse::mutable_code() {
+  // @@protoc_insertion_point(field_mutable:user.LoginSessionValidateResponse.code)
+  return _internal_mutable_code();
+}
+inline const std::string& LoginSessionValidateResponse::_internal_code() const {
+  return code_.GetNoArena();
+}
+inline void LoginSessionValidateResponse::_internal_set_code(const std::string& value) {
+  
+  code_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void LoginSessionValidateResponse::set_code(std::string&& value) {
+  
+  code_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:user.LoginSessionValidateResponse.code)
+}
+inline void LoginSessionValidateResponse::set_code(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  code_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:user.LoginSessionValidateResponse.code)
+}
+inline void LoginSessionValidateResponse::set_code(const char* value, size_t size) {
+  
+  code_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:user.LoginSessionValidateResponse.code)
+}
+inline std::string* LoginSessionValidateResponse::_internal_mutable_code() {
+  
+  return code_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* LoginSessionValidateResponse::release_code() {
+  // @@protoc_insertion_point(field_release:user.LoginSessionValidateResponse.code)
+  
+  return code_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void LoginSessionValidateResponse::set_allocated_code(std::string* code) {
+  if (code != nullptr) {
+    
+  } else {
+    
+  }
+  code_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), code);
+  // @@protoc_insertion_point(field_set_allocated:user.LoginSessionValidateResponse.code)
+}
+
+// string desc = 3;
+inline void LoginSessionValidateResponse::clear_desc() {
+  desc_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& LoginSessionValidateResponse::desc() const {
+  // @@protoc_insertion_point(field_get:user.LoginSessionValidateResponse.desc)
+  return _internal_desc();
+}
+inline void LoginSessionValidateResponse::set_desc(const std::string& value) {
+  _internal_set_desc(value);
+  // @@protoc_insertion_point(field_set:user.LoginSessionValidateResponse.desc)
+}
+inline std::string* LoginSessionValidateResponse::mutable_desc() {
+  // @@protoc_insertion_point(field_mutable:user.LoginSessionValidateResponse.desc)
+  return _internal_mutable_desc();
+}
+inline const std::string& LoginSessionValidateResponse::_internal_desc() const {
+  return desc_.GetNoArena();
+}
+inline void LoginSessionValidateResponse::_internal_set_desc(const std::string& value) {
+  
+  desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void LoginSessionValidateResponse::set_desc(std::string&& value) {
+  
+  desc_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:user.LoginSessionValidateResponse.desc)
+}
+inline void LoginSessionValidateResponse::set_desc(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:user.LoginSessionValidateResponse.desc)
+}
+inline void LoginSessionValidateResponse::set_desc(const char* value, size_t size) {
+  
+  desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:user.LoginSessionValidateResponse.desc)
+}
+inline std::string* LoginSessionValidateResponse::_internal_mutable_desc() {
+  
+  return desc_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* LoginSessionValidateResponse::release_desc() {
+  // @@protoc_insertion_point(field_release:user.LoginSessionValidateResponse.desc)
+  
+  return desc_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void LoginSessionValidateResponse::set_allocated_desc(std::string* desc) {
+  if (desc != nullptr) {
+    
+  } else {
+    
+  }
+  desc_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), desc);
+  // @@protoc_insertion_point(field_set_allocated:user.LoginSessionValidateResponse.desc)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 
