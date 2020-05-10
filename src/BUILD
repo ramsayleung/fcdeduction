@@ -154,10 +154,11 @@ cc_library(
         "manager/crypto_manager.h",
         "manager/database_manager.hpp",
         "manager/redis_manager.hpp",
-        "manager/token_manager.hpp",
+        "manager/token_manager.h",
         "util/ident_type_enum.h",
         "util/rel_status_enum.h",
         "util/response_enum.h",
+        "util/constant.h"
     ],
     linkopts = [
         "-ldl",

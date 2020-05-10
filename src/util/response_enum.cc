@@ -1,8 +1,8 @@
 #include "response_enum.h"
 using namespace fcdeduction::util;
-const std::string ResponseEnum::getStatus() { return status; }
-const std::string ResponseEnum::getCode() { return code; }
-const std::string ResponseEnum::getDesc() { return desc; }
+const std::string& ResponseEnum::getStatus() const { return status; }
+const std::string& ResponseEnum::getCode() const { return code; }
+const std::string& ResponseEnum::getDesc() const { return desc; }
 const std::string getCode();
 const std::string getDesc();
 const ResponseEnum ResponseEnum::SUCCESS = ResponseEnum("SUCCESS", "00", "");

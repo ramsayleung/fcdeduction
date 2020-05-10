@@ -1,6 +1,7 @@
 #ifndef REDIS_MANAGER_HPP
 #define REDIS_MANAGER_HPP
 #include <hiredis/hiredis.h>
+
 #include <memory>
 #include <optional>
 #include <string>
@@ -8,12 +9,17 @@ namespace fcdeduction {
 namespace manager {
 class RedisManager {
    public:
-    explicit RedisManager(const std::string &hostname, const int port){
+    explicit RedisManager(const std::string &hostname, const int port) {
         redisContext *context = redisConnect(hostname.c_str(), port);
         pcontext = std::unique_ptr<redisContext>(context);
     }
+    explicit RedisManager() {
+        std::string hostname = getenv("redis_host");
+        redisContext *context = redisConnect(hostname.c_str(), 6379);
+        pcontext = std::unique_ptr<redisContext>(context);
+    }
 
-    RedisManager(const RedisManager& rhs): pcontext(new redisContext(*rhs.pcontext)){}
+    RedisManager(const RedisManager &rhs) : pcontext(new redisContext(*rhs.pcontext)) {}
 
     // ~RedisManager() { redisFree(context); }
     // 获取指定key的对应的value, 如果为空, 返回std::nullopt
