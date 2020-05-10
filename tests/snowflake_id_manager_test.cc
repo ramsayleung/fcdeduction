@@ -5,7 +5,7 @@
 
 #include "gtest/gtest.h"
 TEST(MANAGER_TEST, NEXT_ID_TEST) {
-    fcdeduction::manager::SnowflakeIdManager idManager(1024, 1000);
+    fcdeduction::manager::SnowFlakeIdManager idManager(1024, 1000);
     std::set<int64_t> idSet;
     for (int i = 0; i < 1000000; i++) {
         auto id = idManager.nextId();
