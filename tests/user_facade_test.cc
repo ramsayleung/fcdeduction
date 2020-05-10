@@ -8,10 +8,13 @@
 #include "src/dal/user_dao.h"
 #include "src/manager/crypto_manager.h"
 #include "src/manager/redis_manager.hpp"
+#include "src/manager/snowflake_id_manager.h"
+#include "src/manager/token_manager"
 #include "src/util/constant.h"
 #include "src/util/rel_status_enum.h"
 
 TEST(FACADE_TEST, USER_FACADE_LOGIN_TEST) {
+  // int main() {
   fcdeduction::facade::UserFacadeImpl service;
   fcdeduction::manager::SnowFlakeIdManager idManager(
       fcdeduction::util::DATA_CENTER_ID, fcdeduction::util::MACHINE_ID);
@@ -83,4 +86,24 @@ TEST(FACADE_TEST, USER_FACADE_LOGIN_TEST) {
   identDao.deleteIdent(fcdeduction::util::TEST_TNT_INST_ID, ident.userId,
                        ident.identKey, ident.identType);
   userDao.deleteUser(fcdeduction::util::TEST_TNT_INST_ID, user.userId);
+}
+TEST(FACADE_TEST, USER_FACADE_VALIDATE_LOGIN_SESSION_TEST) {
+  fcdeduction::manager::CryptoManager cryptoManager;
+  const std::string token1 = cryptoManager.generateUUIDV4();
+  const std::string token2 = cryptoManager.generateUUIDV4();
+  const std::string userId = "user1";
+  fcdeduction::manager::TokenManager tokenManager;
+  tokenManager.addUserToken(token1, userId);
+  grpc::ServerContext context;
+  fcdeduction::facade::UserFacadeImpl service;
+  user::LoginSessionValidateRequest request;
+  user::LoginSessionValidateResponse response;
+  request.set_token(token1);
+  service.validateLoginSession(&context, &request, &response);
+  EXPECT_EQ(response.status(), "SUCCESS");
+  EXPECT_EQ(response.code(), "00");
+  tokenManager.addUserToken(token2, userId);
+  service.validateLoginSession(&context, &request, &response);
+  EXPECT_EQ(response.status(), "FAILED");
+  EXPECT_EQ(response.code(), "03");
 }

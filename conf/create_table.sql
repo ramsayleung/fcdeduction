@@ -59,6 +59,6 @@ create table if not exists fcdeduction.de_ident(
     `gmt_create` datetime not null comment '创建时间',
     `gmt_modified` datetime not null comment '修改时间',
     primary key(tnt_inst_id, ident_id),
-    constraint idx_user_id_type unique (tnt_inst_id, user_id, ident_type)
+    constraint idx_user_id_type unique (tnt_inst_id, user_id, ident_type),
     constraint idx_key_type unique (tnt_inst_id, ident_key, ident_type)
 );

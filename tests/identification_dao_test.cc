@@ -6,7 +6,7 @@
 #include "src/manager/database_manager.hpp"
 #include "src/util/constant.h"
 #include "src/util/ident_type_enum.h"
-TEST(DAOTEST, IDENT_EXIST_TEST) {
+TEST(IDENT_DAOTEST, IDENT_EXIST_TEST) {
     fcdeduction::manager::CryptoManager cryptoManager;
     std::string salt = getenv("salt");
     fcdeduction::dataobject::Identification ident;
@@ -33,7 +33,7 @@ TEST(DAOTEST, IDENT_EXIST_TEST) {
                         fcdeduction::util::IdentTypeEnum::PASSWORD));
 }
 
-TEST(DAOTEST, FIND_USER_TEST) {
+TEST(IDENT_DAOTEST, FIND_USER_TEST) {
     fcdeduction::manager::CryptoManager cryptoManager;
     std::string salt = getenv("salt");
     fcdeduction::dataobject::Identification ident;

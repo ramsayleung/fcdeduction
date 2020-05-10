@@ -16,6 +16,13 @@ void fcdeduction::facade::setResponse(
   response->set_code(respEnum.getCode());
   response->set_desc(respEnum.getDesc());
 }
+void fcdeduction::facade::setResponse(
+    LoginSessionValidateResponse *response,
+    const fcdeduction::util::ResponseEnum &respEnum) {
+  response->set_status(respEnum.getStatus());
+  response->set_code(respEnum.getCode());
+  response->set_desc(respEnum.getDesc());
+}
 grpc::Status fcdeduction::facade::UserFacadeImpl::Login(
     grpc::ServerContext *context, const UserLoginRequest *request,
     UserLoginResponse *response) {
@@ -75,5 +82,13 @@ grpc::Status fcdeduction::facade::UserFacadeImpl::Login(
 grpc::Status fcdeduction::facade::UserFacadeImpl::validateLoginSession(
     grpc::ServerContext *context, const LoginSessionValidateRequest *request,
     LoginSessionValidateResponse *response) {
+  fcdeduction::manager::TokenManager tokenManager;
+  bool validateOk = tokenManager.checkUserToken(request->token());
+  if (validateOk) {
+    setResponse(response, fcdeduction::util::ResponseEnum::SUCCESS);
+  } else {
+    setResponse(response, fcdeduction::util::ResponseEnum::USER_NOT_LOGIN);
+    spdlog::warn("通过token判断用户未登录, token:{0}", request->token());
+  }
   return grpc::Status::OK;
 }
