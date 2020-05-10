@@ -30,7 +30,7 @@ class DeductionFacadeImpl final : public DeductionFacade::Service {
   grpc::Status QueryDeductionListByUserIdAndArType(
       grpc::ServerContext* context, const DeductionListQueryRequest* request,
       DeductionListQueryResponse* response) override;
-}
+};
 }  // namespace facade
 }  // namespace fcdeduction
 #endif
