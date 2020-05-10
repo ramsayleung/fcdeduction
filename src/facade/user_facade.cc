@@ -1,11 +1,14 @@
-#include "user_facade.hpp"
+#include "user_facade.h"
 
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/spdlog.h"
 #include "src/dal/identification_dao.h"
 #include "src/dal/user_dao.h"
 #include "src/manager/crypto_manager.h"
 #include "src/manager/token_manager.h"
 #include "src/util/constant.h"
 #include "src/util/ident_type_enum.h"
+
 void fcdeduction::facade::setResponse(
     UserLoginResponse *response,
     const fcdeduction::util::ResponseEnum &respEnum) {
@@ -23,12 +26,14 @@ grpc::Status fcdeduction::facade::UserFacadeImpl::Login(
     std::optional<std::string> foundUser = identDao.findUserIdByIdentKeyAndIdentType(fcdeduction::util::TNT_INST_ID, loginKey, fcdeduction::util::IdentTypeEnum::PASSWORD);
     // 判断用户是否存在
     if (!foundUser.has_value()) {
+        spdlog::warn("用户不存在, loginKey:{0}, loginValue: {1}", loginKey, loginValue);
         setResponse(response, fcdeduction::util::ResponseEnum::USER_NOT_EXIST);
         return grpc::Status::OK;
     }
     bool exist = userDao.userExist(fcdeduction::util::TNT_INST_ID, foundUser.value());
     // 判断用户是否存在
     if (!exist) {
+        spdlog::warn("用户不存在, loginKey:{0}, loginValue: {1}, userId: {2}", loginKey, loginValue, *foundUser);
         setResponse(response, fcdeduction::util::ResponseEnum::USER_NOT_EXIST);
         return grpc::Status::OK;
     }
@@ -37,14 +42,18 @@ grpc::Status fcdeduction::facade::UserFacadeImpl::Login(
     std::string salt = getenv("salt");
     fcdeduction::manager::CryptoManager cryptoManager;
     std::string encrypted = cryptoManager.sha256(loginValue, salt);
-    if (identDao.identMatch(fcdeduction::util::TNT_INST_ID, *foundUser, loginKey, encrypted, fcdeduction::util::IdentTypeEnum::PASSWORD)) {
+    bool identMatch = identDao.identMatch(fcdeduction::util::TNT_INST_ID, *foundUser, loginKey, encrypted, fcdeduction::util::IdentTypeEnum::PASSWORD);
+    if (identMatch) {
         // 生成一个唯一Id
         const std::string token = cryptoManager.generateUUIDV4();
+        spdlog::info("登录成功, 生成token, loginKey:{0}, loginValue: {1}, token: {2}", loginKey, loginValue, token);
         fcdeduction::manager::TokenManager tokenManager;
         tokenManager.addUserToken(token, foundUser.value());
         response->set_token(token);
         setResponse(response, fcdeduction::util::ResponseEnum::SUCCESS);
     } else {
+        spdlog::warn("账密不正确, loginKey:{0}, loginValue: {1}", loginKey, loginValue);
+        // TRACE(("账密不正确, loginKey:%s, loginValue: %s", loginKey, loginValue));
         setResponse(response, fcdeduction::util::ResponseEnum::INCORRECT_LOGIN_VALUE);
     }
     return grpc::Status::OK;

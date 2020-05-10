@@ -149,16 +149,17 @@ cc_library(
         "dal/user_dao.h",
         "dal/user_do.h",
         "facade/greeter_facade.hpp",
-        "facade/user_facade.hpp",
+        "facade/user_facade.h",
         "manager/Greeting.h",
         "manager/crypto_manager.h",
         "manager/database_manager.hpp",
         "manager/redis_manager.hpp",
         "manager/token_manager.h",
+        "manager/snowflake_id_manager.h",
         "util/ident_type_enum.h",
         "util/rel_status_enum.h",
         "util/response_enum.h",
-        "util/constant.h"
+        "util/constant.h",
     ],
     linkopts = [
         "-ldl",
@@ -168,13 +169,14 @@ cc_library(
     # defines = ["BAZEL_BUILD"],
     deps = [
         ":hiredis",
+        ":openssl",
         ":helloworld_cc_grpc",
         # http_archive made this label available for binding
         "@com_github_grpc_grpc//:grpc++",
         "@mariadb_connector//:connector",
         "@sqlpp11",
         "@sqlpp11mysql",
-        ":openssl",
+        "@spdlog",
     ],
 )
 

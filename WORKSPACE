@@ -99,6 +99,13 @@ http_archive(
     urls = ["https://github.com/redis/hiredis/archive/v0.14.1.tar.gz"],
 )
 
+http_archive(
+    name = "spdlog",
+    urls = ["https://github.com/cgrinker/spdlog/archive/3bf4a07dc286e10fa32d6503fded647c9ee02d26.zip"],
+    strip_prefix = "spdlog-3bf4a07dc286e10fa32d6503fded647c9ee02d26",
+    sha256 = "d00ccd202e2abae832441b9121330a4b8b82fdc60564edb315c89506fa3772c3",
+    build_file = "//:third-party/spdlog/BUILD.bzl",
+)
 # openssl
 http_archive(
     name = "openssl",
