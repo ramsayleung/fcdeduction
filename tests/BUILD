@@ -95,6 +95,7 @@ cc_test(
 cc_test(
     name = "snowflake_id_manager_test",
     srcs = ["snowflake_id_manager_test.cc"],
+    linkopts = ["-lpthread "],
     deps = [
         "//src:serverLib",
         "@googletest//:gtest_main",
