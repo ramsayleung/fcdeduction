@@ -7,17 +7,21 @@
 model::DeUserArRel derel;
 void fcdeduction::dao::UserArRelDao::addUserArRel(
     const std::string &tntInstId,
-    const fcdeduction::dataobject::Arrangement &ar,
-    const fcdeduction::dataobject::Product &prod,
-    const fcdeduction::dataobject::User &user) {
+    const fcdeduction::dataobject::UserArRel &rel) {
   sqlpp::mysql::connection &connection = *pconnection;
   connection(sqlpp::insert_into(derel).set(
-      derel.tntInstId = tntInstId, derel.arName = ar.arName,
-      derel.arNo = ar.arNumber, derel.pdCode = prod.pdCode,
-      derel.pdName = prod.pdName, derel.userId = user.userId,
-      derel.relStatus = fcdeduction::util::RelStatusEnum::ACTIVE,
-      derel.memo = "", derel.gmtCreate = std::chrono::system_clock::now(),
-      derel.gmtModified = std::chrono::system_clock::now()));
+      derel.tntInstId = rel.tntInstId,
+      derel.relId = rel.relId,
+      derel.arName = rel.arName,
+      derel.arNo = rel.arNo,
+      derel.pdCode = rel.pdCode,
+      derel.pdName = rel.pdName, 
+      derel.userId = rel.userId,
+      derel.relStatus = rel.relStatus,
+      derel.memo = rel.memo, 
+      derel.propertyValues = rel.propretyValues,
+      derel.gmtCreate = rel.gmtCreate,
+      derel.gmtModified = rel.gmtModified));
 }
 bool fcdeduction::dao::UserArRelDao::userArRelExist(
     const std::string &tntInstId, const std::string &arNo,

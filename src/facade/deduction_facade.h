@@ -8,7 +8,6 @@
 #include <grpc/grpc.h>
 
 #include "src/proto/deduction.grpc.pb.h"
-#include "src/util/response_enum.h"
 using deduction::DeduceRequest;
 using deduction::DeduceResponse;
 using deduction::DeductionFacade;

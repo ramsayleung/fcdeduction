@@ -9,7 +9,7 @@
 #include "src/manager/crypto_manager.h"
 #include "src/manager/redis_manager.hpp"
 #include "src/manager/snowflake_id_manager.h"
-#include "src/manager/token_manager"
+#include "src/manager/token_manager.h"
 #include "src/util/constant.h"
 #include "src/util/rel_status_enum.h"
 

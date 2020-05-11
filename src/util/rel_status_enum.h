@@ -7,7 +7,20 @@ enum class RelStatusEnum : char {
   SUSPEND = '2',
   FREEZE = '3',
 };
+inline std::string enumToString(RelStatusEnum status) {
+  switch (status) {
+    case RelStatusEnum::ACTIVE:
+      return "1";
+    case RelStatusEnum::SUSPEND:
+      return "2";
+    case RelStatusEnum::FREEZE:
+      return "3";
+    default:
+      throw std::invalid_argument("Invalid rel status value");
+      break;
+  }
 }
+}  // namespace util
 }  // namespace fcdeduction
 
 #endif
