@@ -36,7 +36,7 @@ class UserClient {
   std::unique_ptr<UserFacade::Stub> stub_;
 };
 int main(int argc, char const *argv[]) {
-  auto channel = grpc::CreateChannel("localhost:50051",
+  auto channel = grpc::CreateChannel("0.0.0.0:50051",
                                      grpc::InsecureChannelCredentials());
   UserClient client(channel);
   const char *loginKey =

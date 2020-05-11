@@ -79,8 +79,8 @@ fcdeduction::dao::UserArRelDao::selectListByUserIdAndArNo(
     UserArRel rel;
     rel.arName = row.arName;
     rel.arNo = row.arNo;
-    rel.gmtCreate = row.gmtCreate;
-    rel.gmtModified = row.gmtModified;
+    // rel.gmtCreate = row.gmtCreate;
+    // rel.gmtModified = row.gmtModified;
     rel.memo = row.memo;
     rel.pdCode = row.pdCode;
     rel.pdName = row.pdName;
