@@ -109,9 +109,9 @@ cc_binary(
 )
 
 cc_binary(
-    name = "create_close_deduction_client",
+    name = "deduction_client",
     srcs = [
-        "client/create_close_deduction_client.cc",
+        "client/deduction_client.cc",
         "util/arg_parse.h",
     ],
     defines = ["BAZEL_BUILD"],
