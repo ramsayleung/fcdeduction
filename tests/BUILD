@@ -93,6 +93,15 @@ cc_test(
 )
 
 cc_test(
+    name = "deduction_facade_test",
+    srcs = ["deduction_facade_test.cc"],
+    deps = [
+        "//src:serverLib",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
     name = "snowflake_id_manager_test",
     srcs = ["snowflake_id_manager_test.cc"],
     linkopts = ["-lpthread "],

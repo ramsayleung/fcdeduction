@@ -11,7 +11,7 @@ void generateUUIDV4Test() {
 void sha256Test() {
   using namespace fcdeduction::manager;
   CryptoManager cryptoManager;
-  const std::string ptext = "The quick brown fox jumps over the lazy dog";
+  const std::string ptext = "password";
   std::string salt = getenv("salt");
   std::string hashed = cryptoManager.sha256(ptext, salt);
   std::cout << "hashed key: " << hashed << std::endl;

@@ -95,18 +95,37 @@ cc_grpc_library(
 
 cc_binary(
     name = "user_client",
-    srcs = ["facade/user_client.cc"],
+    srcs = [
+        "client/user_client.cc",
+        "util/arg_parse.h",
+    ],
     defines = ["BAZEL_BUILD"],
     deps = [
         ":helloworld_cc_grpc",
         # http_archive made this label available for binding
         "@com_github_grpc_grpc//:grpc++",
+        "@spdlog",
+    ],
+)
+
+cc_binary(
+    name = "create_close_deduction_client",
+    srcs = [
+        "client/create_close_deduction_client.cc",
+        "util/arg_parse.h",
+    ],
+    defines = ["BAZEL_BUILD"],
+    deps = [
+        ":helloworld_cc_grpc",
+        # http_archive made this label available for binding
+        "@com_github_grpc_grpc//:grpc++",
+        "@spdlog",
     ],
 )
 
 cc_binary(
     name = "greeter_client",
-    srcs = ["facade/greeter_client.cc"],
+    srcs = ["client/greeter_client.cc"],
     defines = ["BAZEL_BUILD"],
     deps = [
         ":helloworld_cc_grpc",

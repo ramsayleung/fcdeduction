@@ -81,6 +81,22 @@ grpc::Status fcdeduction::facade::UserFacadeImpl::validateLoginSession(
     grpc::ServerContext *context, const LoginSessionValidateRequest *request,
     LoginSessionValidateResponse *response) {
   fcdeduction::manager::TokenManager tokenManager;
+  std::optional<std::string> foundUserId =
+      tokenManager.getUserInfoByTokenId(request->token());
+  if (!foundUserId.has_value()) {
+    setResponse(response, fcdeduction::util::ResponseEnum::USER_NOT_LOGIN);
+  }
+
+  fcdeduction::dao::UserDao userDao;
+  bool exist =
+      userDao.userExist(fcdeduction::util::TNT_INST_ID, foundUserId.value());
+
+  // 判断用户是否存在
+  if (!exist) {
+    spdlog::warn("用户不存在, userId: {0}", *foundUserId);
+    setResponse(response, fcdeduction::util::ResponseEnum::USER_NOT_EXIST);
+    return grpc::Status::OK;
+  }
   bool validateOk = tokenManager.checkUserToken(request->token());
   if (validateOk) {
     setResponse(response, fcdeduction::util::ResponseEnum::SUCCESS);
