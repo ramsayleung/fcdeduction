@@ -1,6 +1,7 @@
 #ifndef DAL_USER_AR_REL_DAO_H
 #define DAL_USER_AR_REL_DAO_H
 #include <string>
+#include <vector>
 
 #include "base_dao.h"
 #include "user_ar_rel.h"
@@ -21,6 +22,16 @@ class UserArRelDao : public fcdeduction::dao::BaseDao {
   std::optional<fcdeduction::dataobject::UserArRel> selectByUserIdArNoAndPdCode(
       const std::string &tntInstId, const std::string &arNo,
       const std::string &pdCode, const std::string &userId);
+
+  // 通过唯一键用户Id-合约号-产品码查询合约关系
+  void deleteByUserIdArNoAndPdCode(const std::string &tntInstId,
+                                   const std::string &arNo,
+                                   const std::string &pdCode,
+                                   const std::string &userId);
+  //  通过用户Id和合约号, 查询关系列表. 支持分页.
+  std::vector<fcdeduction::dataobject::UserArRel> selectListByUserIdAndArNo(
+      const std::string &tntInstId, const std::string &arNo,
+      const std::string &userId, unsigned int pageIndex, unsigned int pageSize);
 };
 }  // namespace dao
 }  // namespace fcdeduction

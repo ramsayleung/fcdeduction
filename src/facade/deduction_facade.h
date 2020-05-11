@@ -13,6 +13,7 @@ using deduction::DeduceResponse;
 using deduction::DeductionFacade;
 using deduction::DeductionListQueryRequest;
 using deduction::DeductionListQueryResponse;
+using deduction::SimpliedProductInfo;
 namespace fcdeduction {
 namespace facade {
 class DeductionFacadeImpl final : public DeductionFacade::Service {

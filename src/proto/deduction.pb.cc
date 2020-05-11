@@ -119,8 +119,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_deduction_2eproto::offsets[] P
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::deduction::DeduceRequest, token_),
-  PROTOBUF_FIELD_OFFSET(::deduction::DeduceRequest, arrangementtype_),
-  PROTOBUF_FIELD_OFFSET(::deduction::DeduceRequest, productcode_),
+  PROTOBUF_FIELD_OFFSET(::deduction::DeduceRequest, arno_),
+  PROTOBUF_FIELD_OFFSET(::deduction::DeduceRequest, pdcode_),
   PROTOBUF_FIELD_OFFSET(::deduction::DeduceRequest, userid_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::deduction::DeduceResponse, _internal_metadata_),
@@ -136,7 +136,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_deduction_2eproto::offsets[] P
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::deduction::DeductionListQueryRequest, token_),
-  PROTOBUF_FIELD_OFFSET(::deduction::DeductionListQueryRequest, arrangementtype_),
+  PROTOBUF_FIELD_OFFSET(::deduction::DeductionListQueryRequest, arno_),
   PROTOBUF_FIELD_OFFSET(::deduction::DeductionListQueryRequest, userid_),
   PROTOBUF_FIELD_OFFSET(::deduction::DeductionListQueryRequest, pageindex_),
   PROTOBUF_FIELD_OFFSET(::deduction::DeductionListQueryRequest, pagesize_),
@@ -175,29 +175,28 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_deduction_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\017deduction.proto\022\tdeduction\"\\\n\rDeduceRe"
-  "quest\022\r\n\005token\030\001 \001(\t\022\027\n\017arrangementType\030"
-  "\002 \001(\t\022\023\n\013productCode\030\003 \001(\t\022\016\n\006userId\030\004 \001"
-  "(\t\"<\n\016DeduceResponse\022\016\n\006status\030\001 \001(\t\022\014\n\004"
-  "code\030\002 \001(\t\022\014\n\004desc\030\003 \001(\t\"x\n\031DeductionLis"
-  "tQueryRequest\022\r\n\005token\030\001 \001(\t\022\027\n\017arrangem"
-  "entType\030\002 \001(\t\022\016\n\006userId\030\003 \001(\t\022\021\n\tpageInd"
-  "ex\030\004 \001(\t\022\020\n\010pageSize\030\005 \001(\t\"W\n\023SimpliedPr"
-  "oductInfo\022\023\n\013productCode\030\001 \001(\t\022\023\n\013produc"
-  "tName\030\002 \001(\t\022\026\n\016proudctOrgName\030\003 \001(\t\"\205\001\n\032"
-  "DeductionListQueryResponse\022\016\n\006status\030\001 \001"
-  "(\t\022\014\n\004code\030\002 \001(\t\022\014\n\004desc\030\003 \001(\t\022;\n\023simpli"
-  "edProductInfo\030\004 \003(\0132\036.deduction.Simplied"
-  "ProductInfo*3\n\nStatusEnum\022\013\n\007SUCCESS\020\000\022\n"
-  "\n\006FAILED\020\001\022\014\n\010UNKKNOWN\020\0022\250\002\n\017DeductionFa"
-  "cade\022O\n\026CreateDeductionService\022\030.deducti"
-  "on.DeduceRequest\032\031.deduction.DeduceRespo"
-  "nse\"\000\022N\n\025CloseDeductionService\022\030.deducti"
-  "on.DeduceRequest\032\031.deduction.DeduceRespo"
-  "nse\"\000\022t\n#QueryDeductionListByUserIdAndAr"
-  "Type\022$.deduction.DeductionListQueryReque"
-  "st\032%.deduction.DeductionListQueryRespons"
-  "e\"\000b\006proto3"
+  "\n\017deduction.proto\022\tdeduction\"L\n\rDeduceRe"
+  "quest\022\r\n\005token\030\001 \001(\t\022\014\n\004arNo\030\002 \001(\t\022\016\n\006pd"
+  "Code\030\003 \001(\t\022\016\n\006userId\030\004 \001(\t\"<\n\016DeduceResp"
+  "onse\022\016\n\006status\030\001 \001(\t\022\014\n\004code\030\002 \001(\t\022\014\n\004de"
+  "sc\030\003 \001(\t\"m\n\031DeductionListQueryRequest\022\r\n"
+  "\005token\030\001 \001(\t\022\014\n\004arNo\030\002 \001(\t\022\016\n\006userId\030\003 \001"
+  "(\t\022\021\n\tpageIndex\030\004 \001(\r\022\020\n\010pageSize\030\005 \001(\r\""
+  "W\n\023SimpliedProductInfo\022\023\n\013productCode\030\001 "
+  "\001(\t\022\023\n\013productName\030\002 \001(\t\022\026\n\016proudctOrgNa"
+  "me\030\003 \001(\t\"\205\001\n\032DeductionListQueryResponse\022"
+  "\016\n\006status\030\001 \001(\t\022\014\n\004code\030\002 \001(\t\022\014\n\004desc\030\003 "
+  "\001(\t\022;\n\023simpliedProductInfo\030\004 \003(\0132\036.deduc"
+  "tion.SimpliedProductInfo*3\n\nStatusEnum\022\013"
+  "\n\007SUCCESS\020\000\022\n\n\006FAILED\020\001\022\014\n\010UNKKNOWN\020\0022\250\002"
+  "\n\017DeductionFacade\022O\n\026CreateDeductionServ"
+  "ice\022\030.deduction.DeduceRequest\032\031.deductio"
+  "n.DeduceResponse\"\000\022N\n\025CloseDeductionServ"
+  "ice\022\030.deduction.DeduceRequest\032\031.deductio"
+  "n.DeduceResponse\"\000\022t\n#QueryDeductionList"
+  "ByUserIdAndArType\022$.deduction.DeductionL"
+  "istQueryRequest\032%.deduction.DeductionLis"
+  "tQueryResponse\"\000b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_deduction_2eproto_deps[1] = {
 };
@@ -211,7 +210,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ded
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_deduction_2eproto_once;
 static bool descriptor_table_deduction_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_deduction_2eproto = {
-  &descriptor_table_deduction_2eproto_initialized, descriptor_table_protodef_deduction_2eproto, "deduction.proto", 891,
+  &descriptor_table_deduction_2eproto_initialized, descriptor_table_protodef_deduction_2eproto, "deduction.proto", 864,
   &descriptor_table_deduction_2eproto_once, descriptor_table_deduction_2eproto_sccs, descriptor_table_deduction_2eproto_deps, 5, 0,
   schemas, file_default_instances, TableStruct_deduction_2eproto::offsets,
   file_level_metadata_deduction_2eproto, 5, file_level_enum_descriptors_deduction_2eproto, file_level_service_descriptors_deduction_2eproto,
@@ -257,13 +256,13 @@ DeduceRequest::DeduceRequest(const DeduceRequest& from)
   if (!from._internal_token().empty()) {
     token_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.token_);
   }
-  arrangementtype_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_arrangementtype().empty()) {
-    arrangementtype_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.arrangementtype_);
+  arno_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_arno().empty()) {
+    arno_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.arno_);
   }
-  productcode_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_productcode().empty()) {
-    productcode_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.productcode_);
+  pdcode_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_pdcode().empty()) {
+    pdcode_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.pdcode_);
   }
   userid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_userid().empty()) {
@@ -275,8 +274,8 @@ DeduceRequest::DeduceRequest(const DeduceRequest& from)
 void DeduceRequest::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_DeduceRequest_deduction_2eproto.base);
   token_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  arrangementtype_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  productcode_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  arno_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  pdcode_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   userid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -287,8 +286,8 @@ DeduceRequest::~DeduceRequest() {
 
 void DeduceRequest::SharedDtor() {
   token_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  arrangementtype_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  productcode_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  arno_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  pdcode_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   userid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -308,8 +307,8 @@ void DeduceRequest::Clear() {
   (void) cached_has_bits;
 
   token_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  arrangementtype_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  productcode_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  arno_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  pdcode_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   userid_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   _internal_metadata_.Clear();
 }
@@ -330,21 +329,21 @@ const char* DeduceRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string arrangementType = 2;
+      // string arNo = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          auto str = _internal_mutable_arrangementtype();
+          auto str = _internal_mutable_arno();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "deduction.DeduceRequest.arrangementType"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "deduction.DeduceRequest.arNo"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string productCode = 3;
+      // string pdCode = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_productcode();
+          auto str = _internal_mutable_pdcode();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "deduction.DeduceRequest.productCode"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "deduction.DeduceRequest.pdCode"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -393,24 +392,24 @@ failure:
         1, this->_internal_token(), target);
   }
 
-  // string arrangementType = 2;
-  if (this->arrangementtype().size() > 0) {
+  // string arNo = 2;
+  if (this->arno().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_arrangementtype().data(), static_cast<int>(this->_internal_arrangementtype().length()),
+      this->_internal_arno().data(), static_cast<int>(this->_internal_arno().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "deduction.DeduceRequest.arrangementType");
+      "deduction.DeduceRequest.arNo");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_arrangementtype(), target);
+        2, this->_internal_arno(), target);
   }
 
-  // string productCode = 3;
-  if (this->productcode().size() > 0) {
+  // string pdCode = 3;
+  if (this->pdcode().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_productcode().data(), static_cast<int>(this->_internal_productcode().length()),
+      this->_internal_pdcode().data(), static_cast<int>(this->_internal_pdcode().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "deduction.DeduceRequest.productCode");
+      "deduction.DeduceRequest.pdCode");
     target = stream->WriteStringMaybeAliased(
-        3, this->_internal_productcode(), target);
+        3, this->_internal_pdcode(), target);
   }
 
   // string userId = 4;
@@ -446,18 +445,18 @@ size_t DeduceRequest::ByteSizeLong() const {
         this->_internal_token());
   }
 
-  // string arrangementType = 2;
-  if (this->arrangementtype().size() > 0) {
+  // string arNo = 2;
+  if (this->arno().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_arrangementtype());
+        this->_internal_arno());
   }
 
-  // string productCode = 3;
-  if (this->productcode().size() > 0) {
+  // string pdCode = 3;
+  if (this->pdcode().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_productcode());
+        this->_internal_pdcode());
   }
 
   // string userId = 4;
@@ -502,13 +501,13 @@ void DeduceRequest::MergeFrom(const DeduceRequest& from) {
 
     token_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.token_);
   }
-  if (from.arrangementtype().size() > 0) {
+  if (from.arno().size() > 0) {
 
-    arrangementtype_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.arrangementtype_);
+    arno_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.arno_);
   }
-  if (from.productcode().size() > 0) {
+  if (from.pdcode().size() > 0) {
 
-    productcode_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.productcode_);
+    pdcode_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.pdcode_);
   }
   if (from.userid().size() > 0) {
 
@@ -539,9 +538,9 @@ void DeduceRequest::InternalSwap(DeduceRequest* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
   token_.Swap(&other->token_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  arrangementtype_.Swap(&other->arrangementtype_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  arno_.Swap(&other->arno_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  productcode_.Swap(&other->productcode_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  pdcode_.Swap(&other->pdcode_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   userid_.Swap(&other->userid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
@@ -850,32 +849,28 @@ DeductionListQueryRequest::DeductionListQueryRequest(const DeductionListQueryReq
   if (!from._internal_token().empty()) {
     token_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.token_);
   }
-  arrangementtype_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_arrangementtype().empty()) {
-    arrangementtype_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.arrangementtype_);
+  arno_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_arno().empty()) {
+    arno_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.arno_);
   }
   userid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_userid().empty()) {
     userid_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.userid_);
   }
-  pageindex_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_pageindex().empty()) {
-    pageindex_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.pageindex_);
-  }
-  pagesize_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_pagesize().empty()) {
-    pagesize_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.pagesize_);
-  }
+  ::memcpy(&pageindex_, &from.pageindex_,
+    static_cast<size_t>(reinterpret_cast<char*>(&pagesize_) -
+    reinterpret_cast<char*>(&pageindex_)) + sizeof(pagesize_));
   // @@protoc_insertion_point(copy_constructor:deduction.DeductionListQueryRequest)
 }
 
 void DeductionListQueryRequest::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_DeductionListQueryRequest_deduction_2eproto.base);
   token_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  arrangementtype_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  arno_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   userid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  pageindex_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  pagesize_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&pageindex_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&pagesize_) -
+      reinterpret_cast<char*>(&pageindex_)) + sizeof(pagesize_));
 }
 
 DeductionListQueryRequest::~DeductionListQueryRequest() {
@@ -885,10 +880,8 @@ DeductionListQueryRequest::~DeductionListQueryRequest() {
 
 void DeductionListQueryRequest::SharedDtor() {
   token_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  arrangementtype_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  arno_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   userid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  pageindex_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  pagesize_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void DeductionListQueryRequest::SetCachedSize(int size) const {
@@ -907,10 +900,11 @@ void DeductionListQueryRequest::Clear() {
   (void) cached_has_bits;
 
   token_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  arrangementtype_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  arno_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   userid_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  pageindex_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  pagesize_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&pageindex_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&pagesize_) -
+      reinterpret_cast<char*>(&pageindex_)) + sizeof(pagesize_));
   _internal_metadata_.Clear();
 }
 
@@ -930,12 +924,12 @@ const char* DeductionListQueryRequest::_InternalParse(const char* ptr, ::PROTOBU
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string arrangementType = 2;
+      // string arNo = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          auto str = _internal_mutable_arrangementtype();
+          auto str = _internal_mutable_arno();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "deduction.DeductionListQueryRequest.arrangementType"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "deduction.DeductionListQueryRequest.arNo"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -948,21 +942,17 @@ const char* DeductionListQueryRequest::_InternalParse(const char* ptr, ::PROTOBU
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string pageIndex = 4;
+      // uint32 pageIndex = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
-          auto str = _internal_mutable_pageindex();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "deduction.DeductionListQueryRequest.pageIndex"));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          pageindex_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string pageSize = 5;
+      // uint32 pageSize = 5;
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
-          auto str = _internal_mutable_pagesize();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "deduction.DeductionListQueryRequest.pageSize"));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          pagesize_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1002,14 +992,14 @@ failure:
         1, this->_internal_token(), target);
   }
 
-  // string arrangementType = 2;
-  if (this->arrangementtype().size() > 0) {
+  // string arNo = 2;
+  if (this->arno().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_arrangementtype().data(), static_cast<int>(this->_internal_arrangementtype().length()),
+      this->_internal_arno().data(), static_cast<int>(this->_internal_arno().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "deduction.DeductionListQueryRequest.arrangementType");
+      "deduction.DeductionListQueryRequest.arNo");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_arrangementtype(), target);
+        2, this->_internal_arno(), target);
   }
 
   // string userId = 3;
@@ -1022,24 +1012,16 @@ failure:
         3, this->_internal_userid(), target);
   }
 
-  // string pageIndex = 4;
-  if (this->pageindex().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_pageindex().data(), static_cast<int>(this->_internal_pageindex().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "deduction.DeductionListQueryRequest.pageIndex");
-    target = stream->WriteStringMaybeAliased(
-        4, this->_internal_pageindex(), target);
+  // uint32 pageIndex = 4;
+  if (this->pageindex() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_pageindex(), target);
   }
 
-  // string pageSize = 5;
-  if (this->pagesize().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_pagesize().data(), static_cast<int>(this->_internal_pagesize().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "deduction.DeductionListQueryRequest.pageSize");
-    target = stream->WriteStringMaybeAliased(
-        5, this->_internal_pagesize(), target);
+  // uint32 pageSize = 5;
+  if (this->pagesize() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_pagesize(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1065,11 +1047,11 @@ size_t DeductionListQueryRequest::ByteSizeLong() const {
         this->_internal_token());
   }
 
-  // string arrangementType = 2;
-  if (this->arrangementtype().size() > 0) {
+  // string arNo = 2;
+  if (this->arno().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_arrangementtype());
+        this->_internal_arno());
   }
 
   // string userId = 3;
@@ -1079,17 +1061,17 @@ size_t DeductionListQueryRequest::ByteSizeLong() const {
         this->_internal_userid());
   }
 
-  // string pageIndex = 4;
-  if (this->pageindex().size() > 0) {
+  // uint32 pageIndex = 4;
+  if (this->pageindex() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_pageindex());
   }
 
-  // string pageSize = 5;
-  if (this->pagesize().size() > 0) {
+  // uint32 pageSize = 5;
+  if (this->pagesize() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_pagesize());
   }
 
@@ -1128,21 +1110,19 @@ void DeductionListQueryRequest::MergeFrom(const DeductionListQueryRequest& from)
 
     token_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.token_);
   }
-  if (from.arrangementtype().size() > 0) {
+  if (from.arno().size() > 0) {
 
-    arrangementtype_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.arrangementtype_);
+    arno_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.arno_);
   }
   if (from.userid().size() > 0) {
 
     userid_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.userid_);
   }
-  if (from.pageindex().size() > 0) {
-
-    pageindex_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.pageindex_);
+  if (from.pageindex() != 0) {
+    _internal_set_pageindex(from._internal_pageindex());
   }
-  if (from.pagesize().size() > 0) {
-
-    pagesize_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.pagesize_);
+  if (from.pagesize() != 0) {
+    _internal_set_pagesize(from._internal_pagesize());
   }
 }
 
@@ -1169,14 +1149,12 @@ void DeductionListQueryRequest::InternalSwap(DeductionListQueryRequest* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
   token_.Swap(&other->token_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  arrangementtype_.Swap(&other->arrangementtype_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  arno_.Swap(&other->arno_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   userid_.Swap(&other->userid_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  pageindex_.Swap(&other->pageindex_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-  pagesize_.Swap(&other->pagesize_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
+  swap(pageindex_, other->pageindex_);
+  swap(pagesize_, other->pagesize_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata DeductionListQueryRequest::GetMetadata() const {

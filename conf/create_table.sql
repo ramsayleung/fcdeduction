@@ -39,6 +39,7 @@ create table if not exists fcdeduction.de_user_ar_rel(
     `rel_status`  varchar(8) not null comment '关系状态, 如生效:1, 暂停:2, 冻结:3等等',
     `pd_code` varchar(32) not null comment '产品码',
     `pd_name` varchar(255) not null comment '产品名',
+    `pd_org_name` varchar(255) not null comment '产品所属主体',
     `ar_name` varchar(255) not null comment '合约名',
     `ar_no` varchar(32) not null comment '合约号',
     `property_values` varchar(2048) comment '对应合约属性及其值',
@@ -48,6 +49,8 @@ create table if not exists fcdeduction.de_user_ar_rel(
     primary key(tnt_inst_id, rel_id),
     constraint idx_user_ar_pd unique(tnt_inst_id, user_id, ar_no, pd_code)
 );
+
+# ALTER TABLE de_user_ar_rel ADD pd_org_name VARCHAR( 255 ) not null comment '产品所属主体' after pd_name;
 
 create table if not exists fcdeduction.de_ident(
     `tnt_inst_id` varchar(8) not null comment '租户Id',

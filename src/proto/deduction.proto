@@ -20,9 +20,9 @@ message DeduceRequest {
   // 用户登录态token
   string token = 1;
   // 合约类型
-  string arrangementType = 2;
+  string arNo = 2;
   // 产品码
-  string productCode = 3;
+  string pdCode = 3;
   // 用户Id
   string userId = 4;
 }
@@ -40,14 +40,14 @@ message DeduceResponse {
 message DeductionListQueryRequest {
   // 用户登录态token
   string token = 1;
-  // 合约类型
-  string arrangementType = 2;
+  // 合约号
+  string arNo = 2;
   // 用户Id
   string userId = 3;
   // 分页; 页码index
-  string pageIndex = 4;
+  uint32 pageIndex = 4;
   // 分页; 页数
-  string pageSize = 5;
+  uint32 pageSize = 5;
 }
 
 // 简化版产品信息, 用于列表展示

@@ -133,7 +133,6 @@ cc_library(
         "manager/redis_manager.cpp",
         "manager/snowflake_id_manager.cc",
         "manager/token_manager.cc",
-        "util/ar_code_enum.cc",
         "util/response_enum.cc",
     ],
     hdrs = [
@@ -162,7 +161,6 @@ cc_library(
         "manager/redis_manager.hpp",
         "manager/snowflake_id_manager.h",
         "manager/token_manager.h",
-        "util/ar_code_enum.h",
         "util/constant.h",
         "util/ident_type_enum.h",
         "util/rel_status_enum.h",

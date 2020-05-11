@@ -130,6 +130,7 @@
      | rel_status      | N        | varchar(8)    | 关系状态, 如生效:1, 暂停:2, 冻结:3等等 |
      | pd_code         | N        | varchar(32)   | 产品码                                 |
      | pd_name         | N        | varchar(255)  | 产品名                                 |
+     | pd_org_name     | N        | varchar(255)  | 产品所属主体                           |
      | ar_name         | N        | varchar(255)  | 合约名                                 |
      | ar_no           | N        | varchar(32)   | 合约码                                 |
      | property_values | Y        | varchar(2048) | 对应合约属性及其值                     |
@@ -315,10 +316,10 @@
 	message DeduceRequest {
 	    // 用户登录态token
 	    string token = 1;
-	    // 合约类型
-	    string arrangementType = 2;
+	    // 合约号
+	    string arNo = 2;
 	    // 产品码
-	    string productCode = 3;
+	    string pdCode = 3;
 	    // 用户Id
 	    string userId = 4;
 	}
@@ -334,11 +335,11 @@
       #+END_SRC
       入参:
 
-      | 参数名          | 参数类型 | 参数含义    | 必选 | 备注              |
-      | toekn           | String   | 登录态toekn | Y    |                   |
-      | arrangementType | String   | 合约类型    | Y    | 如扣费: Deduction |
-      | productCode     | String   | 产品码      | Y    |                   |
-      | userId          | String   | 用户Id      | Y    |                   |
+      | 参数名 | 参数类型 | 参数含义    | 必选 | 备注             |
+      | toekn  | String   | 登录态toekn | Y    |                  |
+      | arNo   | String   | 合约号      | Y    | 如扣费: 00000001 |
+      | pdCode | String   | 产品码      | Y    |                  |
+      | userId | String   | 用户Id      | Y    |                  |
 
       返回结果:
 
@@ -378,10 +379,10 @@
 	message DeduceRequest {
 	    // 用户登录态token
 	    string token = 1;
-	    // 合约类型
-	    string arrangementType = 2;
+	    // 合约号
+	    string arNo = 2;
 	    // 产品码
-	    string productCode = 3;
+	    string pdCode = 3;
 	    // 用户Id
 	    string userId = 4;
 	}
@@ -398,11 +399,11 @@
       #+END_SRC
       入参:
 
-      | 参数名          | 参数类型 | 参数含义    | 必选 | 备注              |
-      | toekn           | String   | 登录态toekn | Y    |                   |
-      | arrangementType | String   | 合约类型    | Y    | 如扣费: Deduction |
-      | productCode     | String   | 产品码      | Y    |                   |
-      | userId          | String   | 用户Id      | Y    |                   |
+      | 参数名 | 参数类型 | 参数含义    | 必选 | 备注             |
+      | toekn  | String   | 登录态toekn | Y    |                  |
+      | arNo   | String   | 合约号      | Y    | 如扣费: 00000001 |
+      | pdCode | String   | 产品码      | Y    |                  |
+      | userId | String   | 用户Id      | Y    |                  |
 
       返回结果:
 
@@ -447,8 +448,8 @@
 	message DeductionListQueryRequest {
 	    // 用户登录态token
 	    string token = 1;
-	    // 合约类型
-	    string arrangementType = 2;
+	    // 合约号
+	    string arNo = 2;
 	    // 用户Id
 	    string userId = 3;
 	}
@@ -477,10 +478,10 @@
       #+END_SRC
       入参:
 
-      | 参数名          | 参数类型 | 参数含义    | 必选 | 备注              |
-      | toekn           | String   | 登录态toekn | Y    |                   |
-      | arrangementType | String   | 合约类型    | Y    | 如扣费: Deduction |
-      | userId          | String   | 用户Id      | Y    |                   |
+      | 参数名 | 参数类型 | 参数含义    | 必选 | 备注             |
+      | toekn  | String   | 登录态toekn | Y    |                  |
+      | arNo   | String   | 合约号      | Y    | 如扣费: 00000001 |
+      | userId | String   | 用户Id      | Y    |                  |
 
       返回结果:
 

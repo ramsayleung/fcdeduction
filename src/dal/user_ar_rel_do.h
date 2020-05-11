@@ -11,6 +11,7 @@ struct UserArRel {
     std::string relStatus;
     std::string pdCode;
     std::string pdName;
+    std::string pdOrgName;
     std::string arName;
     std::string arNo;
     std::string propretyValues;

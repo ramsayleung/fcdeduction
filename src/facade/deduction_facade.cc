@@ -1,6 +1,7 @@
 #include "deduction_facade.h"
 
 #include <chrono>
+#include <cstdint>
 #include <map>
 
 #include "src/dal/arrangement_dao.h"
@@ -10,15 +11,17 @@
 #include "src/dal/user_dao.h"
 #include "src/facade/user_facade.h"
 #include "src/manager/snowflake_id_manager.h"
-#include "src/util/ar_code_enum.h"
 #include "src/util/constant.h"
 #include "src/util/rel_status_enum.h"
 #include "src/util/response_enum.h"
-fcdeduction::dao::UserArRelDao arRelDao;
-fcdeduction::dao::ArrangementDao arDao;
-fcdeduction::dao::ProductDao productDao;
-fcdeduction::dao::UserDao userDao;
+
 void setReponse(DeduceResponse *response,
+                const fcdeduction::util::ResponseEnum &respEnum) {
+  response->set_status(respEnum.getStatus());
+  response->set_code(respEnum.getCode());
+  response->set_desc(respEnum.getDesc());
+}
+void setReponse(DeductionListQueryResponse *response,
                 const fcdeduction::util::ResponseEnum &respEnum) {
   response->set_status(respEnum.getStatus());
   response->set_code(respEnum.getCode());
@@ -28,6 +31,12 @@ void setReponse(DeduceResponse *response,
 fcdeduction::dataobject::UserArRel generateRel(const std::string &arNo,
                                                const std::string &pdCode,
                                                const std::string &userId) {
+  // TODO 目前的数据库连接管理其实是存在问题的, 将connection放置在dao内部,
+  // 新建一个dao就创建一个连接 然后在dao超出作用域之外, dao被销毁,
+  // connection也被销毁, 效率着实不高.
+  fcdeduction::dao::ArrangementDao arDao;
+  fcdeduction::dao::ProductDao productDao;
+  fcdeduction::dao::UserDao userDao;
   std::optional<fcdeduction::dataobject::Arrangement> ar =
       arDao.selectByArNo(fcdeduction::util::TNT_INST_ID, arNo);
 
@@ -55,6 +64,8 @@ fcdeduction::dataobject::UserArRel generateRel(const std::string &arNo,
 // 进行必要的参数校验, false代表校验失败, true代表校验成功
 bool parameterCheck(grpc::ServerContext *context, const DeduceRequest *request,
                     DeduceResponse *response) {
+  fcdeduction::dao::ArrangementDao arDao;
+  fcdeduction::dao::ProductDao productDao;
   // 判断是否已经登录
   fcdeduction::facade::UserFacadeImpl userService;
   LoginSessionValidateRequest validateRequest;
@@ -69,19 +80,12 @@ bool parameterCheck(grpc::ServerContext *context, const DeduceRequest *request,
   }
   // 判断产品是否存在
   if (!productDao.productExist(fcdeduction::util::TNT_INST_ID,
-                               request->productcode())) {
+                               request->pdcode())) {
     setReponse(response, fcdeduction::util::ResponseEnum::PRODUCT_NOT_EXIST);
     return false;
   }
   // 判断合约是否存在
-  std::map<std::string, std::string> enumMap =
-      fcdeduction::util::ArCodeEnum::enumMap();
-  if (enumMap.find(request->arrangementtype()) == enumMap.end()) {
-    setReponse(response,
-               fcdeduction::util::ResponseEnum::ARRANGEMENT_NOT_EXIST);
-    return false;
-  }
-  std::string arNo = enumMap[request->arrangementtype()];
+  std::string arNo = request->arno();
   if (!arDao.arExist(fcdeduction::util::TNT_INST_ID, arNo)) {
     setReponse(response,
                fcdeduction::util::ResponseEnum::ARRANGEMENT_NOT_EXIST);
@@ -91,17 +95,17 @@ bool parameterCheck(grpc::ServerContext *context, const DeduceRequest *request,
 }
 bool userArRelExist(grpc::ServerContext *context, const DeduceRequest *request,
                     DeduceResponse *response) {
-  std::map<std::string, std::string> enumMap =
-      fcdeduction::util::ArCodeEnum::enumMap();
-  std::string arNo = enumMap[request->arrangementtype()];
+  fcdeduction::dao::UserArRelDao arRelDao;
+  std::string arNo = request->arno();
   // 判断合约-产品-用户绑定关系是否存在.
   return arRelDao.userArRelExist(fcdeduction::util::TNT_INST_ID, arNo,
-                                 request->productcode(), request->userid());
+                                 request->pdcode(), request->userid());
 }
 
 grpc::Status fcdeduction::facade::DeductionFacadeImpl::CreateDeductionService(
     grpc::ServerContext *context, const DeduceRequest *request,
     DeduceResponse *response) {
+  fcdeduction::dao::UserArRelDao arRelDao;
   if (!parameterCheck(context, request, response)) {
     return grpc::Status::OK;
   }
@@ -113,11 +117,9 @@ grpc::Status fcdeduction::facade::DeductionFacadeImpl::CreateDeductionService(
   }
 
   // 新增绑定关系
-  std::map<std::string, std::string> enumMap =
-      fcdeduction::util::ArCodeEnum::enumMap();
-  std::string arNo = enumMap[request->arrangementtype()];
+  std::string arNo = request->arno();
   fcdeduction::dataobject::UserArRel rel =
-      generateRel(arNo, request->productcode(), request->userid());
+      generateRel(arNo, request->pdcode(), request->userid());
   arRelDao.addUserArRel(fcdeduction::util::TNT_INST_ID, rel);
   setReponse(response, fcdeduction::util::ResponseEnum::SUCCESS);
 
@@ -127,6 +129,7 @@ grpc::Status fcdeduction::facade::DeductionFacadeImpl::CreateDeductionService(
 grpc::Status fcdeduction::facade::DeductionFacadeImpl::CloseDeductionService(
     grpc::ServerContext *context, const DeduceRequest *request,
     DeduceResponse *response) {
+  fcdeduction::dao::UserArRelDao arRelDao;
   if (!parameterCheck(context, request, response)) {
     return grpc::Status::OK;
   }
@@ -135,18 +138,53 @@ grpc::Status fcdeduction::facade::DeductionFacadeImpl::CloseDeductionService(
     setReponse(response, fcdeduction::util::ResponseEnum::PRODUCT_NOT_BIND);
     return grpc::Status::OK;
   }
-  // 删除合约-产品-用户绑定关系
 
+  // 删除合约-产品-用户绑定关系
+  arRelDao.deleteByUserIdArNoAndPdCode(fcdeduction::util::TNT_INST_ID,
+                                       request->arno(), request->pdcode(),
+                                       request->userid());
   return grpc::Status::OK;
 }
 grpc::Status
 fcdeduction::facade::DeductionFacadeImpl::QueryDeductionListByUserIdAndArType(
     grpc::ServerContext *context, const DeductionListQueryRequest *request,
     DeductionListQueryResponse *response) {
+  fcdeduction::dao::ArrangementDao arDao;
+  fcdeduction::dao::UserArRelDao arRelDao;
+
   // 判断是否已经登录
+  fcdeduction::facade::UserFacadeImpl userService;
+  LoginSessionValidateRequest validateRequest;
+  validateRequest.set_token(request->token());
+  LoginSessionValidateResponse validateResponse;
+  userService.validateLoginSession(context, &validateRequest,
+                                   &validateResponse);
+  if (validateResponse.status() !=
+      fcdeduction::util::ResponseEnum::SUCCESS.getStatus()) {
+    setReponse(response, fcdeduction::util::ResponseEnum::USER_NOT_LOGIN);
+    return grpc::Status::OK;
+  }
 
   // 判断合约是否存在
-
+  std::string arNo = request->arno();
+  if (!arDao.arExist(fcdeduction::util::TNT_INST_ID, arNo)) {
+    setReponse(response,
+               fcdeduction::util::ResponseEnum::ARRANGEMENT_NOT_EXIST);
+    return grpc::Status::OK;
+  }
+  // TODO 这个值为空校验.
+  unsigned int pageIndex = request->pageindex();
+  unsigned int pageSize = request->pagesize();
+  std::vector<fcdeduction::dataobject::UserArRel> lists =
+      arRelDao.selectListByUserIdAndArNo(fcdeduction::util::TNT_INST_ID,
+                                         request->arno(), request->userid(),
+                                         pageIndex, pageSize);
+  for (auto const &rel : lists) {
+    SimpliedProductInfo *info = response->add_simpliedproductinfo();
+    info->set_productcode(rel.pdCode);
+    info->set_productname(rel.pdName);
+    info->set_proudctorgname(rel.pdOrgName);
+  }
   // 查询合约-产品-用户绑定关系
   return grpc::Status::OK;
 }
