@@ -66,6 +66,8 @@ create table if not exists fcdeduction.de_ident(
     constraint idx_key_type unique (tnt_inst_id, ident_key, ident_type)
 );
 
+use fcdeduction;
+
 insert into de_user(tnt_inst_id, user_id, user_name, user_type, gmt_create, gmt_modified) values("FINC0001","00000001","Ramsay","1",now(6),now(6));
 
 insert into de_ar(tnt_inst_id, ar_number, ar_name, ar_version, properties, memo, gmt_create, gmt_modified) VALUES ("FINC0001","00000001","扣费合约","1","","备注",now(6),now(6));

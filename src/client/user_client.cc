@@ -13,6 +13,7 @@
 #include "src/proto/user.grpc.pb.h"
 #include "src/util/arg_parse.h"
 using user::UserFacade;
+using grpc::Status;
 using user::UserLoginRequest;
 using user::UserLoginResponse;
 
@@ -26,10 +27,15 @@ class UserClient {
     request.set_loginvalue(loginValue);
     UserLoginResponse response;
     grpc::ClientContext context;
-    stub_->Login(&context, request, &response);
+    Status status = stub_->Login(&context, request, &response);
+    if (status.ok()) {
     std::cout << "Login()-response: status" << response.status() << "\n"
               << " code" << response.code() << "\n"
               << " message" << response.desc() << '\n';
+    } else {
+      std::cout << status.error_code() << ": " << status.error_message()
+                << std::endl;
+    }
   }
 
  private:

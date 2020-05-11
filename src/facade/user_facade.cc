@@ -1,6 +1,5 @@
 #include "user_facade.h"
 
-#include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/spdlog.h"
 #include "src/dal/identification_dao.h"
 #include "src/dal/user_dao.h"
@@ -35,6 +34,8 @@ grpc::Status fcdeduction::facade::UserFacadeImpl::Login(
             fcdeduction::util::TNT_INST_ID, loginKey,
             fcdeduction::util::IdentTypeEnum::PASSWORD);
     // 判断用户是否存在
+    spdlog::info("start: 判断用户是否存在, loginKey:{0}, loginValue: {1}", loginKey,
+                 loginValue);
     if (!foundUser.has_value()) {
         spdlog::warn("用户不存在, loginKey:{0}, loginValue: {1}", loginKey,
                      loginValue);
@@ -60,6 +61,8 @@ grpc::Status fcdeduction::facade::UserFacadeImpl::Login(
     bool identMatch = identDao.identMatch(
         fcdeduction::util::TNT_INST_ID, *foundUser, loginKey, encrypted,
         fcdeduction::util::IdentTypeEnum::PASSWORD);
+    spdlog::info("start: 判断账号密码是否正确, loginKey:{0}, loginValue: {1}", loginKey,
+                 loginValue);
     if (identMatch) {
         // 生成一个唯一Id
         const std::string token = cryptoManager.generateUUIDV4();
