@@ -572,19 +572,19 @@
     本次迭代功能是与信息流相关, 不涉及资金流, 故理论无资损点需要测试与回归.
 *** 测试记录
     测试数据:
-    用户A:
-    登录邮箱: ramsayleung@gmail.com
-    密码: password
-    salt: 111111
-    用户Id(userId): 00000001
-    产品码(pdCode): 457680430309847040
-    合约编号(arNo): 457681411894423554
-    测试命令行: [[file:src/client/]]
+    + 用户A:
+    + 登录邮箱: ramsayleung@gmail.com
+    + 密码: password
+    + salt: 111111
+    + 用户Id(userId): 00000001
+    + 产品码(pdCode): 457680430309847040
+    + 合约编号(arNo): 457681411894423554
+    + 测试命令行: [[file:src/client/]]
     
-    用户B:
-    登录邮箱: xixihaha@outlook.com
-    密码: ctext
-    userId: 00000002
+    + 用户B:
+    + 登录邮箱: xixihaha@outlook.com
+    + 密码: ctext
+    + userId: 00000002
 **** 登录
 ***** 用户不存在
       使用错误的邮箱进行登录, 左边为client, 右边为server:
