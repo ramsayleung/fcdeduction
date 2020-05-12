@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <map>
 
+#include "spdlog/spdlog.h"
 #include "src/dal/arrangement_dao.h"
 #include "src/dal/product_dao.h"
 #include "src/dal/user_ar_rel_dao.h"
@@ -105,6 +106,10 @@ bool userArRelExist(grpc::ServerContext *context, const DeduceRequest *request,
 grpc::Status fcdeduction::facade::DeductionFacadeImpl::CreateDeductionService(
     grpc::ServerContext *context, const DeduceRequest *request,
     DeduceResponse *response) {
+  spdlog::info(
+      "start: 开通服务, request.token:{0}, request.userId, request.pdCode, "
+      "request.ArNo",
+      request->token(), request->userid(), request->pdcode(), request->arno());
   fcdeduction::dao::UserArRelDao arRelDao;
   if (!parameterCheck(context, request, response)) {
     return grpc::Status::OK;
@@ -129,6 +134,11 @@ grpc::Status fcdeduction::facade::DeductionFacadeImpl::CreateDeductionService(
 grpc::Status fcdeduction::facade::DeductionFacadeImpl::CloseDeductionService(
     grpc::ServerContext *context, const DeduceRequest *request,
     DeduceResponse *response) {
+  spdlog::info(
+      "start: 关闭服务, request.token:{0}, request.userId:{1}, "
+      "request.pdCode{2}, "
+      "request.ArNo{3}",
+      request->token(), request->userid(), request->pdcode(), request->arno());
   fcdeduction::dao::UserArRelDao arRelDao;
   if (!parameterCheck(context, request, response)) {
     return grpc::Status::OK;
@@ -149,6 +159,10 @@ grpc::Status
 fcdeduction::facade::DeductionFacadeImpl::QueryDeductionListByUserIdAndArType(
     grpc::ServerContext *context, const DeductionListQueryRequest *request,
     DeductionListQueryResponse *response) {
+  spdlog::info(
+      "start: 查询服务列表, request.token:{0}, request.userId:{1},request.ArNo {2} ",
+      request->token(),
+      request->userid(), request->arno());
   fcdeduction::dao::ArrangementDao arDao;
   fcdeduction::dao::UserArRelDao arRelDao;
 

@@ -72,6 +72,7 @@ grpc::Status fcdeduction::facade::UserFacadeImpl::Login(
     setResponse(response,
                 fcdeduction::util::ResponseEnum::INCORRECT_LOGIN_VALUE);
   }
+  spdlog::info("end: 用户登录, loginKey:{0}", loginKey);
   return grpc::Status::OK;
 }
 grpc::Status fcdeduction::facade::UserFacadeImpl::validateLoginSession(
