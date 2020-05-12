@@ -6,15 +6,19 @@
 #include <memory>
 
 #include "src/manager/database_manager.hpp"
+#include "src/util/config.h"
 
 namespace fcdeduction {
 namespace dao {
 class BaseDao {
  public:
   explicit BaseDao() {
+    using namespace fcdeduction::util;
     fcdeduction::manager::DatabaseManager dbManager(
-        getenv("mysql_host"), getenv("mysql_database"), getenv("mysql_user"),
-        getenv("mysql_password"));
+        getEnvironmentVariableOrDefault("mysql_host", "127.0.0.1"),
+        getEnvironmentVariableOrDefault("mysql_database", "fcdeduction"),
+        getEnvironmentVariableOrDefault("mysql_user", "root"),
+        getEnvironmentVariableOrDefault("mysql_password", "password"));
     pconnection = dbManager.getConnection();
   }
 

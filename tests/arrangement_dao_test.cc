@@ -13,11 +13,11 @@ TEST(DAOTEST, ARRANGEMENT_EXIST_TEST) {
   fcdeduction::dataobject::Arrangement ar;
   ar.arNumber = arNo;
   ar.tntInstId = tntInstId;
-  ar.arName = "测试合约";
+  ar.arName = "testar";
   ar.arNumber = arNo;
   ar.arVersion = "1";
-  ar.memo = "备注";
-  ar.properties = R"([{"name":"签约账号", "key":"account","value":"零钱"}])";
+  ar.memo = "memo";
+  ar.properties = R"([{"name":"name", "key":"account","value":"change"}])";
   fcdeduction::dao::ArrangementDao dao;
   dao.deleteAr(tntInstId, arNo);
   dao.insertAr(ar);

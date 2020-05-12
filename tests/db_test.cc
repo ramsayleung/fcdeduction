@@ -6,6 +6,7 @@
 #include "gtest/gtest.h"
 #include "src/dal/user.h"
 #include "src/manager/database_manager.hpp"
+#include "src/util/config.h"
 
 namespace mysql = sqlpp::mysql;
 model::DeUser deuser = {};
@@ -47,20 +48,26 @@ void testSelect(mysql::connection& connection) {
 }
 
 TEST(DATABASEMANAGERTEST, MAINTEST) {
+  using namespace fcdeduction::util;
   fcdeduction::manager::DatabaseManager dbManager(
-      "127.0.0.1", getenv("mysql_database"), getenv("mysql_user"),
-      getenv("mysql_password"));
+      getEnvironmentVariableOrDefault("mysql_host", "127.0.0.1"),
+      getEnvironmentVariableOrDefault("mysql_database", "fcdeduction"),
+      getEnvironmentVariableOrDefault("mysql_user", "root"),
+      getEnvironmentVariableOrDefault("mysql_password", "password"));
   auto connection = dbManager.getConnection();
   testSelect(*connection);
   testInsert(*connection);
   testSelect(*connection);
 }
 TEST(SQLPP11TEST, MAINTEST) {
+  using namespace fcdeduction::util;
   auto config = std::make_shared<mysql::connection_config>();
-  config->host = "127.0.0.1";
-  config->user = getenv("mysql_user");
-  config->database = getenv("mysql_database");
-  config->password = getenv("mysql_password");
+  config->host = getEnvironmentVariableOrDefault("mysql_host", "127.0.0.1");
+  config->user = getEnvironmentVariableOrDefault("mysql_user", "root");
+  config->database =
+      getEnvironmentVariableOrDefault("mysql_database", "fcdeduction");
+  config->password =
+      getEnvironmentVariableOrDefault("mysql_password", "password");
   config->debug = true;
   try {
     mysql::connection connection(config);

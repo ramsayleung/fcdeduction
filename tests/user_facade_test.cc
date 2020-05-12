@@ -10,11 +10,13 @@
 #include "src/manager/redis_manager.hpp"
 #include "src/manager/snowflake_id_manager.h"
 #include "src/manager/token_manager.h"
+#include "src/util/config.h"
 #include "src/util/constant.h"
 #include "src/util/rel_status_enum.h"
 
 TEST(FACADE_TEST, USER_FACADE_LOGIN_TEST) {
   // int main() {
+  using namespace fcdeduction::util;
   fcdeduction::facade::UserFacadeImpl service;
   fcdeduction::manager::SnowFlakeIdManager idManager(
       fcdeduction::util::DATA_CENTER_ID, fcdeduction::util::MACHINE_ID);
@@ -32,7 +34,7 @@ TEST(FACADE_TEST, USER_FACADE_LOGIN_TEST) {
   fcdeduction::dao::UserDao userDao;
   fcdeduction::dataobject::Identification ident;
   fcdeduction::manager::CryptoManager cryptoManager;
-  const std::string salt = getenv("salt");
+  const std::string salt = getEnvironmentVariableOrDefault("salt", "111111");
   const std::string plainText = "password";
   ident.tntInstId = fcdeduction::util::TEST_TNT_INST_ID;
   ident.identId = idManager.nextId();

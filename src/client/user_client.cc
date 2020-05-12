@@ -8,12 +8,11 @@
 #include <memory>
 #include <string>
 
-#include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/spdlog.h"
 #include "src/proto/user.grpc.pb.h"
 #include "src/util/arg_parse.h"
-using user::UserFacade;
 using grpc::Status;
+using user::UserFacade;
 using user::UserLoginRequest;
 using user::UserLoginResponse;
 
@@ -29,12 +28,16 @@ class UserClient {
     grpc::ClientContext context;
     Status status = stub_->Login(&context, request, &response);
     if (status.ok()) {
-    std::cout << "Login()-response: status" << response.status() << "\n"
-              << " code" << response.code() << "\n"
-              << " message" << response.desc() << '\n';
+      spdlog::info(
+          "UserFacade.Login() response: status:{0}, code:{1}, desc: {2}",
+          response.status(), response.code(), response.desc());
+      if (response.code() == "00") {
+        spdlog::info("UserFacade.Login() successfully: token:{0}",
+                     response.token());
+      }
     } else {
-      std::cout << status.error_code() << ": " << status.error_message()
-                << std::endl;
+      spdlog::error("通讯异常: error_code: {0}, error_message{1}",
+                    status.error_code(), status.error_message());
     }
   }
 
@@ -42,8 +45,8 @@ class UserClient {
   std::unique_ptr<UserFacade::Stub> stub_;
 };
 int main(int argc, char const *argv[]) {
-  auto channel = grpc::CreateChannel("0.0.0.0:50051",
-                                     grpc::InsecureChannelCredentials());
+  auto channel =
+      grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials());
   UserClient client(channel);
   const char *loginKey =
       fcdeduction::util::getCmdOption(argv, argv + argc, "-k");

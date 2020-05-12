@@ -12,10 +12,10 @@ TEST(DAOTEST, PRODUCT_EXIST_TEST) {
   fcdeduction::dataobject::Product product;
   product.gmtCreate = std::chrono::system_clock::now();
   product.gmtModified = std::chrono::system_clock::now();
-  product.memo = "备注";
-  product.pdName = "测试产品";
-  product.pdDesc = "测试产品描述";
-  product.pdOrgName = "主体信息";
+  product.memo = "memo";
+  product.pdName = "test product";
+  product.pdDesc = "test product desc";
+  product.pdOrgName = "test product org";
   product.pdCode = pdCode;
   product.tntInstId = tntInstId;
 
