@@ -754,13 +754,13 @@
    + openssl(加解密): https://www.openssl.org/
 ** 成果
 *** 技术要求
-    - [-] =must= 使用 C++ 实现客户端（命令行交互即可）、服务端，代码风格良好.
-    - [-] =must= 扣费服务数据需要存储，且需考虑数据安全和传输安全，存储选型不限.
-    - [-] =must= 代码托管到 [[https://github.com/][Github]], 可见: https://github.com/ramsayleung/fcdeduction/actions
-    - [-] =must= 使用 [[https://grpc.io][gRPC]] 框架, 可见: [[file:WORKSPACE]]
-    - [-] =must= 使用 [[https://bazel.build/][bazel]] 管理编译, 可见: [[file:WORKSPACE]]
-    - [-] =better= 使用 [[https://github.com/google/googletest][googletest]] 做单元测试, 可见: [[file:tests/]] 
-    - [-] =better= 接入[[https://travis-ci.org/][Travis流水线]]. 接入流水线, 但接入了github action做持续集成, 而非Travis, 地址: https://github.com/ramsayleung/fcdeduction/actions, 使用github action 而非Travis原因可见我另外一个开源项目的讨论: [[https://github.com/ramsayleung/rspotify/pull/73][Use github actions instead of travis]]
+    - [√] =must= 使用 C++ 实现客户端（命令行交互即可）、服务端，代码风格良好.
+    - [√] =must= 扣费服务数据需要存储，且需考虑数据安全和传输安全，存储选型不限.
+    - [√] =must= 代码托管到 [[https://github.com/][Github]], 可见: https://github.com/ramsayleung/fcdeduction/actions
+    - [√] =must= 使用 [[https://grpc.io][gRPC]] 框架, 可见: [[file:WORKSPACE]]
+    - [√] =must= 使用 [[https://bazel.build/][bazel]] 管理编译, 可见: [[file:WORKSPACE]]
+    - [√] =better= 使用 [[https://github.com/google/googletest][googletest]] 做单元测试, 可见: [[file:tests/]] 
+    - [√] =better= 接入[[https://travis-ci.org/][Travis流水线]]. 接入流水线, 但接入了github action做持续集成, 而非Travis, 地址: https://github.com/ramsayleung/fcdeduction/actions, 使用github action 而非Travis原因可见我另外一个开源项目的讨论: [[https://github.com/ramsayleung/rspotify/pull/73][Use github actions instead of travis]]
       
 *** 如何编译
     安装 [[https://bazel.build/][bazel]]
