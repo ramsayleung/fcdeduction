@@ -1,4 +1,6 @@
-* fcdeduction                                                         :TOC_3:
+[![](https://github.com/ramsayleung/fcdedution/workflows/CI/badge.svg)](https://github.com/ramsayleung/fcdeduction/actions)
+[![](https://img.shields.io/github/license/ramsayleung/fcdeduction)](https://github.com/ramsayleung/fcdeduction/blob/master/LICENSE)
+* fcdeduction                                                         :TOC_4:
   - [[#背景][背景]]
     - [[#应用命名][应用命名]]
     - [[#业务背景][业务背景]]
@@ -7,26 +9,54 @@
     - [[#待确认问题][待确认问题]]
   - [[#系统分析][系统分析]]
     - [[#总体设计][总体设计]]
+      - [[#上下游系统依赖关系图][上下游系统依赖关系图:]]
+      - [[#用例图][用例图:]]
+      - [[#模型][模型:]]
+      - [[#物理模型][物理模型]]
+      - [[#关键技术][关键技术]]
+      - [[#技术栈][技术栈]]
     - [[#功能设计][功能设计]]
+      - [[#单设备登录][单设备登录]]
+      - [[#登录鉴权][登录鉴权]]
+      - [[#开通扣费服务][开通扣费服务]]
+      - [[#关闭扣费服务][关闭扣费服务]]
+      - [[#查询扣费服务列表][查询扣费服务列表]]
     - [[#详细设计][详细设计]]
+      - [[#产品信息][产品信息]]
+      - [[#合约信息][合约信息]]
   - [[#测试分析][测试分析]]
     - [[#测试用例][测试用例]]
     - [[#联调用例][联调用例]]
     - [[#资损点测试与回归][资损点测试与回归]]
+    - [[#测试记录][测试记录]]
+      - [[#登录][登录]]
+      - [[#开通扣费服务-1][开通扣费服务]]
+      - [[#关闭扣费服务-1][关闭扣费服务]]
+      - [[#查询扣费服务列表-1][查询扣费服务列表]]
   - [[#发布计划][发布计划]]
     - [[#发布时间][发布时间]]
     - [[#发布内容][发布内容]]
     - [[#业务发布依赖][业务发布依赖]]
     - [[#配置变更项][配置变更项]]
+      - [[#dml变更][DML变更]]
+      - [[#ddl变更][DDL变更]]
     - [[#资损风险评估][资损风险评估]]
     - [[#稳定性风险评估][稳定性风险评估]]
     - [[#预发布生产验证case][预发布&生产验证case]]
     - [[#兼容性方案][兼容性方案]]
+      - [[#兼容性方案推演][兼容性方案推演]]
     - [[#可监控][可监控]]
     - [[#可灰度][可灰度]]
     - [[#可回滚][可回滚]]
   - [[#三方库依赖][三方库依赖]]
   - [[#成果][成果]]
+    - [[#技术要求][技术要求]]
+    - [[#如何编译][如何编译]]
+    - [[#如何使用][如何使用]]
+    - [[#交付物][交付物]]
+      - [[#源代码-设计文档-说明文档][源代码, 设计文档, 说明文档]]
+      - [[#已部署好的服务端][已部署好的服务端]]
+      - [[#可运行的客户端][可运行的客户端]]
   - [[#参考资料][参考资料]]
 
 ** 背景
@@ -165,7 +195,7 @@
      + RPC框架: grpc
      + 序列化框架: protobuf
      + 持续集成服务: Github Action, 为什么选择Github Action而不是Travis, 可见之前讨论 [[https://github.com/ramsayleung/rspotify/pull/73][Use github actions instead of travis]]
-     + 数据库: Postgresql
+     + 数据库: Mysql
 *** 功能设计
 **** 单设备登录
      用户通过账密正常登录; 如果存在多端同时登录, 只允许最近一次登录态存在(本次demo中, 主要流程是扣费, 不存在注册的流程, 因此客户都是通过db插入进行初始化的.)
@@ -539,6 +569,109 @@
     5. 使用token, 查询扣费服务列表, 理应展示空的扣费服务列表.
 *** 资损点测试与回归
     本次迭代功能是与信息流相关, 不涉及资金流, 故理论无资损点需要测试与回归.
+*** 测试记录
+    测试数据:
+    用户A:
+    登录邮箱: ramsayleung@gmail.com
+    密码: password
+    salt: 111111
+    用户Id(userId): 00000001
+    产品码(pdCode): 457680430309847040
+    合约编号(arNo): 457681411894423554
+    测试命令行: [[file:src/client/]]
+    
+    用户B:
+    登录邮箱: xixihaha@outlook.com
+    密码: ctext
+    userId: 00000002
+**** 登录
+***** 用户不存在
+      使用错误的邮箱进行登录, 左边为client, 右边为server:
+      [[file:images/%E7%99%BB%E5%BD%95-%E7%94%A8%E6%88%B7%E4%B8%8D%E5%AD%98%E5%9C%A8.jpg]]
+***** 登录账密错误
+      使用正确的邮箱, 错误的密码进行登录:
+      [[file:images/%E7%99%BB%E5%BD%95-%E8%B4%A6%E5%AF%86%E9%94%99%E8%AF%AF.jpg]]
+***** 登录成功
+      使用正确的密码, 正确的邮箱登录:
+      [[file:images/%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F.jpg]]
+***** 两个用户登录同一个账号
+      1. 使用终端1登录账号A, 登录成功
+      2. 终端1登录状态校验成功
+      3. 使用终端2登录账号A, 登录成功
+      4. 终端2登录状态校验成功
+      5. 终端1登录状态校验失败
+
+      [[file:images/%E7%99%BB%E5%BD%95-%E4%B8%A4%E4%B8%AA%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E5%90%8C%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7.jpg]]
+      
+***** 两个用户登录同两个账号
+      1. 使用终端1登录账号A, 登录成功
+      2. 终端1登录状态校验成功
+      3. 使用终端2登录账号B, 登录成功
+      4. 终端2登录状态校验成功
+
+      [[file:images/%E7%99%BB%E5%BD%95-%E4%B8%A4%E4%B8%AA%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E4%B8%A4%E4%B8%AA%E8%B4%A6%E5%8F%B7.jpg]]
+**** 开通扣费服务
+***** 用户未登录
+      使用错误的token进行请求:
+
+      [[file:images/%E5%BC%80%E9%80%9A-%E7%94%A8%E6%88%B7%E6%9C%AA%E7%99%BB%E5%BD%95.jpg]]
+***** 产品不存在
+      使用正确的token, 错误的产品码进行请求:
+
+      [[file:images/%E5%BC%80%E9%80%9A-%E4%BA%A7%E5%93%81%E4%B8%8D%E5%AD%98%E5%9C%A8.jpg]]
+***** 合约不存在
+      使用正确的token, 正确的产品码, 错误的合约号进行请求:
+
+      [[file:images/%E5%BC%80%E9%80%9A-%E5%90%88%E7%BA%A6%E4%B8%8D%E5%AD%98%E5%9C%A8.jpg]]
+***** 正常开通
+      使用正确的token, 正确的产品码, 正确的合约号, 正确的用户Id进行请求:
+      
+      [[file:images/%E5%BC%80%E9%80%9A-%E5%BC%80%E9%80%9A%E6%88%90%E5%8A%9F.jpg]]
+
+      db新增对应的记录:
+      [[file:images/%E5%BC%80%E9%80%9A-db%E8%AE%B0%E5%BD%95.jpg]]
+
+***** 重复开通同一个产品的扣费服务
+      使用已开通的扣费服务的参数重新请求
+      [[file:images/%E5%BC%80%E9%80%9A-%E9%87%8D%E5%A4%8D%E5%BC%80%E9%80%9A.jpg]]
+
+**** 关闭扣费服务
+***** 用户未登录
+      使用错误的token进行请求:
+
+      [[file:images/%E5%85%B3%E9%97%AD-%E7%94%A8%E6%88%B7%E6%9C%AA%E7%99%BB%E5%BD%95.jpg]]
+***** 产品不存在
+      使用正确的token, 错误的产品码进行请求:
+
+      [[file:images/%E5%85%B3%E9%97%AD-%E4%BA%A7%E5%93%81%E4%B8%8D%E5%AD%98%E5%9C%A8.jpg]]
+***** 合约不存在
+      使用正确的token, 正确的产品码, 错误的合约号进行请求:
+
+      [[file:images/%E5%85%B3%E9%97%AD-%E5%90%88%E7%BA%A6%E4%B8%8D%E5%AD%98%E5%9C%A8.jpg]]
+***** 正常关闭
+      使用正确的token, 正确的产品码, 正确的合约号, 正确的用户Id进行请求:
+      
+      [[file:images/%E5%85%B3%E9%97%AD-%E6%AD%A3%E5%B8%B8%E5%85%B3%E9%97%AD.jpg]]
+      db删除对应的记录:
+
+      [[file:images/%E5%85%B3%E9%97%AD-db%E8%AE%B0%E5%BD%95.jpg]]
+***** 关闭未建立关联的扣费服务
+      使用已关闭的扣费服务的参数重新请求
+
+      [[file:images/%E5%85%B3%E9%97%AD-%E5%85%B3%E9%97%AD%E6%9C%AA%E5%BC%80%E9%80%9A%E6%9C%8D%E5%8A%A1.jpg]]
+**** 查询扣费服务列表
+***** 用户未登录
+      使用错误的token进行请求:
+
+      [[file:images/%E6%9F%A5%E8%AF%A2%E5%88%97%E8%A1%A8-%E7%94%A8%E6%88%B7%E6%9C%AA%E7%99%BB%E5%BD%95.jpg]]
+***** 合约不存在
+      使用正确的token, 错误的合约号进行请求:
+      [[file:images/%E6%9F%A5%E8%AF%A2%E5%88%97%E8%A1%A8-%E5%90%88%E7%BA%A6%E4%B8%8D%E5%AD%98%E5%9C%A8.jpg]]
+
+***** 查询扣费服务列表成功
+      使用正确的token, 正常的合约号, 正确的userId进行请求:
+
+      [[file:images/%E6%9F%A5%E8%AF%A2%E5%88%97%E8%A1%A8-%E6%9F%A5%E8%AF%A2%E6%88%90%E5%8A%9F.jpg]]
 ** 发布计划
 *** 发布时间
     2020-05-16-2020-05-26
@@ -550,11 +683,10 @@
 *** 配置变更项
 **** DML变更
      新增了四张表, de_prod, de_ar, de_user, de_user_ar_rel.
+     [[file:conf/create_table.sql]]
 **** DDL变更
-     初始化对应的客户数据, 产品数据, 以及合约数据. 变更sql如下(待增加)
-     #+BEGIN_SRC sql
-
-     #+END_SRC
+     初始化对应的客户数据, 产品数据, 以及合约数据. 变更sql如下:
+     [[file:conf/create_data.sql]]
 *** 资损风险评估
     资损风险checkList:
 
@@ -615,8 +747,115 @@
    + protobuf(序列化框架&服务定义框架): https://github.com/protocolbuffers/protobuf/
    + grpc(rpc框架): https://github.com/grpc/grpc
    + hiredis(reids 数据管理): https://github.com/redis/hiredis
-   + sqlpp11(mysql 数据访问): https://github.com/rbock/sqlpp11
+   + sqlpp11(数据访问): https://github.com/rbock/sqlpp11
    + sqlpp11-connector-mysql(数据连接器): https://github.com/rbock/sqlpp11-connector-mysql
-** 成果     
+   + spdlog(日志管理): https://github.com/gabime/spdlog
+   + openssl(加解密): https://www.openssl.org/
+** 成果
+*** 技术要求
+    - [-] =must= 使用 C++ 实现客户端（命令行交互即可）、服务端，代码风格良好.
+    - [-] =must= 扣费服务数据需要存储，且需考虑数据安全和传输安全，存储选型不限.
+    - [-] =must= 代码托管到 [[https://github.com/][Github]], 可见: https://github.com/ramsayleung/fcdeduction/actions
+    - [-] =must= 使用 [[https://grpc.io][gRPC]] 框架, 可见: [[file:WORKSPACE]]
+    - [-] =must= 使用 [[https://bazel.build/][bazel]] 管理编译, 可见: [[file:WORKSPACE]]
+    - [-] =better= 使用 [[https://github.com/google/googletest][googletest]] 做单元测试, 可见: [[file:tests/]] 
+    - [-] =better= 接入[[https://travis-ci.org/][Travis流水线]]. 接入流水线, 但接入了github action做持续集成, 而非Travis, 地址: https://github.com/ramsayleung/fcdeduction/actions, 使用github action 而非Travis原因可见我另外一个开源项目的讨论: [[https://github.com/ramsayleung/rspotify/pull/73][Use github actions instead of travis]]
+      
+*** 如何编译
+    安装 [[https://bazel.build/][bazel]]
+    #+BEGIN_SRC sh
+      git clone git@github.com:ramsayleung/fcdeduction.git
+      cd fcdeduction
+      bazel build //...
+      # 如果mac 系统编译失败, 可使用 bazel build //... --copt -DGRPC_BAZEL_BUILD 代替
+    #+END_SRC 
+*** 如何使用
+    + 导入建表sql: =mysql -uroot  -ppassword  <conf/create_table.sql=
+    + 导入数据创建sql: =mysql -uroot  -ppassword  <conf/create_table.sql=
+    + 运行测试用例:
+      #+BEGIN_SRC sh
+	bazel test --test_output=all --cache_test_results=no --action_env="GTEST_COLOR=1" //... --copt -DGRPC_BAZEL_BUILD --test_env=mysql_password=你的数据库root密码 --test_env=app_env=test
+      #+END_SRC
+    + 运行服务端
+      #+BEGIN_SRC sh
+	mysql_password=root密码 ./bazel-bin/src/server_starter
+      #+END_SRC
+    + 运行客户端
+      - 用户登录
+	#+BEGIN_SRC sh
+	  ./bazel-bin/src/user_client -- --key ramsayleung@gmail.com --value password
+	  # 用法:
+	  # --key: 指登录外标, 如邮箱
+	  # --value: 登录凭证, 如密码
+	  # 返回结果:
+	  #[2020-05-12 22:36:08.778] [info] 用户登录: loginKey:ramsayleung@gmail.com, loginValue: password
+	  #[2020-05-12 22:36:08.795] [info] UserFacade.Login() response: status:SUCCESS, code:00, desc:
+	  #[2020-05-12 22:36:08.795] [info] UserFacade.Login() successfully: token:2c65bdfe-9dba-4c62-86d7-8364be15560a
+	#+END_SRC
+	运行截图:
+	[[file:images/%E7%99%BB%E5%BD%95.gif]]
+      - 登录态鉴权
+	#+BEGIN_SRC sh
+	  ./bazel-bin/src/user_client -- --token 2c65bdfe-9dba-4c62-86d7-8364be15560a
+	  # 用法
+	  # --token: 登录成功后的token
+	  # 返回结果
+	  #[2020-05-12 22:39:13.613] [info] 登录态校验: token:2c65bdfe-9dba-4c62-86d7-8364be15560a
+	  #[2020-05-12 22:39:14.735] [info] UserFacade.validateLoginSession() response: status:SUCCESS, code:00, desc:
+	#+END_SRC
+	运行截图:
+	[[file:images/%E9%89%B4%E6%9D%83.gif]]
+      - 开通扣费服务
+	#+BEGIN_SRC sh
+	  ./bazel-bin/src/deduction_client --token 2c65bdfe-9dba-4c62-86d7-8364be15560a --arno 457681411894423554 --pdcode 457680430309847041  --userid 00000001 --interface create
+	  # 用法
+	  # --token: 登录态token
+	  # --arno: 合约号
+	  # --pdcode: 产品码
+	  # --userid: 用户Id
+	  # --interface: 接口名, 目前仅支持 create, close, querylist
+	  # 返回结果
+	  # [2020-05-12 22:41:44.027] [info] 开通服务: token:2c65bdfe-9dba-4c62-86d7-8364be15560a, arNo: 457681411894423554, pdCode: 457680430309847041, userId: 00000001
+	  # [2020-05-12 22:41:44.117] [info] DeductionFacade.create() response: status:SUCCESS, code:00, desc:
+	#+END_SRC
+	运行截图:
+	[[file:images/%E5%BC%80%E9%80%9A.gif]]
+      - 关闭扣费服务
+	#+BEGIN_SRC sh
+	  ./bazel-bin/src/deduction_client --token 2c65bdfe-9dba-4c62-86d7-8364be15560a --arno 457681411894423554 --pdcode 457680430309847041  --userid 00000001 --interface close
+	  # 用法
+	  # --token: 登录态token
+	  # --arno: 合约号
+	  # --pdcode: 产品码
+	  # --userid: 用户Id
+	  # --interface: 接口名, 目前仅支持 create, close, querylist
+	  # 返回结果
+	  # [2020-05-12 22:45:45.831] [info] 关闭服务: token:2c65bdfe-9dba-4c62-86d7-8364be15560a, arNo: 457681411894423554, pdCode: 457680430309847041, userId: 00000001
+	  # [2020-05-12 22:45:45.899] [info] DeductionFacade.close() response: status:SUCCESS, code:00, desc:
+	#+END_SRC
+	运行截图:
+	[[file:images/%E5%85%B3%E9%97%AD.gif]]
+      - 查询扣费服务列表
+	#+BEGIN_SRC sh
+	  ./bazel-bin/src/deduction_client --token 2c65bdfe-9dba-4c62-86d7-8364be15560a --arno 457681411894423554 --userid 00000001 --interface querylist
+	  # 用法:
+	  # --token: 登录态token
+	  # --arno: 合约号
+	  # --userid: 用户Id
+	  # --interface: 接口名, 目前仅支持 create, close, querylist
+	  # 返回结果:
+	  # [2020-05-12 22:47:40.508] [info] 查询服务列表: token:2c65bdfe-9dba-4c62-86d7-8364be15560a, arNo: 457681411894423554, userId: 00000001, pageIndex: 0, pageSize: 20
+	  # [2020-05-12 22:47:42.155] [info] DeductionFacade.queryList() response: status:SUCCESS, code:00, desc:
+	  # [2020-05-12 22:47:42.155] [info] 扣费服务列表: 产品码:457680430309847040, 产品名:摩拜单车微信免密支付, 产品所属机构:摩拜单车
+	#+END_SRC
+	运行截图:
+	[[file:images/%E6%9F%A5%E8%AF%A2%E5%88%97%E8%A1%A8.gif]]
+*** 交付物	
+**** 源代码, 设计文档, 说明文档
+     [[https://github.com/ramsayleung/fcdeduction]]
+**** 已部署好的服务端
+**** 可运行的客户端
+     + c++ 客户端, 需要手动编译
+     + python 客户端, 无需编译
 ** 参考资料
    [[file:PRD-%E6%89%A3%E8%B4%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.md][PRD-扣费管理中心]]
