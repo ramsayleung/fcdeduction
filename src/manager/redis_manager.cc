@@ -1,4 +1,4 @@
-#include "redis_manager.hpp"
+#include "redis_manager.h"
 std::optional<std::string> fcdeduction::manager::RedisManager::get(const std::string &key) {
     redisReply *reply;
     reply = (redisReply *)redisCommand(pcontext.get(), "GET %s", key.c_str());

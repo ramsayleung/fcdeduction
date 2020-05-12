@@ -1,5 +1,4 @@
--- 用来生成sqlpp11的头文件, user_ar_rel.h
-
+-- 用来生成sqlpp11的头文件
 create table de_user_ar_rel(
     `tnt_inst_id` varchar(8) not null comment '租户Id',
     `rel_id` varchar(32) not null comment '关系主键',

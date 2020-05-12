@@ -1,11 +1,12 @@
 #include "user_dao.h"
-  #include "spdlog/spdlog.h"
+
 #include <iostream>
+
+#include "spdlog/spdlog.h"
 model::DeUser deuser = {};
 bool fcdeduction::dao::UserDao::userExist(const std::string &tntInstId,
                                           const std::string &userId) {
   sqlpp::mysql::connection &connection = *pconnection;
-
   return selectByUserId(tntInstId, userId).has_value();
 }
 std::optional<fcdeduction::dataobject::User>
@@ -22,10 +23,8 @@ fcdeduction::dao::UserDao::selectByUserId(const std::string &tntInstId,
     user.userId = row.userId;
     user.userName = row.userName;
     user.userType = row.userType;
-    spdlog::info("用户查询成功, userId:{0}, userName: {1}", user.userId,user.userName);
     return std::optional<fcdeduction::dataobject::User>{user};
   }
-    spdlog::info("用户查询不存在, userId:{0}", userId);
   return std::nullopt;
 }
 void fcdeduction::dao::UserDao::insertUser(

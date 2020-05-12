@@ -3,8 +3,8 @@ uint64_t fcdeduction::manager::SnowFlakeIdManager::nextId() {
   std::unique_lock<std::mutex> lock(mutex_);
   uint64_t currStmp = getNewstmp();
   if (currStmp < lastStmp) {
-    // LLOG(ERRO) << "Clock moved backwards.  Refusing to generate id";
-    exit(0);
+    spdlog::error("Clock moved backwards.  Refusing to generate id");
+    throw std::runtime_error("Clock moved backwards.  Refusing to generate id");
   }
 
   if (currStmp == lastStmp) {

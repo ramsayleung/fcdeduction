@@ -5,7 +5,6 @@
 #include "gtest/gtest.h"
 #include "src/dal/arrangement.h"
 #include "src/dal/arrangement_do.h"
-#include "src/manager/database_manager.hpp"
 TEST(DAOTEST, ARRANGEMENT_EXIST_TEST) {
   // int main() {
   const std::string arNo = "202005072212";

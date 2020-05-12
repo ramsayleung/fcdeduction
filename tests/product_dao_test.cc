@@ -4,7 +4,6 @@
 
 #include "gtest/gtest.h"
 #include "src/dal/product.h"
-#include "src/manager/database_manager.hpp"
 
 TEST(DAOTEST, PRODUCT_EXIST_TEST) {
   const std::string pdCode = "pdCode1000";

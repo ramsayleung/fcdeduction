@@ -1,3 +1,4 @@
+-- 用来生成sqlpp11的头文件
 create table de_ident(
     `tnt_inst_id` varchar(8) not null comment '租户Id',
     `ident_id` varchar(32) not null comment '识别Id, 主键',

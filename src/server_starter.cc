@@ -1,5 +1,5 @@
 #include "facade/deduction_facade.h"
-#include "facade/greeter_facade.hpp"
+#include "facade/greeter_facade.h"
 #include "facade/user_facade.h"
 void startServer() {
   std::string addr = "localhost:50051";

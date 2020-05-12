@@ -1,5 +1,4 @@
 -- 用来生成sqlpp11的头文件, user.h
-
 create table de_user(
     `tnt_inst_id` varchar(8) not null comment '租户Id',
     `user_id` varchar(32) not null comment '用户Id',

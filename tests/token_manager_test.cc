@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "gtest/gtest.h"
-#include "src/manager/redis_manager.hpp"
+#include "src/manager/redis_manager.h"
 void testToken() {
   fcdeduction::manager::TokenManager tokenManager;
   const std::string tokenId1 = "token202005071429";

@@ -5,27 +5,26 @@
 
 #include <mutex>
 #include <stdexcept>
-// 参考于 https://github.com/sniper00/snowflake-cpp/blob/master/snowflake.hpp
+
+#include "spdlog/spdlog.h"
+// 参考自 https://github.com/sniper00/snowflake-cpp/blob/master/snowflake.hpp
 namespace fcdeduction {
 namespace manager {
 
 class SnowFlakeIdManager {
  private:
-  static const uint64_t start_stmp_ = 1480166465631;
-  static const uint64_t sequence_bit_ = 12;
-  static const uint64_t machine_bit_ = 5;
-  static const uint64_t datacenter_bit_ = 5;
+  const uint64_t start_stmp_ = 1480166465631;
+  const uint64_t sequence_bit_ = 12;
+  const uint64_t machine_bit_ = 5;
+  const uint64_t datacenter_bit_ = 5;
 
-  static const uint64_t max_datacenter_num_ =
-      -1 ^ (uint64_t(-1) << datacenter_bit_);
-  static const uint64_t max_machine_num_ = -1 ^ (uint64_t(-1) << machine_bit_);
-  static const uint64_t max_sequence_num_ =
-      -1 ^ (uint64_t(-1) << sequence_bit_);
+  const uint64_t max_datacenter_num_ = -1 ^ (uint64_t(-1) << datacenter_bit_);
+  const uint64_t max_machine_num_ = -1 ^ (uint64_t(-1) << machine_bit_);
+  const uint64_t max_sequence_num_ = -1 ^ (uint64_t(-1) << sequence_bit_);
 
-  static const uint64_t machine_left = sequence_bit_;
-  static const uint64_t datacenter_left = sequence_bit_ + machine_bit_;
-  static const uint64_t timestmp_left =
-      sequence_bit_ + machine_bit_ + datacenter_bit_;
+  const uint64_t machine_left = sequence_bit_;
+  const uint64_t datacenter_left = sequence_bit_ + machine_bit_;
+  const uint64_t timestmp_left = sequence_bit_ + machine_bit_ + datacenter_bit_;
 
   uint64_t datacenterId;
   uint64_t machineId;
@@ -55,14 +54,21 @@ class SnowFlakeIdManager {
  public:
   SnowFlakeIdManager(int datacenter_Id, int machine_Id) {
     if ((uint64_t)datacenter_Id > max_datacenter_num_ || datacenter_Id < 0) {
-      // LLOG(ERRO) << "datacenterId can't be greater than max_datacenter_num_
-      // or less than 0";
-      exit(0);
+      spdlog::error(
+          "datacenterId:{0} can't be greater than max_datacenter_num: {1} or "
+          "less than 0",
+          (uint64_t)datacenter_Id, max_datacenter_num_);
+      throw std::runtime_error(
+          "datacenterId can't be greater than max_datacenter_num or less "
+          "than 0");
     }
     if ((uint64_t)machine_Id > max_machine_num_ || machine_Id < 0) {
-      // LLOG(ERRO) << "machineId can't be greater than max_machine_num_or less
-      // than 0";
-      exit(0);
+      spdlog::error(
+          "machineId:{0} can't be greater than max_machine_num: {1} or less "
+          "than 0",
+          (uint64_t)machine_Id, max_machine_num_);
+      throw std::runtime_error(
+          "machineId can't be greater than max_machine_num_or less than 0");
     }
     datacenterId = datacenter_Id;
     machineId = machine_Id;

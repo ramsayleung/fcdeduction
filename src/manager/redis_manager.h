@@ -31,6 +31,7 @@ class RedisManager {
   std::optional<std::string> get(const std::string &key);
 
   // 设置key-value.
+  // TODO, 在实际项目中, 需要设置对应的过期时间.
   void set(const std::string &key, const std::string &value);
 
   // 删除指定key-value

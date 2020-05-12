@@ -56,7 +56,4 @@ jobs:
 
     - name: Test
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" test --test_output=all --cache_test_results=no --action_env="GTEST_COLOR=1" //... --test_env=mysql_user=root --test_env=mysql_password=root --test_env=mysql_database=fcdeduction --test_env=mysql_host=127.0.0.1 --test_env=redis_host=127.0.0.1 --test_env=aes_key=123456 --test_env=salt=111111
-  lints:
-    name: Lints
-    runs-on: ubuntu-18.04
+        "${GITHUB_WORKSPACE}/bin/bazel" test --test_output=all --cache_test_results=no --action_env="GTEST_COLOR=1" //... --test_env=mysql_password=root --test_env=app_env=test

@@ -5,7 +5,6 @@
 #include "gtest/gtest.h"
 #include "src/dal/user.h"
 #include "src/dal/user_do.h"
-#include "src/manager/database_manager.hpp"
 TEST(DAOTEST, USEREXISTTEST) {
   const std::string userId = "00001000";
   const std::string tntInstId = "A0000001";
