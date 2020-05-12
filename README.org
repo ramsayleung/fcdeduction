@@ -1,5 +1,5 @@
-[https://github.com/ramsayleung/fcdeduction/actions](https://github.com/ramsayleung/fcdedution/workflows/CI/badge.svg)
-[https://github.com/ramsayleung/fcdeduction/blob/master/LICENSE](https://img.shields.io/github/license/ramsayleung/fcdeduction)
+[[https://github.com/ramsayleung/fcdedution/workflows/CI/badge.svg]]
+[[https://img.shields.io/github/license/ramsayleung/fcdeduction]]
 
 * fcdeduction                                                         :TOC_4:
   - [[#背景][背景]]
