@@ -63,15 +63,21 @@ class UserClient {
   std::unique_ptr<UserFacade::Stub> stub_;
 };
 int main(int argc, char const *argv[]) {
-  auto channel =
-      grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials());
-  UserClient client(channel);
+  std::string address = "0.0.0.0:50051";
+  const char *target =
+      fcdeduction::util::getCmdOption(argv, argv + argc, "--target");
+  if (target) {
+    address = target;
+  }
   const char *loginKey =
       fcdeduction::util::getCmdOption(argv, argv + argc, "--key");
   const char *loginValue =
       fcdeduction::util::getCmdOption(argv, argv + argc, "--value");
   const char *token =
       fcdeduction::util::getCmdOption(argv, argv + argc, "--token");
+  auto channel =
+      grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
+  UserClient client(channel);
   if (loginKey && loginValue) {
     spdlog::info("用户登录: loginKey:{0}, loginValue: {1}", loginKey,
                  loginValue);

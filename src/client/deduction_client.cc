@@ -102,9 +102,12 @@ class DeductionClient {
   std::unique_ptr<DeductionFacade::Stub> stub_;
 };
 int main(int argc, char const *argv[]) {
-  auto channel = grpc::CreateChannel("localhost:50051",
-                                     grpc::InsecureChannelCredentials());
-  DeductionClient client(channel);
+  std::string address = "0.0.0.0:50051";
+  const char *target =
+      fcdeduction::util::getCmdOption(argv, argv + argc, "--target");
+  if (target) {
+    address = target;
+  }
   const char *token =
       fcdeduction::util::getCmdOption(argv, argv + argc, "--token");
   const char *arNo =
@@ -119,6 +122,9 @@ int main(int argc, char const *argv[]) {
       fcdeduction::util::getCmdOption(argv, argv + argc, "--pageindex");
   const char *ps =
       fcdeduction::util::getCmdOption(argv, argv + argc, "--pagesize");
+  auto channel =
+      grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
+  DeductionClient client(channel);
   // 默认index
   uint32_t pageIndex = 0;
   // 默认size

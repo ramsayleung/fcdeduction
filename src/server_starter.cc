@@ -2,7 +2,7 @@
 #include "facade/greeter_facade.h"
 #include "facade/user_facade.h"
 void startServer() {
-  std::string addr = "localhost:50051";
+  std::string addr = "0.0.0.0:50051";
   fcdeduction::facade::UserFacadeImpl userFacadeservice;
   fcdeduction::facade::GreeterServiceImpl greeterFacadeService;
   fcdeduction::facade::DeductionFacadeImpl deductionFacadeService;
