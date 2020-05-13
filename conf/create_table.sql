@@ -1,4 +1,4 @@
-create database if not exists fcdeduction;
+create database if not exists fcdeduction CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
 create table if not exists fcdeduction.de_user(
     `tnt_inst_id` varchar(8) not null comment '租户Id',
     `user_id` varchar(32) not null comment '用户Id',
