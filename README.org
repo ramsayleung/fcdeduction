@@ -788,6 +788,7 @@
 	  # 用法:
 	  # --key: 指登录外标, 如邮箱
 	  # --value: 登录凭证, 如密码
+	  # --target: 远程服务, 如samray.me:50051
 	  # 返回结果:
 	  #[2020-05-12 22:36:08.778] [info] 用户登录: loginKey:ramsayleung@gmail.com, loginValue: password
 	  #[2020-05-12 22:36:08.795] [info] UserFacade.Login() response: status:SUCCESS, code:00, desc:
@@ -800,6 +801,7 @@
 	  ./bazel-bin/src/user_client -- --token 2c65bdfe-9dba-4c62-86d7-8364be15560a
 	  # 用法
 	  # --token: 登录成功后的token
+	  # --target: 远程服务, 如samray.me:50051
 	  # 返回结果
 	  #[2020-05-12 22:39:13.613] [info] 登录态校验: token:2c65bdfe-9dba-4c62-86d7-8364be15560a
 	  #[2020-05-12 22:39:14.735] [info] UserFacade.validateLoginSession() response: status:SUCCESS, code:00, desc:
@@ -815,6 +817,7 @@
 	  # --pdcode: 产品码
 	  # --userid: 用户Id
 	  # --interface: 接口名, 目前仅支持 create, close, querylist
+	  # --target: 远程服务, 如samray.me:50051
 	  # 返回结果
 	  # [2020-05-12 22:41:44.027] [info] 开通服务: token:2c65bdfe-9dba-4c62-86d7-8364be15560a, arNo: 457681411894423554, pdCode: 457680430309847041, userId: 00000001
 	  # [2020-05-12 22:41:44.117] [info] DeductionFacade.create() response: status:SUCCESS, code:00, desc:
@@ -844,6 +847,7 @@
 	  # --arno: 合约号
 	  # --userid: 用户Id
 	  # --interface: 接口名, 目前仅支持 create, close, querylist
+	  # --target: 远程服务, 如samray.me:50051
 	  # 返回结果:
 	  # [2020-05-12 22:47:40.508] [info] 查询服务列表: token:2c65bdfe-9dba-4c62-86d7-8364be15560a, arNo: 457681411894423554, userId: 00000001, pageIndex: 0, pageSize: 20
 	  # [2020-05-12 22:47:42.155] [info] DeductionFacade.queryList() response: status:SUCCESS, code:00, desc:
@@ -851,12 +855,18 @@
 	#+END_SRC
 	运行截图:
 	[[file:images/%E6%9F%A5%E8%AF%A2%E5%88%97%E8%A1%A8.gif]]
-*** 交付物	
+*** 交付物
 **** 源代码, 设计文档, 说明文档
      [[https://github.com/ramsayleung/fcdeduction]]
 **** 已部署好的服务端
+     服务端访问地址 samray.me:50051
+     运行截图:
+     [[file:images/%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF.gif]]
+     #+BEGIN_SRC sh
+       bazel run //src:user_client -- --key ramsayleung@gmail.com --value password --target samray.me:50051
+       # 增加上 --target samray.me:50051 选项.
+     #+END_SRC
 **** 可运行的客户端
-     + c++ 客户端, 需要手动编译
-     + python 客户端, 无需编译
+     + c++ 客户端, 需要手动编译 [[file:src/client/]]
 ** 参考资料
    [[file:PRD-%E6%89%A3%E8%B4%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.md][PRD-扣费管理中心]]
