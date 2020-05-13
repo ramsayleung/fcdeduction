@@ -123,20 +123,8 @@ cc_binary(
     ],
 )
 
-cc_binary(
-    name = "greeter_client",
-    srcs = ["client/greeter_client.cc"],
-    defines = ["BAZEL_BUILD"],
-    deps = [
-        ":helloworld_cc_grpc",
-        # http_archive made this label available for binding
-        "@com_github_grpc_grpc//:grpc++",
-    ],
-)
-
 cc_library(
     name = "serverLib",
-    # ,"greeter_server.cc","deduction_server.cc"
     srcs = [
         "dal/arrangement_dao.cc",
         "dal/identification_dao.cc",
@@ -144,9 +132,7 @@ cc_library(
         "dal/user_ar_rel_dao.cc",
         "dal/user_dao.cc",
         "facade/deduction_facade.cc",
-        "facade/greeter_facade.cc",
         "facade/user_facade.cc",
-        "manager/Greeting.cc",
         "manager/crypto_manager.cc",
         "manager/database_manager.cc",
         "manager/redis_manager.cc",
@@ -172,9 +158,7 @@ cc_library(
         "dal/user_dao.h",
         "dal/user_do.h",
         "facade/deduction_facade.h",
-        "facade/greeter_facade.h",
         "facade/user_facade.h",
-        "manager/Greeting.h",
         "manager/crypto_manager.h",
         "manager/database_manager.h",
         "manager/redis_manager.h",
