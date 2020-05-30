@@ -74,9 +74,8 @@
      实验过程及实验记录: https://github.com/ramsayleung/fcdeduction
 **** 实验结果
 
-     #+DOWNLOADED: https://coolshell.cn/wp-content/uploads/2014/01/trade-off.jpg @ 2020-05-30 12:32:19
-     [[file:../images/扣费中心技术复盘/2020-05-30_12-32-19_trade-off.jpg]]
- 
+     [[file:images/trade-off.jpg]]
+
      demo与已有系统差异:
      1. 实验demo具备基础服务化能力, 实现业务平台的基础能力
      2. 实验demo未达到已有系统的复杂度, 并且没有历史包袱, 实现起来更容易
